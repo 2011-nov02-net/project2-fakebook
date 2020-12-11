@@ -14,9 +14,10 @@ namespace Fakebook.DataAccess.Model
         public int Id { get; set; }
         public int UserId { get; set; }
         public int ParentId { get; set; }
-        string Content { get; set; }
-        DateTime CreatedAt { get; set; }
-        string Picture { get; set; }
+        public string Content { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public string Picture { get; set; }
+        public virtual UserEntity User { get; set; }
         public virtual ICollection<CommentEntity> Comments { get; set; }
         public virtual ICollection<LikeEntity> Likes { get; set; }
     }
