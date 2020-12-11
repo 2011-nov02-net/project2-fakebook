@@ -7,7 +7,7 @@ namespace Fakebook.DataAccess.Model
 {
     public class FakebookContext : DbContext
     {
-        public FakebookContext([NotNull] DbContextOptions options) : 
+        public FakebookContext([NotNull] DbContextOptions options) :
             base(options) {
         }
 
@@ -16,6 +16,37 @@ namespace Fakebook.DataAccess.Model
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<UserEntity>(entity => {
+                entity.ToTable("User");
+
+                entity.Property(e => e.FirstName)
+                    .IsRequired();
+
+                entity.Property(e => e.LastName)
+                    .IsRequired();
+
+                entity.Property(e => e.Email)
+                    .IsRequired();
+            });
+
+            modelBuilder.Entity<FollowEntity>(entity => {
+                entity.ToTable("Follow");
+
+                entity.Property(e => e.FolloweeId)
+                    .IsRequired();
+
+                entity.Property(e => e.FollowerId)
+                    .IsRequired();
+
+                entity.HasOne(e => e.Follower)
+                    .WithMany()
+                    .HasForeignKey(e => e.FollowerId);
+
+                entity.HasOne(e => e.Followee)
+                    .WithMany()
+                    .HasForeignKey(e => e.FolloweeId);
+            });
         }
     }
 }

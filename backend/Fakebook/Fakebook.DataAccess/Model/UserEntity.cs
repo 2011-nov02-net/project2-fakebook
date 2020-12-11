@@ -6,10 +6,10 @@ namespace Fakebook.DataAccess.Model
     public class UserEntity
     {
         public UserEntity() {
-            Followers = new HashSet<UserEntity>();
-            Followees = new HashSet<UserEntity>();
+            Followers = new HashSet<FollowEntity>();
+            Followees = new HashSet<FollowEntity>();
             Posts = new HashSet<PostEntity>();
-            PostsLiked = new HashSet<PostEntity>();
+            Likes = new HashSet<LikeEntity>();
         }
 
         public int Id { get; set; }
@@ -21,9 +21,9 @@ namespace Fakebook.DataAccess.Model
         public DateTime BirthDate { get; set; }
         public string Status { get; set; }
 
-        public virtual ICollection<UserEntity> Followers { get; set; }
-        public virtual ICollection<UserEntity> Followees { get; set; }
+        public virtual ICollection<FollowEntity> Followers { get; set; }
+        public virtual ICollection<FollowEntity> Followees { get; set; }
         public virtual ICollection<PostEntity> Posts { get; set; }
-        public virtual ICollection<PostEntity> PostsLiked { get; set; }
+        public virtual ICollection<LikeEntity> Likes { get; set; }
     }
 }
