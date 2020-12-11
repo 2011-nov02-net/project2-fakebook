@@ -47,6 +47,20 @@ namespace Fakebook.DataAccess.Model
                     .WithMany()
                     .HasForeignKey(e => e.FolloweeId);
             });
+
+            modelBuilder.Entity<PostEntity>(entity => {
+                entity.ToTable("Post", "Fakebook");
+                entity.HasOne(e => e.User)
+                    .WithMany(e => e.Posts)
+                    .HasForeignKey(e => e.UserId)
+                    .HasConstraintName("FK_Post_UserId");
+                entity.Property(e => e.Content)
+                    .HasColumnType("string")
+                    .IsRequired();
+                entity.Property(e => e.CreatedAt)
+                     .HasColumnType("datetime2")
+                    .HasDefaultValueSql("(getdatetime())");
+            });
         }
     }
 }
