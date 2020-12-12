@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Fakebook.DataAccess.Model.Repository
 {
 
-    public class UserRepo
+    public class UserRepo : IUserRepo
     {
         // create a read only for our database
         private readonly FakebookContext _context;
@@ -22,7 +22,7 @@ namespace Fakebook.DataAccess.Model.Repository
             return entity;
         }
 
-        public async Task <List<UserEntity>> GetAllUsersAsync()
+        public async Task<List<UserEntity>> GetAllUsersAsync()
         {
             var entity = await _context.UserEntities.ToListAsync();
             return entity;
