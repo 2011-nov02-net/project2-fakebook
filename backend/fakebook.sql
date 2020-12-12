@@ -99,3 +99,25 @@ GO
 COMMIT;
 GO
 
+BEGIN TRANSACTION;
+GO
+
+ALTER TABLE [Fakebook].[Follow] DROP CONSTRAINT [FK_Follow_FolloweeId];
+GO
+
+ALTER TABLE [Fakebook].[Follow] DROP CONSTRAINT [FK_Follow_FollowerId];
+GO
+
+ALTER TABLE [Fakebook].[Follow] ADD CONSTRAINT [FK_Follow_FolloweeId] FOREIGN KEY ([FolloweeId]) REFERENCES [Fakebook].[User] ([Id]);
+GO
+
+ALTER TABLE [Fakebook].[Follow] ADD CONSTRAINT [FK_Follow_FollowerId] FOREIGN KEY ([FollowerId]) REFERENCES [Fakebook].[User] ([Id]);
+GO
+
+INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+VALUES (N'20201212195002_AddFollowEntityConstraint', N'5.0.1');
+GO
+
+COMMIT;
+GO
+

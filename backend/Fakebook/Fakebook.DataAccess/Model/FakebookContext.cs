@@ -33,15 +33,21 @@ namespace Fakebook.DataAccess.Model
 
                 entity.HasKey(e => new { e.FollowerId, e.FolloweeId })
                       .HasName("Pk_FollowEntity");
-                
+
+                entity.Property(e => e.FolloweeId)
+                    .IsRequired();
+
+                entity.Property(e => e.FollowerId)
+                    .IsRequired();
+
                 entity.HasOne(e => e.Follower)
-                      .WithMany(e => e.Followees)
+                      .WithMany(e => e.Followers)
                       .HasForeignKey(e => e.FollowerId)
                       .HasConstraintName("FK_Follow_FollowerId")
                       .OnDelete(DeleteBehavior.ClientNoAction);
 
                 entity.HasOne(e => e.Followee)
-                      .WithMany(e => e.Followers)
+                      .WithMany(e => e.Followees)
                       .HasForeignKey(e => e.FolloweeId)
                       .HasConstraintName("FK_Follow_FolloweeId")
                       .OnDelete(DeleteBehavior.ClientNoAction);
