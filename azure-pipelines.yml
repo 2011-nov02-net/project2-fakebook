@@ -1,4 +1,4 @@
-#finished pipeline
+#finished pipeline 
 trigger:
   branches:
     include:
