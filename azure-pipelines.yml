@@ -66,12 +66,12 @@ stages:
     - script: dotnet publish --configuration $(buildConfiguration) --output publish
       displayName: dotnet publish
       workingDirectory: 'backend/Fakebook/Fakebook.RestApi'
-
-    # - task: AzureRmWebAppDeployment@4
-    #   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
-    #   inputs:
-    #     ConnectionType: 'AzureRM'
-    #     azureSubscription: 'Azure subscription 1(2c48e7d4-496d-4e6f-84af-fa49ea8ea9fe)'
-    #     appType: 'webApp'
-    #     WebAppName: ''
-    #     packageForLinux: 'publish'
+      
+    - task: AzureRmWebAppDeployment@4
+      condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+      inputs:
+        ConnectionType: 'AzureRM'
+        azureSubscription: 'Azure subscription 1(81bd61fe-b8b6-4706-814b-556dc3ff0cc5)'
+        appType: 'webAppLinux'
+        WebAppName: '2011-project2-fakebook'
+        packageForLinux: 'backend/Fakebook/Fakebook.RestApi/publish'
