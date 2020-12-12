@@ -25,5 +25,6 @@ namespace Fakebook.DataAccess.Model
         public virtual ICollection<FollowEntity> Followees { get; set; }
         public virtual ICollection<PostEntity> Posts { get; set; }
         public virtual ICollection<LikeEntity> Likes { get; set; }
+        public virtual ICollection<CommentEntity> Comments { get; set; }
     }
 }
