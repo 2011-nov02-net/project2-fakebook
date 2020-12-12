@@ -27,6 +27,16 @@ namespace Fakebook.DataAccess.Model.Repository
             var entity = await _context.UserEntities.ToListAsync();
             return entity;
         }
+        public async Task<List<UserEntity>> GetUserById(int id)
+        {
+            var entity = await _context.UserEntities.Where(e => e.Id == id).FirstOrDefaultAsync();
+            return entity;
+        }
+        public async Task<List<UserEntity>> GetUserByEmail(string email)
+        {
+            var entity = await _context.UserEntities.Where(e => e.Email == email).FirstOrDefaultAsync();
+            return entity;
+        }
 
     }
 }

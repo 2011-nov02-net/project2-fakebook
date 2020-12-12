@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Fakebook.DataAccess.Model;
 
 namespace Fakebook.Domain
 {
@@ -10,6 +11,10 @@ namespace Fakebook.Domain
         {
             Comments = new List<Comment>();
             Likes = new List<Like>();
+        }
+        public Post(PostEntity post)
+        {
+
         }
         public int Id { get; set; }
         public int UserId { get; set; }
