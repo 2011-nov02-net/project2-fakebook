@@ -5,7 +5,7 @@ trigger:
   paths:
     include:
     - azure-pipelines.yml
-    - 'backend/Fakebook/Fakebook.RestApi'
+    - 'backend/Fakebook'
 
 stages:
 - stage: build
@@ -40,6 +40,7 @@ stages:
         packageType: 'sdk'
         version: '5.x'
         installationPath: $(Agent.ToolsDirectory)/dotnet
+        workingDirectory: 'backend/Fakebook'
 
     - script: dotnet build --configuration $(buildConfiguration)
       displayName: dotnet build
@@ -58,6 +59,7 @@ stages:
         command: 'test'
         arguments: '--configuration $(buildConfiguration)'
         publishTestResults: true
+        workingDirectory: 'backend/Fakebook'
 
     - script: dotnet publish --configuration $(buildConfiguration) --output publish
       displayName: dotnet publish
