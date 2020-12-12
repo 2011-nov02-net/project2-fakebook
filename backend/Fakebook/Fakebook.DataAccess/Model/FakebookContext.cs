@@ -18,7 +18,7 @@ namespace Fakebook.DataAccess.Model
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<UserEntity>(entity => {
-                entity.ToTable("User");
+                entity.ToTable("User", "Fakebook");
 
                 entity.Property(e => e.FirstName)
                     .IsRequired();
@@ -31,7 +31,7 @@ namespace Fakebook.DataAccess.Model
             });
 
             modelBuilder.Entity<FollowEntity>(entity => {
-                entity.ToTable("Follow");
+                entity.ToTable("Follow", "Fakebook");
 
                 entity.Property(e => e.FolloweeId)
                     .IsRequired();
