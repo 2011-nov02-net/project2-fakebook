@@ -29,6 +29,23 @@ namespace Fakebook.DataAccess.Model
                      .HasColumnType("datetime2")
                     .HasDefaultValueSql("(getdatetime())");
             });
+
+            modelBuilder.Entity<CommentEntity>(entity => {
+                entity.ToTable("Comment", "Fakebook");
+
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnType("smalldatetime")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.User);
+
+                entity.HasOne(e => e.User)
+                        .WithMany(e => e.Comments)
+                        .HasForeignKey(e => e.UserId)
+                        .HasConstraint("FK_COMMENT_USER");
+;
+
+            });
         }
     }
 }
