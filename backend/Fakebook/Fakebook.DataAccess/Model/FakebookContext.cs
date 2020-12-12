@@ -64,6 +64,18 @@ namespace Fakebook.DataAccess.Model
                      .HasColumnType("datetime2")
                     .HasDefaultValueSql("(getdatetime())");
             });
+
+            modelBuilder.Entity<LikeEntity>(entity => {
+                entity.ToTable("Like", "Fakebook");
+                entity.HasOne(e => e.Post)
+                    .WithMany(e => e.Likes)
+                    .HasForeignKey(e => e.PostId)
+                    .HasConstraintName("FK_Like_PostId");
+                entity.HasOne(e => e.User)
+                    .WithMany(e => e.Likes)
+                    .HasForeignKey(e => e.UserId)
+                    .HasConstraintName("FK_Like_UserId");
+            });
         }
     }
 }
