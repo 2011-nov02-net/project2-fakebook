@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 namespace Fakebook.DataAccess.Model.Repository
 {
 
-    public class UserRepository
+    public class UserRepo
     {
         // create a read only for our database
         private readonly FakebookContext _context;
-        public UserRepository(FakebookContext context)
+        public UserRepo(FakebookContext context)
         {
             _context = context;
         }
