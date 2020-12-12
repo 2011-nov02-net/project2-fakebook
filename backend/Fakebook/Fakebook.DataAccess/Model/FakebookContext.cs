@@ -57,6 +57,9 @@ namespace Fakebook.DataAccess.Model
                 entity.Property(e => e.Content)
                     .HasColumnType("string")
                     .IsRequired();
+                entity.Property(e => e.Picture)
+                    .HasColumnType("string")
+                    .IsRequired();
                 entity.Property(e => e.CreatedAt)
                      .HasColumnType("datetime2")
                     .HasDefaultValueSql("(getdatetime())");
