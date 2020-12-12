@@ -32,20 +32,15 @@ namespace Fakebook.DataAccess.Model
 
             modelBuilder.Entity<FollowEntity>(entity => {
                 entity.ToTable("Follow", "Fakebook");
-
-                entity.Property(e => e.FolloweeId)
-                    .IsRequired();
-
-                entity.Property(e => e.FollowerId)
-                    .IsRequired();
-
                 entity.HasOne(e => e.Follower)
-                    .WithMany()
-                    .HasForeignKey(e => e.FollowerId);
+                    .WithMany(e => e.Followees)
+                    .HasForeignKey(e => e.FollowerId)
+                    .HasConstraintName("FK_Follow_FollowerId");
 
                 entity.HasOne(e => e.Followee)
-                    .WithMany()
-                    .HasForeignKey(e => e.FolloweeId);
+                    .WithMany(e => e.Followers)
+                    .HasForeignKey(e => e.FolloweeId)
+                    .HasConstraintName("FK_Follow_FolloweeId");
             });
 
             modelBuilder.Entity<PostEntity>(entity => {
@@ -62,7 +57,7 @@ namespace Fakebook.DataAccess.Model
                     .IsRequired();
                 entity.Property(e => e.CreatedAt)
                      .HasColumnType("datetime2")
-                    .HasDefaultValueSql("(getdatetime())");
+                     .HasDefaultValueSql("(getdatetime())");
             });
 
             modelBuilder.Entity<CommentEntity>(entity => {
@@ -75,11 +70,15 @@ namespace Fakebook.DataAccess.Model
                 entity.Property(e => e.User);
 
                 entity.HasOne(e => e.User)
+<<<<<<< HEAD
+                    .WithMany(e => e.Comments)
+                    .HasForeignKey(e => e.UserId)
+                    .HasConstraintName("FK_COMMENT_USER");
+=======
                         .WithMany(e => e.Comments)
                         .HasForeignKey(e => e.UserId)
-                        .HasConstraint("FK_COMMENT_USER");
-;
-
+                        .HasConstraintName("FK_COMMENT_USER");
+>>>>>>> origin
             });
 
             modelBuilder.Entity<LikeEntity>(entity => {

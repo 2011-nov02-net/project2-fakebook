@@ -8,8 +8,8 @@ namespace Fakebook.DataAccess.Model
     {
         public int Id { get; set; }
         public int PostId { get; set; }
-        public PostEntity Post { get; set; }
         public int UserId { get; set; }
-        public UserEntity User { get; set; }
+        public virtual PostEntity Post { get; set; }
+        public virtual UserEntity User { get; set; }
     }
 }
