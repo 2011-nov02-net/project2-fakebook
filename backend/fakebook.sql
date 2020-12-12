@@ -51,11 +51,11 @@ CREATE TABLE [Fakebook].[Comment] (
     [Id] int NOT NULL IDENTITY,
     [UserId] int NOT NULL,
     [PostId] int NOT NULL,
-    [ParentId] int NOT NULL,
+    [ParentId] int NULL,
     [CreatedAt] smalldatetime NOT NULL DEFAULT ((getdate())),
     [Content] nvarchar(max) NOT NULL,
     CONSTRAINT [PK_Comment] PRIMARY KEY ([Id]),
-    CONSTRAINT [Fk_Comment_Comment] FOREIGN KEY ([ParentId]) REFERENCES [Fakebook].[Comment] ([Id]) ON DELETE CASCADE,
+    CONSTRAINT [Fk_Comment_Comment] FOREIGN KEY ([ParentId]) REFERENCES [Fakebook].[Comment] ([Id]) ON DELETE NO ACTION,
     CONSTRAINT [Fk_Comment_Post] FOREIGN KEY ([PostId]) REFERENCES [Fakebook].[Post] ([Id]) ON DELETE CASCADE,
     CONSTRAINT [FK_COMMENT_USER] FOREIGN KEY ([UserId]) REFERENCES [Fakebook].[User] ([Id]) ON DELETE CASCADE
 );
@@ -93,7 +93,7 @@ CREATE INDEX [IX_Post_UserId] ON [Fakebook].[Post] ([UserId]);
 GO
 
 INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
-VALUES (N'20201212185536_InitialCreate', N'5.0.1');
+VALUES (N'20201212190122_InitialCreate', N'5.0.1');
 GO
 
 COMMIT;
