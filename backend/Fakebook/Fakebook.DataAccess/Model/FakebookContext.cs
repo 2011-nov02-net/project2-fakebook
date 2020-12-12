@@ -57,7 +57,7 @@ namespace Fakebook.DataAccess.Model
                     .IsRequired();
                 entity.Property(e => e.CreatedAt)
                      .HasColumnType("datetime2")
-                    .HasDefaultValueSql("(getdatetime())");
+                     .HasDefaultValueSql("(getdatetime())");
             });
 
             modelBuilder.Entity<CommentEntity>(entity => {
@@ -70,9 +70,15 @@ namespace Fakebook.DataAccess.Model
                 entity.Property(e => e.User);
 
                 entity.HasOne(e => e.User)
+<<<<<<< HEAD
+                    .WithMany(e => e.Comments)
+                    .HasForeignKey(e => e.UserId)
+                    .HasConstraintName("FK_COMMENT_USER");
+=======
                         .WithMany(e => e.Comments)
                         .HasForeignKey(e => e.UserId)
                         .HasConstraintName("FK_COMMENT_USER");
+>>>>>>> origin
             });
 
             modelBuilder.Entity<LikeEntity>(entity => {
