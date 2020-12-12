@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fakebook.RestApi", "Fakebook.RestApi\Fakebook.RestApi.csproj", "{5F4A9835-FCB3-42B7-A362-CDFF1AB9CC7C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{974B56A2-9058-4F35-A104-D7D2F1409625} = {974B56A2-9058-4F35-A104-D7D2F1409625}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fakebook.DataAccess", "Fakebook.DataAccess\Fakebook.DataAccess.csproj", "{974B56A2-9058-4F35-A104-D7D2F1409625}"
 EndProject

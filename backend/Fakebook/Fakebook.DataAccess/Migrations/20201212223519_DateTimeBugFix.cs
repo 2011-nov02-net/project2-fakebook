@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Fakebook.DataAccess.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class DateTimeBugFix : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -42,19 +42,17 @@ namespace Fakebook.DataAccess.Migrations
                 {
                     table.PrimaryKey("Pk_FollowEntity", x => new { x.FollowerId, x.FolloweeId });
                     table.ForeignKey(
-                        name: "FK_Follow_FolloweeId",
+                        name: "Fk_Follow_Followee",
                         column: x => x.FolloweeId,
                         principalSchema: "Fakebook",
                         principalTable: "User",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Follow_FollowerId",
+                        name: "Fk_Follow_Follower",
                         column: x => x.FollowerId,
                         principalSchema: "Fakebook",
                         principalTable: "User",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -65,9 +63,9 @@ namespace Fakebook.DataAccess.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<int>(type: "int", nullable: false),
-                    Content = table.Column<string>(type: "string", nullable: false),
-                    Picture = table.Column<string>(type: "string", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "(getdatetime())")
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Picture = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "(getdate())")
                 },
                 constraints: table =>
                 {
@@ -116,8 +114,7 @@ namespace Fakebook.DataAccess.Migrations
                         column: x => x.UserId,
                         principalSchema: "Fakebook",
                         principalTable: "User",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -138,15 +135,13 @@ namespace Fakebook.DataAccess.Migrations
                         column: x => x.PostId,
                         principalSchema: "Fakebook",
                         principalTable: "Post",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Like_User",
                         column: x => x.UserId,
                         principalSchema: "Fakebook",
                         principalTable: "User",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
