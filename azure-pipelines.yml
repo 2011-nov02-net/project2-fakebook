@@ -5,7 +5,7 @@ trigger:
   paths:
     include:
     - azure-pipelines.yml
-    - backend/Fakebook/Fakebook.RestApi/
+    - 'backend/Fakebook/Fakebook.RestApi'
 
 stages:
 - stage: build
