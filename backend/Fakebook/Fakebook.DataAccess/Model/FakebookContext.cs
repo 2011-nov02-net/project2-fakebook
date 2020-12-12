@@ -11,6 +11,9 @@ namespace Fakebook.DataAccess.Model
 
         public DbSet<UserEntity> UserEntities { get; set; }
         public DbSet<PostEntity> PostEntities { get; set; }
+        public DbSet<CommentEntity> CommentEntities { get; set; }
+        public DbSet<LikeEntity> LikeEntities { get; set; }
+        public DbSet<FollowEntity> FollowEntities { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
             base.OnModelCreating(modelBuilder);
@@ -34,23 +37,17 @@ namespace Fakebook.DataAccess.Model
                 entity.HasKey(e => new { e.FollowerId, e.FolloweeId })
                       .HasName("Pk_FollowEntity");
 
-                entity.Property(e => e.FolloweeId)
-                    .IsRequired();
-
-                entity.Property(e => e.FollowerId)
-                    .IsRequired();
+                entity.HasOne(e => e.Followee)
+                    .WithMany(f => f.Followers)
+                    .HasForeignKey(f => f.FolloweeId)
+                    .HasConstraintName("Fk_Follow_Followee")
+                    .OnDelete(DeleteBehavior.NoAction);
 
                 entity.HasOne(e => e.Follower)
-                      .WithMany(e => e.Followers)
-                      .HasForeignKey(e => e.FollowerId)
-                      .HasConstraintName("FK_Follow_FollowerId")
-                      .OnDelete(DeleteBehavior.ClientNoAction);
-
-                entity.HasOne(e => e.Followee)
-                      .WithMany(e => e.Followees)
-                      .HasForeignKey(e => e.FolloweeId)
-                      .HasConstraintName("FK_Follow_FolloweeId")
-                      .OnDelete(DeleteBehavior.ClientNoAction);
+                    .WithMany(f => f.Followees)
+                    .HasForeignKey(f => f.FollowerId)
+                    .HasConstraintName("Fk_Follow_Follower")
+                    .OnDelete(DeleteBehavior.NoAction);
             });
 
             modelBuilder.Entity<PostEntity>(entity => {
@@ -67,7 +64,7 @@ namespace Fakebook.DataAccess.Model
                       .IsRequired();
                 entity.Property(e => e.CreatedAt)
                       .HasColumnType("datetime2")
-                      .HasDefaultValueSql("(getdatetime())");
+                      .HasDefaultValueSql("(getdate())");
             });
 
             modelBuilder.Entity<CommentEntity>(entity => {

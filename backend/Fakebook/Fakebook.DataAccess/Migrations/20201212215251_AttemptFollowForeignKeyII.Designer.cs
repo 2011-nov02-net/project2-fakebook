@@ -4,14 +4,16 @@ using Fakebook.DataAccess.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Fakebook.DataAccess.Migrations
 {
     [DbContext(typeof(FakebookContext))]
-    partial class FakebookContextModelSnapshot : ModelSnapshot
+    [Migration("20201212215251_AttemptFollowForeignKeyII")]
+    partial class AttemptFollowForeignKeyII
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -107,7 +109,7 @@ namespace Fakebook.DataAccess.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValueSql("(getdate())");
+                        .HasDefaultValueSql("(getdatetime())");
 
                     b.Property<string>("Picture")
                         .IsRequired()
@@ -192,15 +194,15 @@ namespace Fakebook.DataAccess.Migrations
                     b.HasOne("Fakebook.DataAccess.Model.UserEntity", "Followee")
                         .WithMany("Followers")
                         .HasForeignKey("FolloweeId")
-                        .HasConstraintName("Fk_Follow_Followee")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .HasConstraintName("FK_Follow_FolloweeId")
+                        .OnDelete(DeleteBehavior.ClientNoAction)
                         .IsRequired();
 
                     b.HasOne("Fakebook.DataAccess.Model.UserEntity", "Follower")
                         .WithMany("Followees")
                         .HasForeignKey("FollowerId")
-                        .HasConstraintName("Fk_Follow_Follower")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .HasConstraintName("FK_Follow_FollowerId")
+                        .OnDelete(DeleteBehavior.ClientNoAction)
                         .IsRequired();
 
                     b.Navigation("Followee");

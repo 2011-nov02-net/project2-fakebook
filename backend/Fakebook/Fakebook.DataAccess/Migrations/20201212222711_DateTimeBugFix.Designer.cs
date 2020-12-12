@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Fakebook.DataAccess.Migrations
 {
     [DbContext(typeof(FakebookContext))]
-    [Migration("20201212203356_FollowEntityTableForeignKeys")]
-    partial class FollowEntityTableForeignKeys
+    [Migration("20201212222711_DateTimeBugFix")]
+    partial class DateTimeBugFix
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -109,7 +109,7 @@ namespace Fakebook.DataAccess.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValueSql("(getdatetime())");
+                        .HasDefaultValueSql("(getdate())");
 
                     b.Property<string>("Picture")
                         .IsRequired()
@@ -194,15 +194,15 @@ namespace Fakebook.DataAccess.Migrations
                     b.HasOne("Fakebook.DataAccess.Model.UserEntity", "Followee")
                         .WithMany("Followers")
                         .HasForeignKey("FolloweeId")
-                        .HasConstraintName("FK_Follow_FolloweeId")
-                        .OnDelete(DeleteBehavior.ClientNoAction)
+                        .HasConstraintName("Fk_Follow_Followee")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Fakebook.DataAccess.Model.UserEntity", "Follower")
                         .WithMany("Followees")
                         .HasForeignKey("FollowerId")
-                        .HasConstraintName("FK_Follow_FollowerId")
-                        .OnDelete(DeleteBehavior.ClientNoAction)
+                        .HasConstraintName("Fk_Follow_Follower")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Followee");
