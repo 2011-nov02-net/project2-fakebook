@@ -22,11 +22,20 @@ namespace Fakebook.DataAccess.Model.Repository
             return entity;
         }
 
-        public async Task <List<UserEntity>> GetAllUsersAsync()
+        public async Task<List<UserEntity>> GetAllUsersAsync()
         {
             var entity = await _context.UserEntities.ToListAsync();
             return entity;
         }
-
+        public async Task<UserEntity> GetUserById(int id)
+        {
+            var entity = await _context.UserEntities.Where(e => e.Id == id).FirstOrDefaultAsync();
+            return entity;
+        }
+        public async Task<UserEntity> GetUserByEmail(string email)
+        {
+            var entity = await _context.UserEntities.Where(e => e.Email == email).FirstOrDefaultAsync();
+            return entity;
+        }
     }
 }
