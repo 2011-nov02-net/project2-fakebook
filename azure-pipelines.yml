@@ -45,6 +45,7 @@ stages:
 
     - script: dotnet build --configuration $(buildConfiguration)
       displayName: dotnet build
+      workingDirectory: 'backend/Fakebook/Fakebook.RestApi'
 
     - task: SonarCloudAnalyze@1
       displayName: sonar run analysis
@@ -64,6 +65,7 @@ stages:
 
     - script: dotnet publish --configuration $(buildConfiguration) --output publish
       displayName: dotnet publish
+      workingDirectory: 'backend/Fakebook/Fakebook.RestApi'
 
     # - task: AzureRmWebAppDeployment@4
     #   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
