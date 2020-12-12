@@ -77,7 +77,7 @@ namespace Fakebook.DataAccess.Model
                 entity.HasOne(e => e.User)
                         .WithMany(e => e.Comments)
                         .HasForeignKey(e => e.UserId)
-                        .HasConstraint("FK_COMMENT_USER");
+                        .HasConstraintName("FK_COMMENT_USER");
 ;
 
             });
