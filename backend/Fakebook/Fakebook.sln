@@ -3,15 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fakebook.RestApi", "Fakebook.RestApi\Fakebook.RestApi.csproj", "{5F4A9835-FCB3-42B7-A362-CDFF1AB9CC7C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fakebook.RestApi", "Fakebook.RestApi\Fakebook.RestApi.csproj", "{5F4A9835-FCB3-42B7-A362-CDFF1AB9CC7C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fakebook.Library", "Fakebook.Library\Fakebook.Library.csproj", "{A781B531-9EF2-4EC7-AA86-D1FC4C4505EE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fakebook.DataAccess", "Fakebook.DataAccess\Fakebook.DataAccess.csproj", "{974B56A2-9058-4F35-A104-D7D2F1409625}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fakebook.DataAccess", "Fakebook.DataAccess\Fakebook.DataAccess.csproj", "{974B56A2-9058-4F35-A104-D7D2F1409625}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fakebook.UnitTests", "Fakebook.UnitTests\Fakebook.UnitTests.csproj", "{D235A44A-886A-41D5-9B07-1286A34A3F75}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fakebook.UnitTests", "Fakebook.UnitTests\Fakebook.UnitTests.csproj", "{D235A44A-886A-41D5-9B07-1286A34A3F75}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fakebook.Domain", "Fakebook.Domain\Fakebook.Domain.csproj", "{D4B33FA5-FC55-4A2F-8CEB-596AFEB9C613}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fakebook.Domain", "Fakebook.Domain\Fakebook.Domain.csproj", "{D4B33FA5-FC55-4A2F-8CEB-596AFEB9C613}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +21,6 @@ Global
 		{5F4A9835-FCB3-42B7-A362-CDFF1AB9CC7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5F4A9835-FCB3-42B7-A362-CDFF1AB9CC7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5F4A9835-FCB3-42B7-A362-CDFF1AB9CC7C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A781B531-9EF2-4EC7-AA86-D1FC4C4505EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A781B531-9EF2-4EC7-AA86-D1FC4C4505EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A781B531-9EF2-4EC7-AA86-D1FC4C4505EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A781B531-9EF2-4EC7-AA86-D1FC4C4505EE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{974B56A2-9058-4F35-A104-D7D2F1409625}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{974B56A2-9058-4F35-A104-D7D2F1409625}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{974B56A2-9058-4F35-A104-D7D2F1409625}.Release|Any CPU.ActiveCfg = Release|Any CPU
