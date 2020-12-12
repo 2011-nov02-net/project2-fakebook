@@ -16,8 +16,8 @@ namespace Fakebook.Domain
         public string Content { get; set; }
         public string Picture { get; set; }
         public DateTime CreatedAt { get; set; }
-        public virtual User User { get; set; }
-        public virtual ICollection<Comment> Comments { get; set; }
-        public virtual ICollection<Like> Likes { get; set; }
+        public User User { get; set; }
+        public ICollection<Comment> Comments { get; set; }
+        public ICollection<Like> Likes { get; set; }
     }
 }
