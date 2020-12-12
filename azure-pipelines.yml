@@ -34,11 +34,11 @@ stages:
         extraProperties: 'sonar.exclusions=**/lib/**'
 
     - task: UseDotNet@2
-      displayName: dotnet sdk $(sdkVersion)
+      displayName: 'Use .NET 5 SDK'
       inputs:
         packageType: 'sdk'
-        version: '$(sdkVersion)'
-
+        version: '5.x'
+        installationPath: $(Agent.ToolsDirectory)/dotnet
 
     - script: dotnet build --configuration $(buildConfiguration)
       displayName: dotnet build
