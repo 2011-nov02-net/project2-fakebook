@@ -65,16 +65,33 @@ namespace Fakebook.DataAccess.Model
                     .HasDefaultValueSql("(getdatetime())");
             });
 
+            modelBuilder.Entity<CommentEntity>(entity => {
+                entity.ToTable("Comment", "Fakebook");
+
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnType("smalldatetime")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.User);
+
+                entity.HasOne(e => e.User)
+                        .WithMany(e => e.Comments)
+                        .HasForeignKey(e => e.UserId)
+                        .HasConstraintName("FK_COMMENT_USER");
+            });
+
             modelBuilder.Entity<LikeEntity>(entity => {
                 entity.ToTable("Like", "Fakebook");
+
                 entity.HasOne(e => e.Post)
-                    .WithMany(e => e.Likes)
+                    .WithMany(p => p.Likes)
                     .HasForeignKey(e => e.PostId)
-                    .HasConstraintName("FK_Like_PostId");
+                    .HasConstraintName("FK_Like_Post");
+
                 entity.HasOne(e => e.User)
-                    .WithMany(e => e.Likes)
+                    .WithMany(u => u.Likes)
                     .HasForeignKey(e => e.UserId)
-                    .HasConstraintName("FK_Like_UserId");
+                    .HasConstraintName("FK_Like_User");
             });
         }
     }
