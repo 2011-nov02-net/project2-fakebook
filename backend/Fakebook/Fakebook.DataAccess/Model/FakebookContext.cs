@@ -30,6 +30,10 @@ namespace Fakebook.DataAccess.Model
 
             modelBuilder.Entity<FollowEntity>(entity => {
                 entity.ToTable("Follow", "Fakebook");
+
+                entity.HasKey(e => new { e.FollowerId, e.FolloweeId })
+                      .HasName("Pk_FollowEntity");
+                
                 entity.HasOne(e => e.Follower)
                       .WithMany(e => e.Followees)
                       .HasForeignKey(e => e.FollowerId)
@@ -64,8 +68,6 @@ namespace Fakebook.DataAccess.Model
                 entity.Property(e => e.CreatedAt)
                       .HasColumnType("smalldatetime")
                       .HasDefaultValueSql("(getdate())");
-
-                entity.Property(e => e.User);
 
                 entity.Property(e => e.Content)
                       .IsRequired();

@@ -19,7 +19,7 @@ namespace Fakebook.DataAccess.Model
         public int UserId { get; set; }
         public PostEntity Post { get; set; }
         public int PostId { get; set; } // references top author post
-        public int ParentId { get; set; }  // references post that it is commenting to
+        public int? ParentId { get; set; }  // references comment that it branches from
         public CommentEntity ParentComment { get; set; }
         public DateTime CreatedAt { get; set; }
         
