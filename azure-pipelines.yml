@@ -40,7 +40,7 @@ stages:
         packageType: 'sdk'
         version: '5.x'
         installationPath: $(Agent.ToolsDirectory)/dotnet
-        workingDirectory: 'backend/Fakebook'
+        workingDirectory: 'backend/Fakebook/Fakebook.RestApi'
 
     - script: dotnet build --configuration $(buildConfiguration)
       displayName: dotnet build
@@ -59,7 +59,7 @@ stages:
         command: 'test'
         arguments: '--configuration $(buildConfiguration)'
         publishTestResults: true
-        workingDirectory: 'backend/Fakebook'
+        workingDirectory: 'backend/Fakebook/Fakebook.RestApi'
 
     - script: dotnet publish --configuration $(buildConfiguration) --output publish
       displayName: dotnet publish
