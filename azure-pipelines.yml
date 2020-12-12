@@ -27,7 +27,7 @@ stages:
 
     - task: SonarCloudPrepare@1
       inputs:
-        SonarCloud: 'project2-fakebook'
+        SonarCloud: 'SonarCloud'
         organization: '2011-nov02-net'
         scannerMode: 'MSBuild'
         projectKey: '2011-nov02-net_project2-fakebook'
