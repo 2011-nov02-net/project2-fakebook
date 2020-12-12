@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Fakebook.DataAccess.Migrations
 {
     [DbContext(typeof(FakebookContext))]
-    [Migration("20201212195002_AddFollowEntityConstraint")]
-    partial class AddFollowEntityConstraint
+    [Migration("20201212201458_AttemptDatabaseUpdate")]
+    partial class AttemptDatabaseUpdate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
