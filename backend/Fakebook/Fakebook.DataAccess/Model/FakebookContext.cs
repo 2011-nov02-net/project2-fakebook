@@ -81,6 +81,20 @@ namespace Fakebook.DataAccess.Model
 ;
 
             });
+
+            modelBuilder.Entity<LikeEntity>(entity => {
+                entity.ToTable("Like", "Fakebook");
+
+                entity.HasOne(e => e.Post)
+                    .WithMany(p => p.Likes)
+                    .HasForeignKey(e => e.PostId)
+                    .HasConstraintName("FK_Like_Post");
+
+                entity.HasOne(e => e.User)
+                    .WithMany(u => u.Likes)
+                    .HasForeignKey(e => e.UserId)
+                    .HasConstraintName("FK_Like_User");
+            });
         }
     }
 }
