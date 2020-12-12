@@ -11,6 +11,7 @@ namespace Fakebook.Domain
             Followers = new List<User>();
             Followees = new List<User>();
         }
+
         public int Id { get; set; }
         public string ProfilePictureUrl { get; set; }
         public string FirstName { get; set; }
