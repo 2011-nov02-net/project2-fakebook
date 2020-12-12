@@ -32,20 +32,15 @@ namespace Fakebook.DataAccess.Model
 
             modelBuilder.Entity<FollowEntity>(entity => {
                 entity.ToTable("Follow", "Fakebook");
-
-                entity.Property(e => e.FolloweeId)
-                    .IsRequired();
-
-                entity.Property(e => e.FollowerId)
-                    .IsRequired();
-
                 entity.HasOne(e => e.Follower)
-                    .WithMany()
-                    .HasForeignKey(e => e.FollowerId);
+                    .WithMany(e => e.Followees)
+                    .HasForeignKey(e => e.FollowerId)
+                    .HasConstraintName("FK_Follow_FollowerId");
 
                 entity.HasOne(e => e.Followee)
-                    .WithMany()
-                    .HasForeignKey(e => e.FolloweeId);
+                    .WithMany(e => e.Followers)
+                    .HasForeignKey(e => e.FolloweeId)
+                    .HasConstraintName("FK_Follow_FolloweeId");
             });
 
             modelBuilder.Entity<PostEntity>(entity => {
