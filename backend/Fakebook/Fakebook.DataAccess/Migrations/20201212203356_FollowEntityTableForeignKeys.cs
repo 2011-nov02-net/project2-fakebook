@@ -2,7 +2,7 @@
 
 namespace Fakebook.DataAccess.Migrations
 {
-    public partial class FollowEntityIdRequired : Migration
+    public partial class FollowEntityTableForeignKeys : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
