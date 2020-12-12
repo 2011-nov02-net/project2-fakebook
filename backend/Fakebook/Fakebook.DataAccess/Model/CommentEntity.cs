@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace Fakebook.DataAccess.Model
@@ -16,12 +17,18 @@ namespace Fakebook.DataAccess.Model
 
         public int Id { get; set; }
         public int UserId { get; set; }
+        public PostEntity Post { get; set; }
         public int PostId { get; set; } // references top author post
         public int ParentId { get; set; }  // references post that it is commenting to
+        public CommentEntity ParentComment { get; set; }
         public DateTime CreatedAt { get; set; }
+        
+        [MinLength(10)]
         public String Content { get; set; }
 
         public UserEntity User { get; set; } // connect to user
+        
+        public virtual ICollection<CommentEntity> ChildrenComments { get; set; }
 
     }
 }
