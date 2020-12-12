@@ -10,7 +10,7 @@ namespace Fakebook.Domain
         public Post()
         {
             Comments = new List<Comment>();
-            Likes = new List<Like>();
+            // Likes = new List<Like>();
         }
         public int Id { get; set; }
         public int UserId { get; set; }
@@ -19,6 +19,6 @@ namespace Fakebook.Domain
         public DateTime CreatedAt { get; set; }
         public User User { get; set; }
         public ICollection<Comment> Comments { get; set; }
-        public ICollection<Like> Likes { get; set; }
+        // public ICollection<Like> Likes { get; set; }
     }
 }

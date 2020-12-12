@@ -31,17 +31,17 @@ CREATE TABLE [Fakebook].[Follow] (
     [FollowerId] int NOT NULL,
     [FolloweeId] int NOT NULL,
     CONSTRAINT [Pk_FollowEntity] PRIMARY KEY ([FollowerId], [FolloweeId]),
-    CONSTRAINT [FK_Follow_FolloweeId] FOREIGN KEY ([FolloweeId]) REFERENCES [Fakebook].[User] ([Id]) ON DELETE CASCADE,
-    CONSTRAINT [FK_Follow_FollowerId] FOREIGN KEY ([FollowerId]) REFERENCES [Fakebook].[User] ([Id]) ON DELETE CASCADE
+    CONSTRAINT [Fk_Follow_Followee] FOREIGN KEY ([FolloweeId]) REFERENCES [Fakebook].[User] ([Id]),
+    CONSTRAINT [Fk_Follow_Follower] FOREIGN KEY ([FollowerId]) REFERENCES [Fakebook].[User] ([Id])
 );
 GO
 
 CREATE TABLE [Fakebook].[Post] (
     [Id] int NOT NULL IDENTITY,
     [UserId] int NOT NULL,
-    [Content] string NOT NULL,
-    [Picture] string NOT NULL,
-    [CreatedAt] datetime2 NOT NULL DEFAULT ((getdatetime())),
+    [Content] nvarchar(max) NOT NULL,
+    [Picture] nvarchar(max) NOT NULL,
+    [CreatedAt] datetime2 NOT NULL DEFAULT ((getdate())),
     CONSTRAINT [PK_Post] PRIMARY KEY ([Id]),
     CONSTRAINT [FK_Post_UserId] FOREIGN KEY ([UserId]) REFERENCES [Fakebook].[User] ([Id]) ON DELETE CASCADE
 );
@@ -57,7 +57,7 @@ CREATE TABLE [Fakebook].[Comment] (
     CONSTRAINT [PK_Comment] PRIMARY KEY ([Id]),
     CONSTRAINT [Fk_Comment_Comment] FOREIGN KEY ([ParentId]) REFERENCES [Fakebook].[Comment] ([Id]) ON DELETE NO ACTION,
     CONSTRAINT [Fk_Comment_Post] FOREIGN KEY ([PostId]) REFERENCES [Fakebook].[Post] ([Id]) ON DELETE CASCADE,
-    CONSTRAINT [FK_COMMENT_USER] FOREIGN KEY ([UserId]) REFERENCES [Fakebook].[User] ([Id]) ON DELETE CASCADE
+    CONSTRAINT [FK_COMMENT_USER] FOREIGN KEY ([UserId]) REFERENCES [Fakebook].[User] ([Id])
 );
 GO
 
@@ -66,8 +66,8 @@ CREATE TABLE [Fakebook].[Like] (
     [PostId] int NOT NULL,
     [UserId] int NOT NULL,
     CONSTRAINT [PK_Like] PRIMARY KEY ([Id]),
-    CONSTRAINT [FK_Like_Post] FOREIGN KEY ([PostId]) REFERENCES [Fakebook].[Post] ([Id]) ON DELETE CASCADE,
-    CONSTRAINT [FK_Like_User] FOREIGN KEY ([UserId]) REFERENCES [Fakebook].[User] ([Id]) ON DELETE CASCADE
+    CONSTRAINT [FK_Like_Post] FOREIGN KEY ([PostId]) REFERENCES [Fakebook].[Post] ([Id]),
+    CONSTRAINT [FK_Like_User] FOREIGN KEY ([UserId]) REFERENCES [Fakebook].[User] ([Id])
 );
 GO
 
@@ -93,29 +93,7 @@ CREATE INDEX [IX_Post_UserId] ON [Fakebook].[Post] ([UserId]);
 GO
 
 INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
-VALUES (N'20201212190122_InitialCreate', N'5.0.1');
-GO
-
-COMMIT;
-GO
-
-BEGIN TRANSACTION;
-GO
-
-ALTER TABLE [Fakebook].[Follow] DROP CONSTRAINT [FK_Follow_FolloweeId];
-GO
-
-ALTER TABLE [Fakebook].[Follow] DROP CONSTRAINT [FK_Follow_FollowerId];
-GO
-
-ALTER TABLE [Fakebook].[Follow] ADD CONSTRAINT [FK_Follow_FolloweeId] FOREIGN KEY ([FolloweeId]) REFERENCES [Fakebook].[User] ([Id]);
-GO
-
-ALTER TABLE [Fakebook].[Follow] ADD CONSTRAINT [FK_Follow_FollowerId] FOREIGN KEY ([FollowerId]) REFERENCES [Fakebook].[User] ([Id]);
-GO
-
-INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
-VALUES (N'20201212195002_AddFollowEntityConstraint', N'5.0.1');
+VALUES (N'20201212223519_DateTimeBugFix', N'5.0.1');
 GO
 
 COMMIT;

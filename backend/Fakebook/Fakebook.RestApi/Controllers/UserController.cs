@@ -26,7 +26,6 @@ namespace Fakebook.RestApi.Controllers
         {
             var users = _repo.GetAllUsers();
             return Ok(users);
-
         }
     }
 }
