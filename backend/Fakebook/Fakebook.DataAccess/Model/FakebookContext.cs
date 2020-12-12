@@ -78,8 +78,6 @@ namespace Fakebook.DataAccess.Model
                         .WithMany(e => e.Comments)
                         .HasForeignKey(e => e.UserId)
                         .HasConstraintName("FK_COMMENT_USER");
-;
-
             });
 
             modelBuilder.Entity<LikeEntity>(entity => {
