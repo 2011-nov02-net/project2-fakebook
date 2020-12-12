@@ -6,10 +6,10 @@ namespace Fakebook.Domain
 {
     public class User
     {
-        public User()
-        {
+        public User() {
             Posts = new List<Post>();
-            Following = new List<Follower>();
+            Followers = new List<User>();
+            Followees = new List<User>();
         }
         public int Id { get; set; }
         public string ProfilePictureUrl { get; set; }
@@ -19,7 +19,8 @@ namespace Fakebook.Domain
         public string PhoneNumber { get; set; }
         public DateTime BirthDate { get; set; }
         public string Status { get; set; }
-        public ICollection<Follower> Following { get; set; }
+        public ICollection<User> Followees { get; set; }
+        public ICollection<User> Followers { get; set; }
         public ICollection<Post> Posts { get; set; }
     }
 }
