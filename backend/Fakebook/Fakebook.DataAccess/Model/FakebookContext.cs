@@ -57,10 +57,8 @@ namespace Fakebook.DataAccess.Model
                       .HasForeignKey(e => e.UserId)
                       .HasConstraintName("FK_Post_UserId");
                 entity.Property(e => e.Content)
-                      .HasColumnType("string")
                       .IsRequired();
                 entity.Property(e => e.Picture)
-                      .HasColumnType("string")
                       .IsRequired();
                 entity.Property(e => e.CreatedAt)
                       .HasColumnType("datetime2")
@@ -90,7 +88,8 @@ namespace Fakebook.DataAccess.Model
                 entity.HasOne(e => e.User)
                       .WithMany(e => e.Comments)
                       .HasForeignKey(e => e.UserId)
-                      .HasConstraintName("FK_COMMENT_USER");
+                      .HasConstraintName("FK_COMMENT_USER")
+                      .OnDelete(DeleteBehavior.NoAction);
             });
 
             modelBuilder.Entity<LikeEntity>(entity => {
@@ -99,12 +98,14 @@ namespace Fakebook.DataAccess.Model
                 entity.HasOne(e => e.Post)
                       .WithMany(p => p.Likes)
                       .HasForeignKey(e => e.PostId)
-                      .HasConstraintName("FK_Like_Post");
+                      .HasConstraintName("FK_Like_Post")
+                      .OnDelete(DeleteBehavior.NoAction);
 
                 entity.HasOne(e => e.User)
                       .WithMany(u => u.Likes)
                       .HasForeignKey(e => e.UserId)
-                      .HasConstraintName("FK_Like_User");
+                      .HasConstraintName("FK_Like_User")
+                      .OnDelete(DeleteBehavior.NoAction);
             });
         }
     }

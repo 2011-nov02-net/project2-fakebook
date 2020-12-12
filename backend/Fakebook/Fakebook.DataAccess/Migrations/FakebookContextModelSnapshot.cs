@@ -102,7 +102,7 @@ namespace Fakebook.DataAccess.Migrations
 
                     b.Property<string>("Content")
                         .IsRequired()
-                        .HasColumnType("string");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
@@ -111,7 +111,7 @@ namespace Fakebook.DataAccess.Migrations
 
                     b.Property<string>("Picture")
                         .IsRequired()
-                        .HasColumnType("string");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -177,7 +177,7 @@ namespace Fakebook.DataAccess.Migrations
                         .WithMany("Comments")
                         .HasForeignKey("UserId")
                         .HasConstraintName("FK_COMMENT_USER")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("ParentComment");
@@ -214,14 +214,14 @@ namespace Fakebook.DataAccess.Migrations
                         .WithMany("Likes")
                         .HasForeignKey("PostId")
                         .HasConstraintName("FK_Like_Post")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Fakebook.DataAccess.Model.UserEntity", "User")
                         .WithMany("Likes")
                         .HasForeignKey("UserId")
                         .HasConstraintName("FK_Like_User")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Post");
