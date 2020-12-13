@@ -1,0 +1,13 @@
+UserController:
+    users/                      => create a user
+    users/{id}                  => [get, update, delete] a user by user id
+    users/{id}/posts            => get user's posts by user id
+    users/{id}/newsfeed         => get user's newsfeed by user id
+
+PostController:
+    posts/                      => create a post
+    posts/{id}                  => [get, update, delete] a post by post id
+    posts/{id}/comment          => get post's comments by post id or create a comment on a post
+    posts/{id}/comment/{id}     => get specific comment by post id and comment id
+    posts/{id}/like/{user-id}   => set user to like a post by post id and user id
+    posts/{id}/unlike/{user-id} => set user to unlike a post by post id and user id
