@@ -95,6 +95,9 @@ namespace Fakebook.DataAccess.Model
             modelBuilder.Entity<LikeEntity>(entity => {
                 entity.ToTable("Like", "Fakebook");
 
+                entity.HasKey(e => new { e.UserId, e.PostId })
+                      .HasName("Pk_LikeEntity");
+
                 entity.HasOne(e => e.Post)
                       .WithMany(p => p.Likes)
                       .HasForeignKey(e => e.PostId)
