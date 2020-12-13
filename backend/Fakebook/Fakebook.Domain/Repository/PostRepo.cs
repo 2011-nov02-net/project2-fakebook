@@ -52,8 +52,7 @@ namespace Fakebook.Domain.Repository
             try
             {
                 var entity = await _context.PostEntities.Where(e => e.Id == post.Id).FirstOrDefaultAsync();
-                var existingPost = DbEntityConverter.ToPostEntity(post);
-                entity = existingPost;
+                entity.Content = post.Content;
                 await _context.SaveChangesAsync();
                 return true;
             }

@@ -33,13 +33,17 @@ namespace Fakebook.RestApi.Controllers
             var user = await _repo.GetUserById(id);
             return Ok(user);
         }
-        [HttpPost("{id}/{post}/")]
-        public async Task<IActionResult> Post(int id, string post)
+        [HttpPost]
+        public async Task<IActionResult> Post(User user)
         {
-            var user = await _repo.GetUserById(id);
-
-            string message = user.FirstName + "says we need to create a function that can create posts" + post;
-            return Ok(message);
+            if (await _repo.CreateUser(user))
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest();
+            }
         }
         /// <summary>
         /// A delete method that wlil return False if it can't find that id.
@@ -49,7 +53,7 @@ namespace Fakebook.RestApi.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            if(await _repo.DeleteUser(id))
+            if (await _repo.DeleteUser(id))
             {
                 return Ok();
             }
@@ -58,11 +62,19 @@ namespace Fakebook.RestApi.Controllers
                 return BadRequest();
             }
         }
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Put(User user)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        [HttpPut("{id}/")]
+        public async Task<IActionResult> Put(int id, User user)
         {
-            if (await _repo.UpdateUser(user))
+            // if the id is null switch to bad request
+            if ( id == 0 || user.IsValid())
             {
+                await _repo.UpdateUser(id, user);
                 return Ok();
             }
             else
