@@ -2,8 +2,6 @@
 using Fakebook.Domain.Repository;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Fakebook.RestApi.Controllers
 {
@@ -20,7 +18,6 @@ namespace Fakebook.RestApi.Controllers
             _postRepo = postRepo;
             _userRepo = userRepo;
         }
-        // Gets all posts. Use this for newsfeed
         [HttpGet]
         public async Task<IActionResult> Get()
         {
