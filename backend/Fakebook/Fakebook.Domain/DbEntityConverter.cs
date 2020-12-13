@@ -11,6 +11,8 @@ namespace Fakebook.Domain
     {
         public static UserEntity ToUserEntity(User user) {
             user.NullCheck(nameof(user));
+            user.Followees.NullCheck(nameof(user.Followees));
+            user.Followers.NullCheck(nameof(user.Followers));
 
             // this would presume that .Include/.ThenInclude was called
 
@@ -61,6 +63,8 @@ namespace Fakebook.Domain
 
         public static User ToUser(UserEntity userEntity) {
             userEntity.NullCheck(nameof(userEntity));
+            userEntity.Followees.NullCheck(nameof(userEntity.Followees));
+            userEntity.Followers.NullCheck(nameof(userEntity.Followers));
 
             List<User> followees = null;
             List<User> followers = null;
@@ -144,6 +148,7 @@ namespace Fakebook.Domain
 
         public static CommentEntity ToCommentEntity(Comment comment) {
             comment.NullCheck(nameof(comment));
+            comment.User.NullCheck(nameof(comment.User));
 
             return new CommentEntity
             {
@@ -159,6 +164,12 @@ namespace Fakebook.Domain
 
         public static Comment ToComment(CommentEntity commentEntity) {
             commentEntity.NullCheck(nameof(commentEntity));
+            commentEntity.Post.NullCheck(nameof(commentEntity.Post));
+            commentEntity.User.NullCheck(nameof(commentEntity.User));
+
+            var parentComment = commentEntity.ParentComment is not null
+                ? ToComment(commentEntity.ParentComment)
+                : null;
 
             return new Comment
             {
@@ -167,13 +178,14 @@ namespace Fakebook.Domain
                 CreatedAt = commentEntity.CreatedAt,
                 Post = ToPost(commentEntity.Post),
                 User = ToUser(commentEntity.User),
-#pragma warning This could cause an issue with recursion, although it only goes until this is null
-                ParentComment = ToComment(commentEntity.ParentComment)
+            #pragma warning This could cause an issue with recursion, although it only goes until this is null
+                ParentComment = parentComment
             };
         }
 
         public static List<FollowEntity> ToFollowEntities(User user) {
             user.NullCheck(nameof(user));
+            user.Followers.NullCheck(nameof(user.Followers));
 
             return user.Followers.Select(u => {
                 return new FollowEntity
@@ -187,6 +199,7 @@ namespace Fakebook.Domain
 
         public static List<LikeEntity> ToLikeEntities(Post post) {
             post.NullCheck(nameof(post));
+            post.LikedByUsers.NullCheck(nameof(post.LikedByUsers));
 
             return post.LikedByUsers.Select(u => {
                 return new LikeEntity
