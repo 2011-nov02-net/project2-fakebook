@@ -99,3 +99,31 @@ GO
 COMMIT;
 GO
 
+BEGIN TRANSACTION;
+GO
+
+ALTER TABLE [Fakebook].[Like] DROP CONSTRAINT [PK_Like];
+GO
+
+DROP INDEX [IX_Like_UserId] ON [Fakebook].[Like];
+GO
+
+DECLARE @var0 sysname;
+SELECT @var0 = [d].[name]
+FROM [sys].[default_constraints] [d]
+INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+WHERE ([d].[parent_object_id] = OBJECT_ID(N'[Fakebook].[Like]') AND [c].[name] = N'Id');
+IF @var0 IS NOT NULL EXEC(N'ALTER TABLE [Fakebook].[Like] DROP CONSTRAINT [' + @var0 + '];');
+ALTER TABLE [Fakebook].[Like] DROP COLUMN [Id];
+GO
+
+ALTER TABLE [Fakebook].[Like] ADD CONSTRAINT [Pk_LikeEntity] PRIMARY KEY ([UserId], [PostId]);
+GO
+
+INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+VALUES (N'20201213170020_LikeCompositeKey', N'5.0.1');
+GO
+
+COMMIT;
+GO
+

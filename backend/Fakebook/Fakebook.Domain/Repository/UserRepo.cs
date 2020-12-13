@@ -21,19 +21,21 @@ namespace Fakebook.Domain.Repository
         /// Get all users
         /// </summary>
         /// <returns></returns>
-        public List<User> GetAllUsers()
+        public IEnumerable<User> GetAllUsers()
         {
             var entity = _context.UserEntities.ToList();
-            return entity;
+            var users = entity.Select(e => DbEntityConverter.ToUser(e));
+            return users;
         }
         /// <summary>
         /// Get all users asyncronously
         /// </summary>
         /// <returns></returns>
-        public async Task<List<User>> GetAllUsersAsync()
+        public async Task<IEnumerable<User>> GetAllUsersAsync()
         {
-            var entity = await _context.UserEntities.ToListAsync();
-            return entity;
+            var entities = await _context.UserEntities.ToListAsync();
+            var users = entities.Select(e => DbEntityConverter.ToUser(e));
+            return users;
         }
         /// <summary>
         /// Get user by the id that they pass into the conroller
@@ -43,13 +45,15 @@ namespace Fakebook.Domain.Repository
         public async Task<User> GetUserById(int id)
         {
             var entity = await _context.UserEntities.FindAsync(id);
-            return entity;
+            var user = DbEntityConverter.ToUser(entity); // turn into a user
+            return user;
         }
 
         public async Task<User> GetUserByEmail(string email)
         {
             var entity = await _context.UserEntities.Where(e => e.Email == email).FirstOrDefaultAsync();
-            return entity;
+            var user = DbEntityConverter.ToUser(entity); // turn into a user
+            return user;
         }
     }
 }

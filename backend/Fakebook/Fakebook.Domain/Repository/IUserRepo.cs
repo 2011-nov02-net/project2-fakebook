@@ -5,8 +5,8 @@ namespace Fakebook.Domain.Repository
 {
     public interface IUserRepo
     {
-        List<User> GetAllUsers();
-        Task<List<User>> GetAllUsersAsync();
+        IEnumerable<User> GetAllUsers();
+        Task<IEnumerable<User>> GetAllUsersAsync();
         Task<User> GetUserByEmail(string email);
         Task<User> GetUserById(int id);
     }

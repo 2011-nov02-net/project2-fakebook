@@ -100,7 +100,42 @@ namespace Fakebook.Domain
         }
     
         public static PostEntity ToPostEntity(Post post) {
-            return default;
+            List<CommentEntity> comments = null;
+            List<LikeEntity> likes = null;
+
+            if (post.Comments.Any())
+            {
+                comments = post.Comments
+                    .Select(p => {
+                        return new CommentEntity
+                        {
+                            Id = p.Id,
+                            UserId = p.User.Id,
+                            PostId = p.Post.Id,
+                            ParentId = p.ParentComment.Id,
+                            CreatedAt = p.CreatedAt,
+                            Content = p.Content
+                        };
+                    })
+                    .ToList();
+            }
+
+            if (post.LikedByUsers.Any())
+            {
+                likes = ToLikeEntities(post);
+            }
+
+
+            return new PostEntity
+            {
+                Id = post.Id,
+                UserId = post.User.Id,
+                Content = post.Content,
+                Picture = post.Picture,
+                CreatedAt = post.CreatedAt,
+                Comments = comments,
+                Likes = likes,
+            };
         }
 
         public static Post ToPost(PostEntity postEntity) {
