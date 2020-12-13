@@ -1,4 +1,5 @@
-﻿using Fakebook.Domain.Repository;
+﻿using Fakebook.Domain;
+using Fakebook.Domain.Repository;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -32,13 +33,42 @@ namespace Fakebook.RestApi.Controllers
             var user = await _repo.GetUserById(id);
             return Ok(user);
         }
-        [HttpGet("{id}/{post}/")]
+        [HttpPost("{id}/{post}/")]
         public async Task<IActionResult> Post(int id, string post)
         {
             var user = await _repo.GetUserById(id);
 
             string message = user.FirstName + "says we need to create a function that can create posts" + post;
             return Ok(message);
+        }
+        /// <summary>
+        /// A delete method that wlil return False if it can't find that id.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            if(await _repo.DeleteUser(id))
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Put(User user)
+        {
+            if (await _repo.UpdateUser(user))
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest();
+            }
         }
         /*
         [HttpGet("{email}")]
