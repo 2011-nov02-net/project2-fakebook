@@ -11,6 +11,6 @@ namespace Fakebook.Domain.Repository
         Task<IEnumerable<User>> GetAllUsersAsync();
         Task<User> GetUserByEmail(string email);
         Task<User> GetUserById(int id);
-        Task<bool> UpdateUser(User user);
+        Task<bool> UpdateUser(int id, User user);
     }
 }
