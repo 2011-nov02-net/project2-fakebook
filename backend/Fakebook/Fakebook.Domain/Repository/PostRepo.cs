@@ -8,7 +8,7 @@ using Fakebook.DataAccess.Model;
 
 namespace Fakebook.Domain.Repository
 {
-    public class PostRepo
+    public class PostRepo : IPostRepo
     {
         private readonly FakebookContext _context;
         public PostRepo(FakebookContext context)
@@ -44,6 +44,36 @@ namespace Fakebook.Domain.Repository
             }
             catch
             {
+                return false;
+            }
+        }
+        public async Task<bool> UpdatePost(Post post)
+        {
+            try
+            {
+                var entity = await _context.PostEntities.Where(e => e.Id == post.Id).FirstOrDefaultAsync();
+                var existingPost = DbEntityConverter.ToPostEntity(post);
+                entity = existingPost;
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+        public async Task<bool> DeletePost(int id)
+        {
+            try
+            {
+                var entity = await _context.PostEntities.FindAsync(id);
+                _context.PostEntities.Remove(entity);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch
+            {
+                Console.WriteLine("Invalid post");
                 return false;
             }
         }
