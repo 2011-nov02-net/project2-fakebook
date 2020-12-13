@@ -24,7 +24,7 @@ namespace Fakebook.DataAccess.Model
         public DateTime CreatedAt { get; set; }
         
         [MinLength(10)]
-        public String Content { get; set; }
+        public string Content { get; set; }
 
         public UserEntity User { get; set; } // connect to user
         
