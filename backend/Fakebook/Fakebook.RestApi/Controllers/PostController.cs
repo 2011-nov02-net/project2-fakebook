@@ -1,9 +1,8 @@
-﻿using Fakebook.Domain;
-using Fakebook.Domain.Repository;
+﻿using Fakebook.Domain.Repository;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using System.Collections.Generic;
-using System.Linq;
+using Fakebook.RestApi.Model;
+using System;
 
 namespace Fakebook.RestApi.Controllers
 {
@@ -14,12 +13,15 @@ namespace Fakebook.RestApi.Controllers
 
         private readonly IPostRepo _postRepo;
         private readonly IUserRepo _userRepo;
+        private readonly ICommentRepo _commentRepo;
 
-        public PostController(IPostRepo postRepo, IUserRepo userRepo)
+        public PostController(IPostRepo postRepo, IUserRepo userRepo, ICommentRepo commentRepo)
         {
             _postRepo = postRepo;
             _userRepo = userRepo;
+            _commentRepo = commentRepo;
         }
+
         // Gets all posts. Use this for newsfeed
         [HttpGet]
         public async Task<IActionResult> Get()
@@ -27,9 +29,12 @@ namespace Fakebook.RestApi.Controllers
             var posts = await _postRepo.GetAllPosts();
             return Ok(posts);
         }
+
         [HttpPost]
-        public async Task<IActionResult> Post(Post post)
+        public async Task<IActionResult> Post(PostApiModel apiModel)
         {
+            var post = ApiModelConverter.ToPost(_userRepo, _commentRepo, apiModel);
+
             if (await _postRepo.CreatePost(post))
             {
                 return Ok();
@@ -39,19 +44,19 @@ namespace Fakebook.RestApi.Controllers
                 return BadRequest();
             }
         }
+
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(Post post)
+        public async Task<IActionResult> Put(PostApiModel apiModel)
         {
-            if (post.IsValid())
-            {
+            try {
+                var post = ApiModelConverter.ToPost(_userRepo, _commentRepo, apiModel);
                 await _postRepo.UpdatePost(post);
                 return Ok();
-            }
-            else
-            {
+            } catch(ArgumentException/* ex*/) {
                 return BadRequest();
             }
         }
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
