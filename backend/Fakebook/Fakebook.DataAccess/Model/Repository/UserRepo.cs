@@ -12,23 +12,41 @@ namespace Fakebook.DataAccess.Model.Repository
     {
         // create a read only for our database
         private readonly FakebookContext _context;
-        public UserRepo(FakebookContext context) {
+        public UserRepo(FakebookContext context)
+        {
             _context = context;
         }
-        public List<UserEntity> GetAllUsers() {
+        /// <summary>
+        /// Get all users
+        /// </summary>
+        /// <returns></returns>
+        public List<UserEntity> GetAllUsers()
+        {
             var entity = _context.UserEntities.ToList();
             return entity;
         }
-
-        public async Task<List<UserEntity>> GetAllUsersAsync() {
+        /// <summary>
+        /// Get all users asyncronously
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<UserEntity>> GetAllUsersAsync()
+        {
             var entity = await _context.UserEntities.ToListAsync();
             return entity;
         }
-        public async Task<UserEntity> GetUserById(int id) {
-            var entity = await _context.UserEntities.Where(e => e.Id == id).FirstOrDefaultAsync();
+        /// <summary>
+        /// Get user by the id that they pass into the conroller
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<UserEntity> GetUserById(int id)
+        {
+            var entity = await _context.UserEntities.FindAsync(id);
             return entity;
         }
-        public async Task<UserEntity> GetUserByEmail(string email) {
+
+        public async Task<UserEntity> GetUserByEmail(string email)
+        {
             var entity = await _context.UserEntities.Where(e => e.Email == email).FirstOrDefaultAsync();
             return entity;
         }
