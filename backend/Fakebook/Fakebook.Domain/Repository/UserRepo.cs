@@ -84,6 +84,7 @@ namespace Fakebook.Domain.Repository
         {
             try
             {
+
                 var entity = await _context.UserEntities.FindAsync(id);
                 _context.UserEntities.Remove(entity);
                 await _context.SaveChangesAsync();
@@ -101,19 +102,21 @@ namespace Fakebook.Domain.Repository
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        public async Task<bool> UpdateUser(User user)
+        public async Task<bool> UpdateUser(int id, User user)
         {
             try
             {
-                var entityUser = DbEntityConverter.ToUserEntity(user);
-                /*
-                entityUser.FirstName = user.FirstName;
-                entityUser.ProfilePictureUrl = user.ProfilePictureUrl;
-                entityUser.PhoneNumber = user.PhoneNumber;
-                entityUser.Status = user.Status;
-                entityUser.BirthDate = user.BirthDate;
-                */
-                await _context.SaveChangesAsync();
+                UserEntity entity = await _context.UserEntities.FindAsync(id);
+                // assign all the values
+                {
+                    entity.Status = user.Status;
+                    entity.FirstName = user.FirstName;
+                    if (!String.IsNullOrEmpty(user.Email))
+                        entity.Email = user.Email;
+                    entity.LastName = user.LastName;
+                }
+                // save changes.
+                _context.SaveChanges();
                 return true;
             }
             catch

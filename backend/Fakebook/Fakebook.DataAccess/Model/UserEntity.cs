@@ -11,7 +11,10 @@ namespace Fakebook.DataAccess.Model
             Posts = new HashSet<PostEntity>();
             Likes = new HashSet<LikeEntity>();
         }
-
+        public UserEntity ShallowCopy()
+        {
+            return (UserEntity)this.MemberwiseClone();
+        }
         public int Id { get; set; }
         public string ProfilePictureUrl { get; set; }
         public string FirstName { get; set; }

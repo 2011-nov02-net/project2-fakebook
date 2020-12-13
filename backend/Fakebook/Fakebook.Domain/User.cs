@@ -23,5 +23,14 @@ namespace Fakebook.Domain
         public ICollection<User> Followees { get; set; }
         public ICollection<User> Followers { get; set; }
         public ICollection<Post> Posts { get; set; }
+
+        /// <summary>
+        /// Checks if a user is valid by making sure they have an id and an email.
+        /// </summary>
+        /// <returns></returns>
+        public bool IsValid()
+        {
+            return (Id != 0 & !String.IsNullOrEmpty(FirstName) & !String.IsNullOrEmpty(Email));
+        }
     }
 }
