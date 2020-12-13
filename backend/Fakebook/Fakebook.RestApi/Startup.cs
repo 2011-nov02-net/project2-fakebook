@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Fakebook.DataAccess.Model;
+using Fakebook.DataAccess.Model.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -29,9 +30,8 @@ namespace Fakebook.RestApi
 
             string connectionString = Configuration["FakebookContext:ConnectionString"];
 
-            services.AddDbContext<FakebookContext>(options =>
-                                                       options.UseSqlServer(connectionString));
-            
+            services.AddDbContext<FakebookContext>(options => options.UseSqlServer(connectionString));
+            services.AddScoped<IUserRepo, UserRepo>();
             services.AddControllers();
             services.AddSwaggerGen(c => {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Fakebook.RestApi", Version = "v1" });

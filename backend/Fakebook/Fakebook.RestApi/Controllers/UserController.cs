@@ -1,4 +1,4 @@
-﻿using Fakebook.DataAccess.Model.Repository;
+﻿    using Fakebook.DataAccess.Model.Repository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -19,13 +19,38 @@ namespace Fakebook.RestApi.Controllers
         {
             _repo = repository;
         }
-
+        /// <summary>
+        /// Gets all the users.
+        /// </summary>
+        /// <returns></returns>
         // GET: api/user
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
-            var users = _repo.GetAllUsers();
+            var users = await _repo.GetAllUsersAsync();
             return Ok(users);
         }
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(int id)
+        {
+            var user = await _repo.GetUserById(id);
+            return Ok(user);
+        }
+        [HttpGet("{id}/{post}/")]
+        public async Task<IActionResult> Post(int id, string post)
+        {
+            var user = await _repo.GetUserById(id);
+
+            string message = user.FirstName + "says we need to create a function that can create posts" + post;
+            return Ok(message);
+        }
+        /*
+        [HttpGet("{email}")]
+        public async Task<IActionResult> Get(string email)
+        {
+            var user = await _repo.GetUserByEmail(email);
+            return Ok(user);
+        }
+        */
     }
 }
