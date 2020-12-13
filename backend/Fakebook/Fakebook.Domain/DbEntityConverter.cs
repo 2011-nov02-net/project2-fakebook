@@ -94,5 +94,29 @@ namespace Fakebook.Domain
                 Followers = followers
             };
         }
+    
+        public static PostEntity ToPostEntity(Post post) {
+            return default;
+        }
+
+        public static Post ToPost(PostEntity postEntity) {
+            return default;
+        }
+
+        public static CommentEntity ToCommentEntity(Comment comment) {
+            return default;
+        }
+
+        public static Comment ToComment(CommentEntity commentEntity) {
+            return default;
+        }
+
+        public static List<FollowEntity> ToFollowEntities(User user) {
+            return default;
+        }
+
+        public static List<LikeEntity> ToLikeEntities(Post post) {
+            return default;
+        }
     }
 }
