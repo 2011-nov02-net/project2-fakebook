@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Fakebook.DataAccess\Fakebook.DataAccess.csproj" />
+    <ProjectReference Include="..\Fakebook.Library\Fakebook.Library.csproj" />
   </ItemGroup>
 
 </Project>
