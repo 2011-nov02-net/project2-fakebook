@@ -199,7 +199,6 @@ namespace Fakebook.Domain
                 CreatedAt = commentEntity.CreatedAt,
                 Post = ToPost(commentEntity.Post),
                 User = ToUser(commentEntity.User),
-            #pragma warning This could cause an issue with recursion, although it only goes until this is null
                 ParentComment = parentComment
             };
         }
