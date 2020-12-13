@@ -76,5 +76,63 @@ namespace Fakebook.Domain.Repository
                 return false;
             }
         }
+        /// <summary>
+        /// like a post
+        /// </summary>
+        /// <param name="PostId"></param>
+        /// <param name="UserId"></param>
+        /// <returns></returns>
+        public async Task<bool> LikePost(int PostId, int UserId)
+        {
+            try
+            {
+                var like = new LikeEntity(PostId, UserId); // convert
+                await _context.AddAsync(like);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+
+        }
+        /// <summary>
+        /// Unlikes a post
+        /// </summary>
+        /// <param name="PostId"></param>
+        /// <param name="UserId"></param>
+        /// <returns></returns>
+        public async Task<bool> UnlikePost(int PostId, int UserId)
+        {
+            try
+            {
+                // find the like entity
+                var entity = await _context.LikeEntities.FirstOrDefaultAsync(i => i.UserId == UserId & i.PostId == PostId); ;
+                if (entity != null)
+                {
+                    // remove and if able to return true
+                    _context.Remove(entity);
+                    return true;
+                }
+                // otherwise return false
+                return false;
+            }
+            catch
+            {
+                return false;
+            }
+
+        }
+        /// <summary>
+        /// Count the amount of likes in a post and return it as an int.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public int CountLikes(int id)
+        {
+            var query = _context.LikeEntities.Where(c => c.PostId == id).Select(u => u.UserId).Count(); // selects the post by their id and counts the users
+            return query;
+        }
+
     }
 }

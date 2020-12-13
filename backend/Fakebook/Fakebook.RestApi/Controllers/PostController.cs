@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace Fakebook.RestApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/Posts")]
     [ApiController]
     public class PostController : ControllerBase
     {
@@ -27,56 +27,42 @@ namespace Fakebook.RestApi.Controllers
             var posts = await _postRepo.GetAllPosts();
             return Ok(posts);
         }
-        // Gets all posts by a specific user id
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetUserPosts(int id)
+        [HttpPost]
+        public async Task<IActionResult> Post(Post post)
         {
-            var posts = await _postRepo.GetPostsByUserId(id);
-            return Ok(posts);
-        }
-        [HttpGet("{id}/newsfeed")]
-        public async Task<IActionResult> GetNewsfeedPosts(int id)
-        {
-            var currentUser = await _userRepo.GetUserById(id);
-            var result = new List<Post>();
-            var userPosts = currentUser.Posts.OrderBy(p => p.CreatedAt).ToList();
-            if (userPosts.Count < 3) // Check for any self user posts to include in newsfeed
+            if (await _postRepo.CreatePost(post))
             {
-                foreach (var post in userPosts)
-                {
-                    result.Add(post);
-                }
+                return Ok();
             }
             else
             {
-                for (var i = 0; i < 3; i++) // Add up to 3 posts from self user to the result
-                {
-                    result.Add(userPosts.ElementAt(i));
-                }
+                return BadRequest();
             }
-            foreach (var followee in currentUser.Followees) // Iterate through list of people user follows
+        }
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Put(Post post)
+        {
+            if (post.IsValid())
             {
-                if (followee.Posts != null) // Check if the followee has made any posts
-                {
-                    var followeePosts = followee.Posts.OrderBy(p => p.CreatedAt).ToList();
-                    if (followeePosts.Count < 3) // If followee has less than 3 posts, add all posts to result
-                    {
-                        foreach (var post in followeePosts)
-                        {
-                            result.Add(post);
-                        }
-                    }
-                    else
-                    {
-                        for (var i = 0; i < 3; i++) // Add up to 3 posts from the followee to the result
-                        {
-                            result.Add(followeePosts.ElementAt(i));
-                        }
-                    }
-                }
+                await _postRepo.UpdatePost(post);
+                return Ok();
             }
-            result.OrderBy(p => p.CreatedAt); // Order list by the date the posts were created
-            return Ok(result);
+            else
+            {
+                return BadRequest();
+            }
+        }
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            if (await _postRepo.DeletePost(id))
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest();
+            }
         }
     }
 }
