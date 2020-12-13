@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 using Fakebook.DataAccess.Model;
 
-using Fakebook.Domain.Extensions.ObjectExtensions;
+using Fakebook.Domain.Extension;
 
 using Microsoft.EntityFrameworkCore;
 
