@@ -15,6 +15,21 @@ namespace Fakebook.Domain.Repository
         {
             _context = context;
         }
+        public async Task<Post> GetPostById(int id) {
+            var posts = await _context.PostEntities
+                .Include(p => p.User)
+                .Include(p => p.Comments)
+                .Include(p => p.Likes)
+                .ToListAsync();
+
+            if(!posts.Any()) {
+                return null;
+            }
+
+            var post = posts.FirstOrDefault(p => p.Id == id);
+
+            return DbEntityConverter.ToPost(post);
+        }
         public async Task<List<Post>> GetAllPosts()
         {
             var entity = await _context.PostEntities.ToListAsync();
