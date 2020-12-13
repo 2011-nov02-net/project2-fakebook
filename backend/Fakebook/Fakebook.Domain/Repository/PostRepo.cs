@@ -15,6 +15,5 @@ namespace Fakebook.Domain.Repository
         {
             _context = context;
         }
-        public List<PostEntity
     }
 }
