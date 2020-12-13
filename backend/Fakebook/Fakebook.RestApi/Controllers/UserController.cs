@@ -2,6 +2,8 @@
 using Fakebook.Domain.Repository;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Fakebook.RestApi.Controllers
 {
@@ -10,11 +12,12 @@ namespace Fakebook.RestApi.Controllers
     // /api/user
     public class UserController : ControllerBase
     {
-        private readonly IUserRepo _repo;
+        private readonly IUserRepo _userRepo;
+        private readonly IPostRepo _postRepo;
 
         public UserController(IUserRepo repository)
         {
-            _repo = repository;
+            _userRepo = repository;
         }
         /// <summary>
         /// Gets all the users.
@@ -24,19 +27,26 @@ namespace Fakebook.RestApi.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var users = await _repo.GetAllUsersAsync();
+            var users = await _userRepo.GetAllUsersAsync();
             return Ok(users);
         }
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            var user = await _repo.GetUserById(id);
+            var user = await _userRepo.GetUserById(id);
             return Ok(user);
+        }
+        // Gets all posts by a specific user id
+        [HttpGet("{id}/Posts")]
+        public async Task<IActionResult> GetUserPosts(int id)
+        {
+            var posts = await _postRepo.GetPostsByUserId(id);
+            return Ok(posts);
         }
         [HttpPost]
         public async Task<IActionResult> Post(User user)
         {
-            if (await _repo.CreateUser(user))
+            if (await _userRepo.CreateUser(user))
             {
                 return Ok();
             }
@@ -53,7 +63,7 @@ namespace Fakebook.RestApi.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            if (await _repo.DeleteUser(id))
+            if (await _userRepo.DeleteUser(id))
             {
                 return Ok();
             }
@@ -74,7 +84,7 @@ namespace Fakebook.RestApi.Controllers
             // if the id is null switch to bad request
             if ( id == 0 || user.IsValid())
             {
-                await _repo.UpdateUser(id, user);
+                await _userRepo.UpdateUser(id, user);
                 return Ok();
             }
             else
@@ -86,9 +96,53 @@ namespace Fakebook.RestApi.Controllers
         [HttpGet("{email}")]
         public async Task<IActionResult> Get(string email)
         {
-            var user = await _repo.GetUserByEmail(email);
+            var user = await _userRepo.GetUserByEmail(email);
             return Ok(user);
         }
         */
+        [HttpGet("{id}/Newsfeed")]
+        public async Task<IActionResult> GetNewsfeedPosts(int id)
+        {
+            var currentUser = await _userRepo.GetUserById(id);
+            var result = new List<Post>();
+            var userPosts = currentUser.Posts.OrderBy(p => p.CreatedAt).ToList();
+            if (userPosts.Count < 3) // Check for any self user posts to include in newsfeed
+            {
+                foreach (var post in userPosts)
+                {
+                    result.Add(post);
+                }
+            }
+            else
+            {
+                for (var i = 0; i < 3; i++) // Add up to 3 posts from self user to the result
+                {
+                    result.Add(userPosts.ElementAt(i));
+                }
+            }
+            foreach (var followee in currentUser.Followees) // Iterate through list of people user follows
+            {
+                if (followee.Posts != null) // Check if the followee has made any posts
+                {
+                    var followeePosts = followee.Posts.OrderBy(p => p.CreatedAt).ToList();
+                    if (followeePosts.Count < 3) // If followee has less than 3 posts, add all posts to result
+                    {
+                        foreach (var post in followeePosts)
+                        {
+                            result.Add(post);
+                        }
+                    }
+                    else
+                    {
+                        for (var i = 0; i < 3; i++) // Add up to 3 posts from the followee to the result
+                        {
+                            result.Add(followeePosts.ElementAt(i));
+                        }
+                    }
+                }
+            }
+            result.OrderBy(p => p.CreatedAt); // Order list by the date the posts were created
+            return Ok(result);
+        }
     }
 }
