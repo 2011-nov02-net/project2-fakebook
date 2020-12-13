@@ -3,12 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Fakebook.DataAccess.Model;
+using Fakebook.Domain.Extension;
 
 namespace Fakebook.Domain
 {
     public static class DbEntityConverter
     {
         public static UserEntity ToUserEntity(User user) {
+            user.NullCheck(nameof(user));
+            user.Followees.NullCheck(nameof(user.Followees));
+            user.Followers.NullCheck(nameof(user.Followers));
+
             // this would presume that .Include/.ThenInclude was called
 
             List<FollowEntity> followees = null;
@@ -57,6 +62,9 @@ namespace Fakebook.Domain
         }
 
         public static User ToUser(UserEntity userEntity) {
+            userEntity.NullCheck(nameof(userEntity));
+            userEntity.Followees.NullCheck(nameof(userEntity.Followees));
+            userEntity.Followers.NullCheck(nameof(userEntity.Followers));
 
             List<User> followees = null;
             List<User> followers = null;
@@ -160,19 +168,68 @@ namespace Fakebook.Domain
         }
 
         public static CommentEntity ToCommentEntity(Comment comment) {
-            return default;
+            comment.NullCheck(nameof(comment));
+            comment.User.NullCheck(nameof(comment.User));
+
+            return new CommentEntity
+            {
+                Id = comment.Id,
+                UserId = comment.User.Id,
+                PostId = comment.Post.Id,
+                ParentId = comment.ParentComment?.Id,
+                CreatedAt = comment.CreatedAt,
+                Content = comment.Content,
+                User = ToUserEntity(comment.User)
+            };
         }
 
         public static Comment ToComment(CommentEntity commentEntity) {
-            return default;
+            commentEntity.NullCheck(nameof(commentEntity));
+            commentEntity.Post.NullCheck(nameof(commentEntity.Post));
+            commentEntity.User.NullCheck(nameof(commentEntity.User));
+
+            var parentComment = commentEntity.ParentComment is not null
+                ? ToComment(commentEntity.ParentComment)
+                : null;
+
+            return new Comment
+            {
+                Id = commentEntity.Id,
+                Content = commentEntity.Content,
+                CreatedAt = commentEntity.CreatedAt,
+                Post = ToPost(commentEntity.Post),
+                User = ToUser(commentEntity.User),
+            #pragma warning This could cause an issue with recursion, although it only goes until this is null
+                ParentComment = parentComment
+            };
         }
 
         public static List<FollowEntity> ToFollowEntities(User user) {
-            return default;
+            user.NullCheck(nameof(user));
+            user.Followers.NullCheck(nameof(user.Followers));
+
+            return user.Followers.Select(u => {
+                return new FollowEntity
+                {
+                    FollowerId = u.Id,
+                    FolloweeId = user.Id
+                };
+            })
+            .ToList();
         }
 
         public static List<LikeEntity> ToLikeEntities(Post post) {
-            return default;
+            post.NullCheck(nameof(post));
+            post.LikedByUsers.NullCheck(nameof(post.LikedByUsers));
+
+            return post.LikedByUsers.Select(u => {
+                return new LikeEntity
+                {
+                    UserId = u.Id,
+                    PostId = post.Id
+                };
+            })
+            .ToList();
         }
     }
 }
