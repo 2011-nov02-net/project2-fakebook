@@ -1,13 +1,18 @@
 UserController:
-    users/                      => create a user
-    users/{id}                  => [get, update, delete] a user by user id
-    users/{id}/posts            => get user's posts by user id
-    users/{id}/newsfeed         => get user's newsfeed by user id
+    [post]              users/                      => create a user
+    [get]               users/{id}                  => get a user by id
+    [put]               users/{id}                  => update a user by id
+    [delete]            users/{id}                  => delete a user by id
+    [get]               users/{id}/posts            => get user's posts by user id
+    [get]               users/{id}/newsfeed         => get user's newsfeed by user id
 
 PostController:
-    posts/                      => create a post
-    posts/{id}                  => [get, update, delete] a post by post id
-    posts/{id}/comment          => get post's comments by post id or create a comment on a post
-    posts/{id}/comment/{id}     => get specific comment by post id and comment id
-    posts/{id}/like/{user-id}   => set user to like a post by post id and user id
-    posts/{id}/unlike/{user-id} => set user to unlike a post by post id and user id
+    [post]              posts/                      => create a post
+    [get]               posts/{id}                  => get a post by id
+    [put]               posts/{id}                  => update a post by id
+    [delete]            posts/{id}                  => delete a post by id
+    [post]              posts/{id}/comment          => create a comment on a post
+    [get]               posts/{id}/comment          => get post's comments by post id
+    [get]               posts/{id}/comment/{id}     => get specific comment by post id and comment id
+    [post]              posts/{id}/like/{user-id}   => set user to like a post by post id and user id
+    [post]              posts/{id}/unlike/{user-id} => set user to unlike a post by post id and user id
