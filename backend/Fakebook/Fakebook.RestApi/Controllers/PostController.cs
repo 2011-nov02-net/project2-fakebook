@@ -34,16 +34,31 @@ namespace Fakebook.RestApi.Controllers
             var posts = await _postRepo.GetPostsByUserId(id);
             return Ok(posts);
         }
-        [HttpGet]
+        [HttpGet("{id}/newsfeed")]
         public async Task<IActionResult> GetNewsfeedPosts(int id)
         {
             var currentUser = await _userRepo.GetUserById(id);
             var result = new List<Post>();
-            foreach(var followee in currentUser.Followees) // Iterate through list of people user follows
+            var userPosts = currentUser.Posts.OrderBy(p => p.CreatedAt).ToList();
+            if (userPosts.Count < 3) // Check for any self user posts to include in newsfeed
+            {
+                foreach (var post in userPosts)
+                {
+                    result.Add(post);
+                }
+            }
+            else
+            {
+                for (var i = 0; i < 3; i++) // Add up to 3 posts from self user to the result
+                {
+                    result.Add(userPosts.ElementAt(i));
+                }
+            }
+            foreach (var followee in currentUser.Followees) // Iterate through list of people user follows
             {
                 if (followee.Posts != null) // Check if the followee has made any posts
                 {
-                    var followeePosts = followee.Posts;
+                    var followeePosts = followee.Posts.OrderBy(p => p.CreatedAt).ToList();
                     if (followeePosts.Count < 3) // If followee has less than 3 posts, add all posts to result
                     {
                         foreach (var post in followeePosts)
