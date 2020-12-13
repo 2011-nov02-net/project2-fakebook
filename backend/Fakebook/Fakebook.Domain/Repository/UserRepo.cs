@@ -34,7 +34,7 @@ namespace Fakebook.Domain.Repository
         public async Task<IEnumerable<User>> GetAllUsersAsync()
         {
             var entities = await _context.UserEntities.ToListAsync();
-            var users = entities.Select(e => DbEntityConverter.ToUser(e));
+            var users = entities.Select(e => DbEntityConverter.ToUser(e)); // turn into a list.
             return users;
         }
         /// <summary>
@@ -55,5 +55,75 @@ namespace Fakebook.Domain.Repository
             var user = DbEntityConverter.ToUser(entity); // turn into a user
             return user;
         }
+        /// <summary>
+        /// try to create a user if it goes through return a true otherwise return a flase
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public async Task<bool> CreateUser(User user)
+        {
+            var newUser = DbEntityConverter.ToUserEntity(user); // convert
+            try
+            {
+                await _context.AddAsync(newUser);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+
+        }
+        /// <summary>
+        /// Find a user then delete them. Added a catch block in case it didn't wrok
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<bool> DeleteUser(int id)
+        {
+            try
+            {
+                var entity = await _context.UserEntities.FindAsync(id);
+                _context.UserEntities.Remove(entity);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch
+            {
+                Console.WriteLine("Invalid user");
+                return false;
+            }
+
+        }
+        /// <summary>
+        /// convert to user entity then save changes.
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public async Task<bool> UpdateUser(User user)
+        {
+            try
+            {
+                var entityUser = DbEntityConverter.ToUserEntity(user);
+                /*
+                entityUser.FirstName = user.FirstName;
+                entityUser.ProfilePictureUrl = user.ProfilePictureUrl;
+                entityUser.PhoneNumber = user.PhoneNumber;
+                entityUser.Status = user.Status;
+                entityUser.BirthDate = user.BirthDate;
+                */
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+
+        }
+
+
+
     }
 }
