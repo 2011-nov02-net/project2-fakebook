@@ -115,13 +115,10 @@ namespace Fakebook.Domain
                     })
                     .ToList();
             }
-
             if (post.LikedByUsers.Any())
             {
                 likes = ToLikeEntities(post);
             }
-
-
             return new PostEntity
             {
                 Id = post.Id,
@@ -135,7 +132,31 @@ namespace Fakebook.Domain
         }
 
         public static Post ToPost(PostEntity postEntity) {
-            return default;
+            List<Comment> comments = null;
+            List<User> users = null;
+
+            if (postEntity.Comments.Any())
+            {
+                comments = postEntity.Comments
+                    .Select(c => ToComment(c))
+                    .ToList();
+            }
+            if (postEntity.Likes.Any())
+            {
+                users = postEntity.Likes
+                    .Select(l => ToUser(l.User))
+                    .ToList();
+            }
+            return new Post
+            {
+                Id = postEntity.Id,
+                Content = postEntity.Content,
+                Picture = postEntity.Picture,
+                CreatedAt = postEntity.CreatedAt,
+                User = ToUser(postEntity.User),
+                LikedByUsers = users,
+                Comments = comments
+            };
         }
 
         public static CommentEntity ToCommentEntity(Comment comment) {

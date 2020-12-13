@@ -15,9 +15,10 @@ namespace Fakebook.Domain.Repository
         {
             _context = context;
         }
-        public async Task<List<PostEntity>> GetAllPostsAsync()
+        public async Task<List<Post>> GetAllPostsAsync()
         {
-            var posts = await _context.PostEntities.Select(e => DbEntityConverter.ToPost(e));
+            var entity = await _context.PostEntities.ToListAsync();
+            var posts = entity.Select(e => DbEntityConverter.ToPost(e)).ToList();
             return posts;
         }
     }
