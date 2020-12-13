@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Fakebook.DataAccess.Model;
 
-namespace Fakebook.DataAccess.Model.Repository
+namespace Fakebook.Domain.Repository
 {
 
     public class UserRepo : IUserRepo
@@ -20,7 +21,7 @@ namespace Fakebook.DataAccess.Model.Repository
         /// Get all users
         /// </summary>
         /// <returns></returns>
-        public List<UserEntity> GetAllUsers()
+        public List<User> GetAllUsers()
         {
             var entity = _context.UserEntities.ToList();
             return entity;
@@ -29,7 +30,7 @@ namespace Fakebook.DataAccess.Model.Repository
         /// Get all users asyncronously
         /// </summary>
         /// <returns></returns>
-        public async Task<List<UserEntity>> GetAllUsersAsync()
+        public async Task<List<User>> GetAllUsersAsync()
         {
             var entity = await _context.UserEntities.ToListAsync();
             return entity;
@@ -39,13 +40,13 @@ namespace Fakebook.DataAccess.Model.Repository
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<UserEntity> GetUserById(int id)
+        public async Task<User> GetUserById(int id)
         {
             var entity = await _context.UserEntities.FindAsync(id);
             return entity;
         }
 
-        public async Task<UserEntity> GetUserByEmail(string email)
+        public async Task<User> GetUserByEmail(string email)
         {
             var entity = await _context.UserEntities.Where(e => e.Email == email).FirstOrDefaultAsync();
             return entity;
