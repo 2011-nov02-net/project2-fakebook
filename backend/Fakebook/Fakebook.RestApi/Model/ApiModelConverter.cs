@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 using Fakebook.Domain;
 using Fakebook.Domain.Extension;
@@ -12,14 +13,23 @@ namespace Fakebook.RestApi.Model
             apiModel.Content.NullOrEmptyCheck(nameof(apiModel.Content));
 
             var user = userRepo.GetUserById(apiModel.UserId).Result;
+            List<Comment> comments = null;
+            List<User> likedByUsers = null;
 
-            var likedByUsers = userRepo.GetUsersByIds(apiModel.LikedByUserIds)
-                .Result
-                .ToList();
+            if(apiModel.CommentIds is not null && apiModel.CommentIds.Any()) {
+                comments = commentRepo.GetCommentsByIdsAsync(apiModel.CommentIds)
+                    .Result
+                    .ToList();
+            }
 
-            var comments = commentRepo.GetCommentsByIdsAsync(apiModel.CommentIds)
-                .Result
-                .ToList();
+            if(apiModel.LikedByUserIds is not null && apiModel.LikedByUserIds.Any()) {
+                likedByUsers = userRepo.GetUsersByIds(apiModel.LikedByUserIds)
+                    .Result
+                    .ToList();
+            }
+
+            comments ??= new List<Comment>();
+            likedByUsers ??= new List<User>();
 
             return new Post
             {
@@ -38,13 +48,23 @@ namespace Fakebook.RestApi.Model
             apiModel.LastName.NullOrEmptyCheck(nameof(apiModel.LastName));
             apiModel.Email.NullOrEmptyCheck(nameof(apiModel.Email));
 
-            var followers = userRepo.GetUsersByIds(apiModel.FollowerIds)
-                .Result
-                .ToList();
+            List<User> followers = null;
+            List<User> followees = null;
 
-            var followees = userRepo.GetUsersByIds(apiModel.FolloweeIds)
-                .Result
-                .ToList();
+            if(apiModel.FolloweeIds is not null && apiModel.FolloweeIds.Any()) {
+                followees = userRepo.GetUsersByIds(apiModel.FolloweeIds)
+                    .Result
+                    .ToList();
+            }
+
+            if(apiModel.FollowerIds is not null && apiModel.FollowerIds.Any()) {
+                followers = userRepo.GetUsersByIds(apiModel.FollowerIds)
+                    .Result
+                    .ToList();
+            }
+
+            followees ??= new List<User>();
+            followers ??= new List<User>();
 
             return new User
             {
@@ -63,16 +83,26 @@ namespace Fakebook.RestApi.Model
 
         public static Comment ToComment(ICommentRepo commentRepo, IUserRepo userRepo, IPostRepo postRepo, CommentApiModel apiModel) {
             apiModel.Content.NullOrEmptyCheck(nameof(apiModel.Content));
-
+            
             var user = userRepo.GetUserById(apiModel.UserId)
                 .Result;
+
+            user.NullCheck(nameof(user));
 
             var post = postRepo.GetPostById(apiModel.PostId)
                 .Result;
 
-            var childComments = commentRepo.GetCommentsByIdsAsync(apiModel.ChildCommentIds)
-                .Result
-                .ToList();
+            post.NullCheck(nameof(user));
+
+            List<Comment> childComments = null;
+
+            if(apiModel.ChildCommentIds is not null && apiModel.ChildCommentIds.Any()) {
+                childComments = commentRepo.GetCommentsByIdsAsync(apiModel.ChildCommentIds)
+                    .Result
+                    .ToList();
+            }
+
+            childComments ??= new List<Comment>();
 
             return new Comment
             {
