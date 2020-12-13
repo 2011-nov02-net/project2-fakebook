@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Fakebook.DataAccess.Model;
+using Fakebook.Domain.Extension;
 
 namespace Fakebook.Domain
 {
     public static class DbEntityConverter
     {
         public static UserEntity ToUserEntity(User user) {
+            user.NullCheck(nameof(user));
+
             // this would presume that .Include/.ThenInclude was called
 
             List<FollowEntity> followees = null;
@@ -57,6 +60,7 @@ namespace Fakebook.Domain
         }
 
         public static User ToUser(UserEntity userEntity) {
+            userEntity.NullCheck(nameof(userEntity));
 
             List<User> followees = null;
             List<User> followers = null;
@@ -104,6 +108,8 @@ namespace Fakebook.Domain
         }
 
         public static CommentEntity ToCommentEntity(Comment comment) {
+            comment.NullCheck(nameof(comment));
+
             return new CommentEntity
             {
                 Id = comment.Id,
@@ -117,6 +123,8 @@ namespace Fakebook.Domain
         }
 
         public static Comment ToComment(CommentEntity commentEntity) {
+            commentEntity.NullCheck(nameof(commentEntity));
+
             return new Comment
             {
                 Id = commentEntity.Id,
@@ -130,6 +138,8 @@ namespace Fakebook.Domain
         }
 
         public static List<FollowEntity> ToFollowEntities(User user) {
+            user.NullCheck(nameof(user));
+
             return user.Followers.Select(u => {
                 return new FollowEntity
                 {
@@ -141,6 +151,8 @@ namespace Fakebook.Domain
         }
 
         public static List<LikeEntity> ToLikeEntities(Post post) {
+            post.NullCheck(nameof(post));
+
             return post.LikedByUsers.Select(u => {
                 return new LikeEntity
                 {
