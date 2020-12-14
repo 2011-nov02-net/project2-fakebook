@@ -37,7 +37,7 @@ namespace Fakebook.Domain.Repository
                 .ToList();
         }
 
-        public async Task<Comment> GetCommentByIdAsync(int id) {
+        public async Task<Comment> GetCommentByIdAsync(int userId) {
             var comments = await _context.CommentEntities
                 .Include(c => c.Post)
                 .Include(c => c.User)
