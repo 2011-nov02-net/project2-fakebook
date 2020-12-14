@@ -154,24 +154,43 @@ namespace Fakebook.Domain
             if (postEntity.Comments.Any())
             {
                 var comments = postEntity.Comments;
-                foreach(var comment in comments)
+                foreach (var comment in comments) // See if there are any comments for the post
                 {
                     var newComment = new Comment()
                     {
                         Id = comment.Id,
                         Content = comment.Content,
-                        
+                        User = new User()
+                        {
+                            Id = comment.User.Id,
+                            ProfilePictureUrl = comment.User.ProfilePictureUrl,
+                            FirstName = comment.User.FirstName,
+                            LastName = comment.User.LastName
+                        },
+                        CreatedAt = comment.CreatedAt,
+                        ChildrenComments = new List<Comment>()
                     };
+                    if (comment.ChildrenComments != null)
+                    {
+                        foreach(var child in comment.ChildrenComments)
+                        {
+                            var newChild = new Comment()
+                            {
+                                Id = child.Id,
+                                Content = child.Content,
+                                User = new User()
+                                {
+                                    Id = child.User.Id,
+                                    ProfilePictureUrl = child.User.ProfilePictureUrl,
+                                    FirstName = child.User.FirstName,
+                                    LastName = child.User.LastName
+                                }
+                            };
+                            newComment.ChildrenComments.Add(newChild);
+                        }
+                    }
                     result.Comments.Add(newComment);
                 }
-                //var comments = postEntity.Comments
-                //    .Select(c => ToComment(c))
-                //    .ToList();
-                //foreach (var comment in comments)
-                //{
-                //    var newComment = ToComment(comment);
-                //    result.Comments.Add(newComment);
-                //}
             }
             if (postEntity.Likes.Any())
             {
@@ -180,19 +199,13 @@ namespace Fakebook.Domain
                 {
                     var newUser = new User()
                     {
-                        Id = like.Post.User.Id,
-                        FirstName = like.Post.User.FirstName,
-                        LastName = like.Post.User.LastName
+                        Id = like.User.Id,
+                        ProfilePictureUrl = like.User.ProfilePictureUrl,
+                        FirstName = like.User.FirstName,
+                        LastName = like.User.LastName
                     };
                     result.LikedByUsers.Add(newUser);
                 };
-                //var users = postEntity.Likes
-                //    .Select(l => ToUser(l.User))
-                //    .ToList();
-                //foreach (var user in users)
-                //{
-                //    result.LikedByUsers.Add(user);
-                //}
             }
             return result;
         }
@@ -259,6 +272,17 @@ namespace Fakebook.Domain
                 };
             })
             .ToList();
+        }
+        // Recursive
+        public static List<CommentEntity> GetChildComments(CommentEntity comment)
+        {
+            var result = new List<CommentEntity>();
+            result.Add(comment);
+            foreach (var child in comment.ChildrenComments)
+            {
+                result.AddRange(GetChildComments(child));
+            }
+            return result;
         }
     }
 }
