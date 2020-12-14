@@ -15,25 +15,56 @@ namespace Fakebook.Domain.Repository
         {
             _context = context;
         }
-        public async Task<List<Post>> GetAllPosts()
+        public async Task<Post> GetPostByIdAsync(int id) {
+            var posts = await _context.PostEntities
+                .Include(p => p.User)
+                .Include(p => p.Comments)
+                    .ThenInclude(c => c.User)
+                .Include(p => p.Likes)
+                .ToListAsync();
+
+            if(!posts.Any()) {
+                return null;
+            }
+
+            var post = posts.FirstOrDefault(p => p.Id == id);
+
+            return DbEntityConverter.ToPost(post);
+        }
+        public async Task<List<Post>> GetAllPostsAsync()
         {
-            var entity = await _context.PostEntities.ToListAsync();
+            var entity = await _context.PostEntities
+                .Include(e => e.User)
+                .Include(e => e.Comments)
+                .Include(e => e.Likes)
+                .ToListAsync();
+
+            var posts = entity
+                .Select(e => DbEntityConverter.ToPost(e))
+                .ToList();
+            return posts;
+        }
+        public async Task<List<Post>> GetPostsByIdAsync(int id)
+        {
+            var entity = await _context.PostEntities
+                .Where(e => e.Id == id)
+                .Include(e => e.User)
+                .Include(e => e.Comments)
+                .Include(e => e.Likes)
+                .ToListAsync();
+
+            var posts = entity
+                .Select(e => DbEntityConverter.ToPost(e))
+                .ToList();
+            return posts;
+        }
+        public async Task<List<Post>> GetPostsByUserIdAsync(int id)
+        {
+            var entity = await _context.PostEntities.Where(e => e.UserId == id).Include(e => e.User).Include(e => e.Comments).Include(e => e.Likes).ToListAsync();
             var posts = entity.Select(e => DbEntityConverter.ToPost(e)).ToList();
             return posts;
         }
-        public async Task<List<Post>> GetPostsById(int id)
-        {
-            var entity = await _context.PostEntities.Where(e => e.Id == id).ToListAsync();
-            var posts = entity.Select(e => DbEntityConverter.ToPost(e)).ToList();
-            return posts;
-        }
-        public async Task<List<Post>> GetPostsByUserId(int id)
-        {
-            var entity = await _context.PostEntities.Where(e => e.UserId == id).ToListAsync();
-            var posts = entity.Select(e => DbEntityConverter.ToPost(e)).ToList();
-            return posts;
-        }
-        public async Task<bool> CreatePost(Post post)
+        public async Task<bool> CreatePostAsync(Post post)
         {
             var newPost = DbEntityConverter.ToPostEntity(post);
             try
@@ -47,7 +78,7 @@ namespace Fakebook.Domain.Repository
                 return false;
             }
         }
-        public async Task<bool> UpdatePost(Post post)
+        public async Task<bool> UpdatePostAsync(Post post)
         {
             try
             {
@@ -61,7 +92,7 @@ namespace Fakebook.Domain.Repository
                 return false;
             }
         }
-        public async Task<bool> DeletePost(int id)
+        public async Task<bool> DeletePostAsync(int id)
         {
             try
             {

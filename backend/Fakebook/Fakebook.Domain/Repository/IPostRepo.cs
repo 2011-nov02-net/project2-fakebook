@@ -5,11 +5,12 @@ namespace Fakebook.Domain.Repository
 {
     public interface IPostRepo
     {
-        Task<bool> CreatePost(Post post);
-        Task<bool> DeletePost(int id);
-        Task<List<Post>> GetAllPosts();
-        Task<List<Post>> GetPostsById(int id);
-        Task<List<Post>> GetPostsByUserId(int id);
-        Task<bool> UpdatePost(Post post);
+        Task<bool> CreatePostAsync(Post post);
+        Task<bool> DeletePostAsync(int id);
+        Task<Post> GetPostByIdAsync(int id);
+        Task<List<Post>> GetAllPostsAsync();
+        Task<List<Post>> GetPostsByIdAsync(int id);
+        Task<List<Post>> GetPostsByUserIdAsync(int id);
+        Task<bool> UpdatePostAsync(Post post);
     }
 }
