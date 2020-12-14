@@ -12,7 +12,7 @@ namespace Fakebook.RestApi.Model
         public static Post ToPost(IUserRepo userRepo, ICommentRepo commentRepo, PostApiModel apiModel) {
             apiModel.Content.NullOrEmptyCheck(nameof(apiModel.Content));
 
-            var user = userRepo.GetUserById(apiModel.UserId).Result;
+            var user = userRepo.GetUserByIdAsync(apiModel.UserId).Result;
             List<Comment> comments = null;
             List<User> likedByUsers = null;
 
@@ -23,7 +23,7 @@ namespace Fakebook.RestApi.Model
             }
 
             if(apiModel.LikedByUserIds is not null && apiModel.LikedByUserIds.Any()) {
-                likedByUsers = userRepo.GetUsersByIds(apiModel.LikedByUserIds)
+                likedByUsers = userRepo.GetUsersByIdsAsync(apiModel.LikedByUserIds)
                     .Result
                     .ToList();
             }
@@ -52,13 +52,13 @@ namespace Fakebook.RestApi.Model
             List<User> followees = null;
 
             if(apiModel.FolloweeIds is not null && apiModel.FolloweeIds.Any()) {
-                followees = userRepo.GetUsersByIds(apiModel.FolloweeIds)
+                followees = userRepo.GetUsersByIdsAsync(apiModel.FolloweeIds)
                     .Result
                     .ToList();
             }
 
             if(apiModel.FollowerIds is not null && apiModel.FollowerIds.Any()) {
-                followers = userRepo.GetUsersByIds(apiModel.FollowerIds)
+                followers = userRepo.GetUsersByIdsAsync(apiModel.FollowerIds)
                     .Result
                     .ToList();
             }
@@ -84,12 +84,12 @@ namespace Fakebook.RestApi.Model
         public static Comment ToComment(ICommentRepo commentRepo, IUserRepo userRepo, IPostRepo postRepo, CommentApiModel apiModel) {
             apiModel.Content.NullOrEmptyCheck(nameof(apiModel.Content));
             
-            var user = userRepo.GetUserById(apiModel.UserId)
+            var user = userRepo.GetUserByIdAsync(apiModel.UserId)
                 .Result;
 
             user.NullCheck(nameof(user));
 
-            var post = postRepo.GetPostById(apiModel.PostId)
+            var post = postRepo.GetPostByIdAsync(apiModel.PostId)
                 .Result;
 
             post.NullCheck(nameof(user));

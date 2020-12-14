@@ -63,7 +63,7 @@ namespace Fakebook.UnitTests.Repository.Post
             var mockRepository = new Mock<IUserRepo>();
             var p = GetDatabaseSession();
             // create a moq that returns users
-            mockRepository.Setup(r => r.GetUserById(1)).ReturnsAsync(p.First);
+            mockRepository.Setup(r => r.GetUserByIdAsync(1)).ReturnsAsync(p.First);
 
             // make a controller using my Mock
             var controller = new UserController(mockRepository.Object);
