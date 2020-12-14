@@ -46,7 +46,7 @@ namespace Fakebook.Domain.Repository
                     .ThenInclude(c => c.User)
                 .ToListAsync();
 
-            var item = comments.FirstOrDefault(c => c.Id == id);
+            var item = comments.FirstOrDefault(c => c.Id == userId);
 
             if (!comments.Any()) {
                 return null;
