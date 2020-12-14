@@ -53,7 +53,7 @@ namespace Fakebook.Domain
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Email = user.Email,
-                PhoneNumber = user.PhoneNumber,
+                PhoneNumber = user.PhoneNumber, 
                 BirthDate = user.BirthDate,
                 Status = user.Status,
                 Followees = followees,
