@@ -7,9 +7,9 @@ namespace Fakebook.Domain.Repository
     {
         Task<bool> CreateAsync(Comment comment);
         Task<bool> DeleteAsync(int id);
-        Task<List<Comment>> GetAllAsync();
+        Task<IEnumerable<Comment>> GetAllAsync();
         Task<Comment> GetCommentByIdAsync(int id);
-        Task<List<Comment>> GetCommentsByIdsAsync(ICollection<int> ids);
+        Task<IEnumerable<Comment>> GetCommentsByIdsAsync(ICollection<int> ids);
         Task<bool> UpdateAsync(Comment comment);
     }
 }

@@ -74,7 +74,7 @@ namespace Fakebook.Domain.Repository
                 .ToList();
         }
 
-        public async Task<List<Comment>> GetCommentsByUserId(int userId) {
+        public async Task<IEnumerable<Comment>> GetCommentsByUserId(int userId) {
             var comments = _context.CommentEntities
                 .Include(c => c.Post)
                 .Include(c => c.User)
@@ -91,7 +91,7 @@ namespace Fakebook.Domain.Repository
                 .Select(c => DbEntityConverter.ToComment(c, 2));
         }
 
-        public async Task<List<Comment>> GetCommentsByPostId(int postId) {
+        public async Task<IEnumerable<Comment>> GetCommentsByPostId(int postId) {
             var comments = _context.CommentEntities
                 .Include(c => c.Post)
                 .Include(c => c.User)
