@@ -19,9 +19,5 @@ namespace Fakebook.Domain
 
         public ICollection<User> LikedByUsers { get; set; }
         public ICollection<Comment> Comments { get; set; }
-        public bool IsValid()
-        {
-            return (Id != 0 & !String.IsNullOrEmpty(Content));
-        }
     }
 }

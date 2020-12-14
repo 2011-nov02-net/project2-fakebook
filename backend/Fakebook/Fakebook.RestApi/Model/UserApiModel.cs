@@ -1,17 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
-namespace Fakebook.Domain
+namespace Fakebook.RestApi.Model
 {
-    public class User
+    public class UserApiModel
     {
-        public User() {
-            Posts = new List<Post>();
-            Followers = new List<User>();
-            Followees = new List<User>();
-        }
-
         public int Id { get; set; }
         public string ProfilePictureUrl { get; set; }
         public string FirstName { get; set; }
@@ -20,8 +13,8 @@ namespace Fakebook.Domain
         public string PhoneNumber { get; set; }
         public DateTime BirthDate { get; set; }
         public string Status { get; set; }
-        public ICollection<User> Followees { get; set; }
-        public ICollection<User> Followers { get; set; }
-        public ICollection<Post> Posts { get; set; }
+
+        public List<int> FollowerIds { get; set; }
+        public List<int> FolloweeIds { get; set; }
     }
 }

@@ -19,7 +19,7 @@ namespace Fakebook.Domain.Repository
             _context = context;
         }
 
-        public async Task<List<Comment>> GetAllAsync() {
+        public async Task<IEnumerable<Comment>> GetAllAsync() {
             var comments = await _context.CommentEntities
                 .Include(c => c.Post)
                 .Include(c => c.User)
@@ -37,7 +37,7 @@ namespace Fakebook.Domain.Repository
                 .ToList();
         }
 
-        public async Task<Comment> GetCommentByIdAsync(int id) {
+        public async Task<Comment> GetCommentByIdAsync(int userId) {
             var comments = await _context.CommentEntities
                 .Include(c => c.Post)
                 .Include(c => c.User)
@@ -46,7 +46,7 @@ namespace Fakebook.Domain.Repository
                     .ThenInclude(c => c.User)
                 .ToListAsync();
 
-            var item = comments.FirstOrDefault(c => c.Id == id);
+            var item = comments.FirstOrDefault(c => c.Id == userId);
 
             if (!comments.Any()) {
                 return null;
@@ -55,7 +55,7 @@ namespace Fakebook.Domain.Repository
             return DbEntityConverter.ToComment(item);
         }
 
-        public async Task<List<Comment>> GetCommentsByIdsAsync(ICollection<int> ids) {
+        public async Task<IEnumerable<Comment>> GetCommentsByIdsAsync(ICollection<int> ids) {
             var comments = await _context.CommentEntities
                 .Include(c => c.Post)
                 .Include(c => c.User)
@@ -70,11 +70,10 @@ namespace Fakebook.Domain.Repository
 
             return comments
                 .Where(c => ids.Contains(c.Id))
-                .Select(c => DbEntityConverter.ToComment(c))
-                .ToList();
+                .Select(c => DbEntityConverter.ToComment(c));
         }
 
-        public async Task<List<Comment>> GetCommentsByUserId(int userId) {
+        public async Task<IEnumerable<Comment>> GetCommentsByUserIdAsync(int userId) {
             var comments = _context.CommentEntities
                 .Include(c => c.Post)
                 .Include(c => c.User)
@@ -88,11 +87,10 @@ namespace Fakebook.Domain.Repository
 
             return comments
                 .Where(c => c.UserId == userId)
-                .Select(c => DbEntityConverter.ToComment(c))
-                .ToList();
+                .Select(c => DbEntityConverter.ToComment(c));
         }
 
-        public async Task<List<Comment>> GetCommentsByPostId(int postId) {
+        public async Task<IEnumerable<Comment>> GetCommentsByPostIdAsync(int postId) {
             var comments = _context.CommentEntities
                 .Include(c => c.Post)
                 .Include(c => c.User)
@@ -106,8 +104,7 @@ namespace Fakebook.Domain.Repository
 
             return comments
                 .Where(c => c.PostId == postId)
-                .Select(c => DbEntityConverter.ToComment(c))
-                .ToList();
+                .Select(c => DbEntityConverter.ToComment(c));
         }
 
         public async Task<bool> CreateAsync(Comment comment) {
