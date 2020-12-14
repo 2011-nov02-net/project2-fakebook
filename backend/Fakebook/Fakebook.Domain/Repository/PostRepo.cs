@@ -42,7 +42,6 @@ namespace Fakebook.Domain.Repository
             var posts = entity
                 .Select(e => DbEntityConverter.ToPost(e))
                 .ToList();
-
             return posts;
         }
         public async Task<List<Post>> GetPostsByIdAsync(int id)
@@ -57,7 +56,6 @@ namespace Fakebook.Domain.Repository
             var posts = entity
                 .Select(e => DbEntityConverter.ToPost(e))
                 .ToList();
-
             return posts;
         }
         public async Task<List<Post>> GetPostsByUserIdAsync(int id)

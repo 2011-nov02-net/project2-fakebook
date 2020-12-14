@@ -21,8 +21,7 @@ namespace Fakebook.RestApi.Controllers
             _userRepo = userRepo;
             _commentRepo = commentRepo;
         }
-
-        // Gets all posts. Use this for newsfeed
+        
         [HttpGet]
         public async Task<IActionResult> Get()
         {

@@ -18,7 +18,6 @@ namespace Fakebook.Domain.Repository
         public CommentRepo(FakebookContext context) {
             _context = context;
         }
-
         public async Task<IEnumerable<Comment>> GetAllAsync() {
             var comments = await _context.CommentEntities
                 .Include(c => c.Post)

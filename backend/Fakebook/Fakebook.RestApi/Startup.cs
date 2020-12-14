@@ -35,7 +35,6 @@ namespace Fakebook.RestApi
             services.AddScoped<IUserRepo, UserRepo>();
             services.AddScoped<IPostRepo, PostRepo>();
             services.AddScoped<ICommentRepo, CommentRepo>();
-
             services.AddControllers();
             services.AddSwaggerGen(c => {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Fakebook.RestApi", Version = "v1" });

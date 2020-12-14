@@ -4,6 +4,7 @@ using System.Linq;
 
 using Fakebook.DataAccess.Model;
 using Fakebook.Domain.Extension;
+using Fakebook.Domain.Repository;
 
 namespace Fakebook.Domain
 {
@@ -152,39 +153,74 @@ namespace Fakebook.Domain
             };
         }
 
-        public static Post ToPost(PostEntity postEntity, int rabbitHoles = 0) {
-            List<Comment> comments = null;
-            List<User> users = null;
-
-            if (rabbitHoles > 0) {
-                if (postEntity.Comments.Any()) {
-                    comments = postEntity.Comments
-                        .Select(c => ToComment(c, rabbitHoles - 1))
-                        .ToList();
-                }
-
-                if (postEntity.Likes.Any()) {
-                    users = postEntity.Likes
-                        .Select(l => ToUser(l.User, rabbitHoles - 1))
-                        .ToList();
-                }
-            } else if (postEntity is null) {
-
-            }
-
-            comments ??= new List<Comment>();
-            users ??= new List<User>();
-
-            return new Post
+        public static Post ToPost(PostEntity postEntity) {
+            var result = new Post
             {
                 Id = postEntity.Id,
                 Content = postEntity.Content,
                 Picture = postEntity.Picture,
                 CreatedAt = postEntity.CreatedAt,
-                User = ToUser(postEntity.User, rabbitHoles - 1),
-                LikedByUsers = users,
-                Comments = comments
+                User = ToUser(postEntity.User),
+                LikedByUsers = new List<User>(),
+                Comments = new List<Comment>()
             };
+            if (postEntity.Comments.Any())
+            {
+                var comments = postEntity.Comments;
+                foreach (var comment in comments) // See if there are any comments for the post
+                {
+                    var newComment = new Comment()
+                    {
+                        Id = comment.Id,
+                        Content = comment.Content,
+                        User = new User()
+                        {
+                            Id = comment.User.Id,
+                            ProfilePictureUrl = comment.User.ProfilePictureUrl,
+                            FirstName = comment.User.FirstName,
+                            LastName = comment.User.LastName
+                        },
+                        CreatedAt = comment.CreatedAt,
+                        ChildrenComments = new List<Comment>()
+                    };
+                    if (comment.ChildrenComments != null)
+                    {
+                        foreach(var child in comment.ChildrenComments)
+                        {
+                            var newChild = new Comment()
+                            {
+                                Id = child.Id,
+                                Content = child.Content,
+                                User = new User()
+                                {
+                                    Id = child.User.Id,
+                                    ProfilePictureUrl = child.User.ProfilePictureUrl,
+                                    FirstName = child.User.FirstName,
+                                    LastName = child.User.LastName
+                                }
+                            };
+                            newComment.ChildrenComments.Add(newChild);
+                        }
+                    }
+                    result.Comments.Add(newComment);
+                }
+            }
+            if (postEntity.Likes.Any())
+            {
+                var likes = postEntity.Likes;
+                foreach (var like in likes)
+                {
+                    var newUser = new User()
+                    {
+                        Id = like.User.Id,
+                        ProfilePictureUrl = like.User.ProfilePictureUrl,
+                        FirstName = like.User.FirstName,
+                        LastName = like.User.LastName
+                    };
+                    result.LikedByUsers.Add(newUser);
+                };
+            }
+            return result;
         }
 
         public static CommentEntity ToCommentEntity(Comment comment, int rabbitHoles = 0) {
