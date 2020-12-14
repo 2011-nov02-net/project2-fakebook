@@ -7,6 +7,7 @@ namespace Fakebook.Domain.Repository
     {
         Task<bool> CreatePost(Post post);
         Task<bool> DeletePost(int id);
+        Task<Post> GetPostById(int id);
         Task<List<Post>> GetAllPosts();
         Task<List<Post>> GetPostsById(int id);
         Task<List<Post>> GetPostsByUserId(int id);

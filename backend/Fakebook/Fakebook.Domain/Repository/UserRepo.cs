@@ -37,6 +37,28 @@ namespace Fakebook.Domain.Repository
             var users = entities.Select(e => DbEntityConverter.ToUser(e)); // turn into a list.
             return users;
         }
+
+        /// <summary>
+        /// Get a collection of users from a collection of their ids
+        /// </summary>
+        /// <param name="ids"></param>
+        /// <returns></returns>
+        public async Task<IEnumerable<User>> GetUsersByIds(IEnumerable<int> ids) {
+            var users = await _context.UserEntities
+                .Include(u => u.Followees)
+                .Include(u => u.Followers)
+                .ToListAsync();
+
+            if(!ids.Any() || !users.Any()) {
+                return new List<User>();
+            }
+
+            return users
+                .Where(u => ids.Contains(u.Id))
+                .Select(u => DbEntityConverter.ToUser(u))
+                .ToList();
+        }
+
         /// <summary>
         /// Get user by the id that they pass into the conroller
         /// </summary>
