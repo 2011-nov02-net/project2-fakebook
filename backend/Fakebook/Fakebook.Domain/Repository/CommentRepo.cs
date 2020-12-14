@@ -20,13 +20,13 @@ namespace Fakebook.Domain.Repository
         }
 
         public async Task<List<Comment>> GetAllAsync() {
-            if(!await _context.CommentEntities.AnyAsync()) {
-                return new List<Comment>();
-            }
+            //if(!await _context.CommentEntities.AnyAsync()) {
+            //    return new List<Comment>();
+            //}
 
-            return await _context.CommentEntities
-                .Select(c => DbEntityConverter.ToComment(c))
-                .ToListAsync();
+            var entities = await _context.CommentEntities.Include(c => c.User).ToListAsync();
+            var result = entities.Select(e => DbEntityConverter.ToComment(e)).ToList();
+            return result;
         }
 
         public async Task<Comment> GetCommentByIdAsync(int id) {

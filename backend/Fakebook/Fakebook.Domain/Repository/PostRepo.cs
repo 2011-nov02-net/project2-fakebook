@@ -17,19 +17,19 @@ namespace Fakebook.Domain.Repository
         }
         public async Task<List<Post>> GetAllPosts()
         {
-            var entity = await _context.PostEntities.ToListAsync();
+            var entity = await _context.PostEntities.Include(e => e.User).Include(e => e.Comments).Include(e => e.Likes).ToListAsync();
             var posts = entity.Select(e => DbEntityConverter.ToPost(e)).ToList();
             return posts;
         }
         public async Task<List<Post>> GetPostsById(int id)
         {
-            var entity = await _context.PostEntities.Where(e => e.Id == id).ToListAsync();
+            var entity = await _context.PostEntities.Where(e => e.Id == id).Include(e => e.User).Include(e => e.Comments).Include(e => e.Likes).ToListAsync();
             var posts = entity.Select(e => DbEntityConverter.ToPost(e)).ToList();
             return posts;
         }
         public async Task<List<Post>> GetPostsByUserId(int id)
         {
-            var entity = await _context.PostEntities.Where(e => e.UserId == id).ToListAsync();
+            var entity = await _context.PostEntities.Where(e => e.UserId == id).Include(e => e.User).Include(e => e.Comments).Include(e => e.Likes).ToListAsync();
             var posts = entity.Select(e => DbEntityConverter.ToPost(e)).ToList();
             return posts;
         }
