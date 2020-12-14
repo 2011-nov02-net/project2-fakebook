@@ -104,8 +104,8 @@ namespace Fakebook.Domain
         }
     
         public static PostEntity ToPostEntity(Post post) {
-            List<CommentEntity> comments = null;
-            List<LikeEntity> likes = null;
+            List<CommentEntity> comments = new List<CommentEntity>();
+            List<LikeEntity> likes = new List<LikeEntity>();
 
             if (post.Comments.Any())
             {
@@ -140,31 +140,38 @@ namespace Fakebook.Domain
         }
 
         public static Post ToPost(PostEntity postEntity) {
-            List<Comment> comments = null;
-            List<User> users = null;
-
-            if (postEntity.Comments.Any())
-            {
-                comments = postEntity.Comments
-                    .Select(c => ToComment(c))
-                    .ToList();
-            }
-            if (postEntity.Likes.Any())
-            {
-                users = postEntity.Likes
-                    .Select(l => ToUser(l.User))
-                    .ToList();
-            }
-            return new Post
+            var result = new Post
             {
                 Id = postEntity.Id,
                 Content = postEntity.Content,
                 Picture = postEntity.Picture,
                 CreatedAt = postEntity.CreatedAt,
                 User = ToUser(postEntity.User),
-                LikedByUsers = users,
-                Comments = comments
+                LikedByUsers = new List<User>(),
+                Comments = new List<Comment>()
             };
+            //if (postEntity.Comments.Any())
+            //{
+            //    var comments = postEntity.Comments;
+            //        .Select(c => ToComment(c))
+            //        .ToList();
+            //    foreach (var comment in comments)
+            //    {
+            //        var newComment = ToComment(comment);
+            //        result.Comments.Add(newComment);
+            //    }
+            //}
+            //if (postEntity.Likes.Any())
+            //{
+            //    var users = postEntity.Likes
+            //        .Select(l => ToUser(l.User))
+            //        .ToList();
+            //    foreach (var user in users)
+            //    {
+            //        result.LikedByUsers.Add(user);
+            //    }
+            //}
+            return result;
         }
 
         public static CommentEntity ToCommentEntity(Comment comment) {
@@ -199,7 +206,6 @@ namespace Fakebook.Domain
                 CreatedAt = commentEntity.CreatedAt,
                 Post = ToPost(commentEntity.Post),
                 User = ToUser(commentEntity.User),
-            #pragma warning This could cause an issue with recursion, although it only goes until this is null
                 ParentComment = parentComment
             };
         }
