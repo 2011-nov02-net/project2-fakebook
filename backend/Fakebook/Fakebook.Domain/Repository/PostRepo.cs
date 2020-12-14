@@ -17,7 +17,7 @@ namespace Fakebook.Domain.Repository
         }
         public async Task<List<Post>> GetAllPosts()
         {
-            var entity = await _context.PostEntities.Include(e => e.User).Include(e => e.Comments).Include(e => e.Likes).ToListAsync();
+            var entity = await _context.PostEntities.Include(e => e.User).Include(e => e.Comments).Include(e => e.Likes).ThenInclude(e => e.User).ToListAsync();
             var posts = entity.Select(e => DbEntityConverter.ToPost(e)).ToList();
             return posts;
         }

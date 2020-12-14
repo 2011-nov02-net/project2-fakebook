@@ -12,8 +12,7 @@ using System.Linq;
 namespace Fakebook.UnitTests.Repository.Post
 {
     public class PostRepository_ReadTests
-    {
-
+    { 
         /// <summary>
         /// test the results of what happens in Index Display Users
         /// </summary>
@@ -49,7 +48,7 @@ namespace Fakebook.UnitTests.Repository.Post
 
             // make a controller using my mock
             var controller = new UserController(mockRepository.Object);
-
+            
             // ACT
             var result = controller.Get();
 

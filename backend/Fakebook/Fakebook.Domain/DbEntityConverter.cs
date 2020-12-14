@@ -4,6 +4,7 @@ using System.Linq;
 
 using Fakebook.DataAccess.Model;
 using Fakebook.Domain.Extension;
+using Fakebook.Domain.Repository;
 
 namespace Fakebook.Domain
 {
@@ -158,7 +159,8 @@ namespace Fakebook.Domain
                     var newComment = new Comment()
                     {
                         Id = comment.Id,
-                        Content = comment.Content
+                        Content = comment.Content,
+                        
                     };
                     result.Comments.Add(newComment);
                 }
