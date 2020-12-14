@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
+using Fakebook.RestApi.Model;
 
 namespace Fakebook.RestApi.Controllers
 {
@@ -19,6 +20,7 @@ namespace Fakebook.RestApi.Controllers
         {
             _userRepo = repository;
         }
+
         /// <summary>
         /// Gets all the users.
         /// </summary>
@@ -30,12 +32,14 @@ namespace Fakebook.RestApi.Controllers
             var users = await _userRepo.GetAllUsersAsync();
             return Ok(users);
         }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
             var user = await _userRepo.GetUserById(id);
             return Ok(user);
         }
+
         // Gets all posts by a specific user id
         [HttpGet("{id}/Posts")]
         public async Task<IActionResult> GetUserPosts(int id)
@@ -43,9 +47,12 @@ namespace Fakebook.RestApi.Controllers
             var posts = await _postRepo.GetPostsByUserId(id);
             return Ok(posts);
         }
+
         [HttpPost]
-        public async Task<IActionResult> Post(User user)
+        public async Task<IActionResult> Post(UserApiModel apiModel)
         {
+            var user = ApiModelConverter.ToUser(_userRepo, apiModel);
+
             if (await _userRepo.CreateUser(user))
             {
                 return Ok();
@@ -55,6 +62,7 @@ namespace Fakebook.RestApi.Controllers
                 return BadRequest();
             }
         }
+
         /// <summary>
         /// A delete method that wlil return False if it can't find that id.
         /// </summary>
@@ -72,6 +80,7 @@ namespace Fakebook.RestApi.Controllers
                 return BadRequest();
             }
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -79,11 +88,12 @@ namespace Fakebook.RestApi.Controllers
         /// <param name="user"></param>
         /// <returns></returns>
         [HttpPut("{id}/")]
-        public async Task<IActionResult> Put(int id, User user)
+        public async Task<IActionResult> Put(UserApiModel apiModel, int id = -1)
         {
             // if the id is null switch to bad request
-            if ( id == 0 || user.IsValid())
+            if (id != -1)
             {
+                var user = ApiModelConverter.ToUser(_userRepo, apiModel);
                 await _userRepo.UpdateUser(id, user);
                 return Ok();
             }
@@ -92,6 +102,7 @@ namespace Fakebook.RestApi.Controllers
                 return BadRequest();
             }
         }
+
         /*
         [HttpGet("{email}")]
         public async Task<IActionResult> Get(string email)
@@ -100,6 +111,7 @@ namespace Fakebook.RestApi.Controllers
             return Ok(user);
         }
         */
+
         [HttpGet("{id}/Newsfeed")]
         public async Task<IActionResult> GetNewsfeedPosts(int id)
         {
@@ -141,7 +153,7 @@ namespace Fakebook.RestApi.Controllers
                     }
                 }
             }
-            result.OrderBy(p => p.CreatedAt); // Order list by the date the posts were created
+            result = result.OrderBy(p => p.CreatedAt).ToList(); // Order list by the date the posts were created
             return Ok(result);
         }
     }
