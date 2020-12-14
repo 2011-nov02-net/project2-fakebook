@@ -26,7 +26,7 @@ namespace Fakebook.RestApi.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var posts = await _postRepo.GetAllPosts();
+            var posts = await _postRepo.GetAllPostsAsync();
             return Ok(posts);
         }
 
@@ -35,7 +35,7 @@ namespace Fakebook.RestApi.Controllers
         {
             var post = ApiModelConverter.ToPost(_userRepo, _commentRepo, apiModel);
 
-            if (await _postRepo.CreatePost(post))
+            if (await _postRepo.CreatePostAsync(post))
             {
                 return Ok();
             }
@@ -50,7 +50,7 @@ namespace Fakebook.RestApi.Controllers
         {
             try {
                 var post = ApiModelConverter.ToPost(_userRepo, _commentRepo, apiModel);
-                await _postRepo.UpdatePost(post);
+                await _postRepo.UpdatePostAsync(post);
                 return Ok();
             } catch(ArgumentException/* ex*/) {
                 return BadRequest();
@@ -60,7 +60,7 @@ namespace Fakebook.RestApi.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            if (await _postRepo.DeletePost(id))
+            if (await _postRepo.DeletePostAsync(id))
             {
                 return Ok();
             }

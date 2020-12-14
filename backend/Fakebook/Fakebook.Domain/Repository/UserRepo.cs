@@ -43,7 +43,7 @@ namespace Fakebook.Domain.Repository
         /// </summary>
         /// <param name="ids"></param>
         /// <returns></returns>
-        public async Task<IEnumerable<User>> GetUsersByIds(IEnumerable<int> ids) {
+        public async Task<IEnumerable<User>> GetUsersByIdsAsync(IEnumerable<int> ids) {
             var users = await _context.UserEntities
                 .Include(u => u.Followees)
                 .Include(u => u.Followers)
@@ -64,14 +64,14 @@ namespace Fakebook.Domain.Repository
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<User> GetUserById(int id)
+        public async Task<User> GetUserByIdAsync(int id)
         {
             var entity = await _context.UserEntities.FindAsync(id);
             var user = DbEntityConverter.ToUser(entity); // turn into a user
             return user;
         }
 
-        public async Task<User> GetUserByEmail(string email)
+        public async Task<User> GetUserByEmailAsync(string email)
         {
             var entity = await _context.UserEntities.Where(e => e.Email == email).FirstOrDefaultAsync();
             var user = DbEntityConverter.ToUser(entity); // turn into a user
@@ -102,7 +102,7 @@ namespace Fakebook.Domain.Repository
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<bool> DeleteUser(int id)
+        public async Task<bool> DeleteUserAsync(int id)
         {
             try
             {
@@ -124,7 +124,7 @@ namespace Fakebook.Domain.Repository
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        public async Task<bool> UpdateUser(int id, User user)
+        public async Task<bool> UpdateUserAsync(int id, User user)
         {
             try
             {

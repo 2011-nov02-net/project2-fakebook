@@ -36,7 +36,7 @@ namespace Fakebook.RestApi.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            var user = await _userRepo.GetUserById(id);
+            var user = await _userRepo.GetUserByIdAsync(id);
             return Ok(user);
         }
 
@@ -44,7 +44,7 @@ namespace Fakebook.RestApi.Controllers
         [HttpGet("{id}/Posts")]
         public async Task<IActionResult> GetUserPosts(int id)
         {
-            var posts = await _postRepo.GetPostsByUserId(id);
+            var posts = await _postRepo.GetPostsByUserIdAsync(id);
             return Ok(posts);
         }
 
@@ -71,7 +71,7 @@ namespace Fakebook.RestApi.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            if (await _userRepo.DeleteUser(id))
+            if (await _userRepo.DeleteUserAsync(id))
             {
                 return Ok();
             }
@@ -94,7 +94,7 @@ namespace Fakebook.RestApi.Controllers
             if (id != -1)
             {
                 var user = ApiModelConverter.ToUser(_userRepo, apiModel);
-                await _userRepo.UpdateUser(id, user);
+                await _userRepo.UpdateUserAsync(id, user);
                 return Ok();
             }
             else
@@ -115,7 +115,7 @@ namespace Fakebook.RestApi.Controllers
         [HttpGet("{id}/Newsfeed")]
         public async Task<IActionResult> GetNewsfeedPosts(int id)
         {
-            var currentUser = await _userRepo.GetUserById(id);
+            var currentUser = await _userRepo.GetUserByIdAsync(id);
             var result = new List<Post>();
             var userPosts = currentUser.Posts.OrderBy(p => p.CreatedAt).ToList();
             if (userPosts.Count < 3) // Check for any self user posts to include in newsfeed
