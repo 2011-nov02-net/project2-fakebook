@@ -150,27 +150,48 @@ namespace Fakebook.Domain
                 LikedByUsers = new List<User>(),
                 Comments = new List<Comment>()
             };
-            //if (postEntity.Comments.Any())
-            //{
-            //    var comments = postEntity.Comments;
-            //        .Select(c => ToComment(c))
-            //        .ToList();
-            //    foreach (var comment in comments)
-            //    {
-            //        var newComment = ToComment(comment);
-            //        result.Comments.Add(newComment);
-            //    }
-            //}
-            //if (postEntity.Likes.Any())
-            //{
-            //    var users = postEntity.Likes
-            //        .Select(l => ToUser(l.User))
-            //        .ToList();
-            //    foreach (var user in users)
-            //    {
-            //        result.LikedByUsers.Add(user);
-            //    }
-            //}
+            if (postEntity.Comments.Any())
+            {
+                var comments = postEntity.Comments;
+                foreach(var comment in comments)
+                {
+                    var newComment = new Comment()
+                    {
+                        Id = comment.Id,
+                        Content = comment.Content
+                    };
+                    result.Comments.Add(newComment);
+                }
+                //var comments = postEntity.Comments
+                //    .Select(c => ToComment(c))
+                //    .ToList();
+                //foreach (var comment in comments)
+                //{
+                //    var newComment = ToComment(comment);
+                //    result.Comments.Add(newComment);
+                //}
+            }
+            if (postEntity.Likes.Any())
+            {
+                var likes = postEntity.Likes;
+                foreach (var like in likes)
+                {
+                    var newUser = new User()
+                    {
+                        Id = like.Post.User.Id,
+                        FirstName = like.Post.User.FirstName,
+                        LastName = like.Post.User.LastName
+                    };
+                    result.LikedByUsers.Add(newUser);
+                };
+                //var users = postEntity.Likes
+                //    .Select(l => ToUser(l.User))
+                //    .ToList();
+                //foreach (var user in users)
+                //{
+                //    result.LikedByUsers.Add(user);
+                //}
+            }
             return result;
         }
 
