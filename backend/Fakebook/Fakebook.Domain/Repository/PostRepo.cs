@@ -15,16 +15,49 @@ namespace Fakebook.Domain.Repository
         {
             _context = context;
         }
+        public async Task<Post> GetPostById(int id) {
+            var posts = await _context.PostEntities
+                .Include(p => p.User)
+                .Include(p => p.Comments)
+                    .ThenInclude(c => c.User)
+                .Include(p => p.Likes)
+                .ToListAsync();
+
+            if(!posts.Any()) {
+                return null;
+            }
+
+            var post = posts.FirstOrDefault(p => p.Id == id);
+
+            return DbEntityConverter.ToPost(post);
+        }
         public async Task<List<Post>> GetAllPosts()
         {
-            var entity = await _context.PostEntities.Include(e => e.User).Include(e => e.Comments).Include(e => e.Likes).ToListAsync();
-            var posts = entity.Select(e => DbEntityConverter.ToPost(e)).ToList();
+            var entity = await _context.PostEntities
+                .Include(e => e.User)
+                .Include(e => e.Comments)
+                .Include(e => e.Likes)
+                .ToListAsync();
+
+            var posts = entity
+                .Select(e => DbEntityConverter.ToPost(e))
+                .ToList();
+
             return posts;
         }
         public async Task<List<Post>> GetPostsById(int id)
         {
-            var entity = await _context.PostEntities.Where(e => e.Id == id).Include(e => e.User).Include(e => e.Comments).Include(e => e.Likes).ToListAsync();
-            var posts = entity.Select(e => DbEntityConverter.ToPost(e)).ToList();
+            var entity = await _context.PostEntities
+                .Where(e => e.Id == id)
+                .Include(e => e.User)
+                .Include(e => e.Comments)
+                .Include(e => e.Likes)
+                .ToListAsync();
+
+            var posts = entity
+                .Select(e => DbEntityConverter.ToPost(e))
+                .ToList();
+
             return posts;
         }
         public async Task<List<Post>> GetPostsByUserId(int id)

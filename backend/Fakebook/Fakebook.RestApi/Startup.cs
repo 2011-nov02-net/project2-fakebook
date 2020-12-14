@@ -31,8 +31,11 @@ namespace Fakebook.RestApi
             string connectionString = Configuration["FakebookContext:ConnectionString"];
 
             services.AddDbContext<FakebookContext>(options => options.UseSqlServer(connectionString));
+            
             services.AddScoped<IUserRepo, UserRepo>();
             services.AddScoped<IPostRepo, PostRepo>();
+            services.AddScoped<ICommentRepo, CommentRepo>();
+
             services.AddControllers();
             services.AddSwaggerGen(c => {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Fakebook.RestApi", Version = "v1" });
