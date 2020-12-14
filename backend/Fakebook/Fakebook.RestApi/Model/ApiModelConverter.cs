@@ -7,7 +7,7 @@ using Fakebook.Domain.Repository;
 
 namespace Fakebook.RestApi.Model
 {
-    public class ApiModelConverter
+    public static class ApiModelConverter
     {
         public static Post ToPost(IUserRepo userRepo, ICommentRepo commentRepo, PostApiModel apiModel) {
             apiModel.Content.NullOrEmptyCheck(nameof(apiModel.Content));
