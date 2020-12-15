@@ -158,13 +158,13 @@ namespace Fakebook.Domain
             {
                 Id = postEntity.Id,
                 Content = postEntity.Content,
-                Picture = postEntity.Picture,
+                //Picture = postEntity.Picture,
                 CreatedAt = postEntity.CreatedAt,
                 User = ToUser(postEntity.User),
                 LikedByUsers = new List<User>(),
                 Comments = new List<Comment>()
             };
-            if (postEntity.Comments.Any())
+            if (postEntity.Comments != null)
             {
                 var comments = postEntity.Comments;
                 foreach (var comment in comments) // See if there are any comments for the post
@@ -176,7 +176,6 @@ namespace Fakebook.Domain
                         User = new User()
                         {
                             Id = comment.User.Id,
-                            ProfilePictureUrl = comment.User.ProfilePictureUrl,
                             FirstName = comment.User.FirstName,
                             LastName = comment.User.LastName
                         },
@@ -205,7 +204,7 @@ namespace Fakebook.Domain
                     result.Comments.Add(newComment);
                 }
             }
-            if (postEntity.Likes.Any())
+            if (postEntity.Likes != null)
             {
                 var likes = postEntity.Likes;
                 foreach (var like in likes)
