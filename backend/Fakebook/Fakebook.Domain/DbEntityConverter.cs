@@ -258,7 +258,7 @@ namespace Fakebook.Domain
                 Id = commentEntity.Id,
                 Content = commentEntity.Content,
                 CreatedAt = commentEntity.CreatedAt,
-                Post = ToPost(commentEntity.Post, rabbitHoles - 1),
+                Post = ToPost(commentEntity.Post),
                 User = ToUser(commentEntity.User, rabbitHoles - 1),
                 ParentComment = parentComment
             };
