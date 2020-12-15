@@ -36,7 +36,9 @@ namespace Fakebook.Domain.Repository
             var entity = await _context.PostEntities
                 .Include(e => e.User)
                 .Include(e => e.Comments)
+                    .ThenInclude(c => c.User)
                 .Include(e => e.Likes)
+                    .ThenInclude(c => c.User)
                 .ToListAsync();
 
             var posts = entity
@@ -50,7 +52,9 @@ namespace Fakebook.Domain.Repository
                 .Where(e => e.Id == id)
                 .Include(e => e.User)
                 .Include(e => e.Comments)
+                    .ThenInclude(c => c.User)
                 .Include(e => e.Likes)
+                    .ThenInclude(c => c.User)
                 .ToListAsync();
 
             var posts = entity
@@ -60,7 +64,14 @@ namespace Fakebook.Domain.Repository
         }
         public async Task<List<Post>> GetPostsByUserIdAsync(int id)
         {
-            var entity = await _context.PostEntities.Where(e => e.UserId == id).Include(e => e.User).Include(e => e.Comments).Include(e => e.Likes).ToListAsync();
+            var entity = await _context.PostEntities
+                .Where(e => e.UserId == id)
+                .Include(e => e.User)
+                .Include(e => e.Comments)
+                    .ThenInclude(c => c.User)
+                .Include(e => e.Likes)
+                    .ThenInclude(c => c.User)
+                .ToListAsync();
             var posts = entity.Select(e => DbEntityConverter.ToPost(e)).ToList();
             return posts;
         }

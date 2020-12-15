@@ -164,7 +164,7 @@ namespace Fakebook.Domain
                 LikedByUsers = new List<User>(),
                 Comments = new List<Comment>()
             };
-            if (postEntity.Comments.Any())
+            if (postEntity.Comments != null)
             {
                 var comments = postEntity.Comments;
                 foreach (var comment in comments) // See if there are any comments for the post
@@ -205,7 +205,7 @@ namespace Fakebook.Domain
                     result.Comments.Add(newComment);
                 }
             }
-            if (postEntity.Likes.Any())
+            if (postEntity.Likes != null)
             {
                 var likes = postEntity.Likes;
                 foreach (var like in likes)
