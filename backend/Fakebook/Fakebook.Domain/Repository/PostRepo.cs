@@ -175,6 +175,42 @@ namespace Fakebook.Domain.Repository
             var query = _context.LikeEntities.Where(c => c.PostId == id).Select(u => u.UserId).Count(); // selects the post by their id and counts the users
             return query;
         }
+        /// <summary>
+        /// get posts of the user and the poeple they are following
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<List<Post>> GetFollowingPosts(int id)
+        {
+            List<Post> newsFeed = new List<Post>();
+
+            // find our user and make sure to include their followers
+            var entities = await _context.UserEntities.Where(u => u.Id ==id).Include(e => e.Followees).ToListAsync();
+            // create a list of ints for our followers
+            
+            List<int> followList = new List<int>();
+            followList.Add(id); //we should include ourself int the news feed
+
+            // for each item in our list add them to our follow list of ints
+            var p = entities.Select(e => e.Followees).ToList();
+            if (p.First().Count>=1)
+            {
+                foreach (var item in p)
+                {
+                    followList.Add(item.First().FolloweeId);
+                }
+            }
+
+            // add posts into the newsfeed
+            foreach(var i in followList)
+            {
+                newsFeed.AddRange(await GetPostsByUserIdAsync(i));
+            }
+
+            // orderize it by date later. TODO
+            newsFeed.Reverse();
+            return newsFeed;
+        }
 
     }
 }

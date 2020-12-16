@@ -16,9 +16,10 @@ namespace Fakebook.RestApi.Controllers
         private readonly IUserRepo _userRepo;
         private readonly IPostRepo _postRepo;
 
-        public UserController(IUserRepo repository)
+        public UserController(IUserRepo repository, IPostRepo postRepo)
         {
             _userRepo = repository;
+            _postRepo = postRepo;
         }
 
         /// <summary>
