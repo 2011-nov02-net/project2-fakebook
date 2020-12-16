@@ -180,7 +180,13 @@ namespace Fakebook.Domain
                 Content = postEntity.Content,
                 //Picture = postEntity.Picture,
                 CreatedAt = postEntity.CreatedAt,
-                User = ToUser(postEntity.User),
+                User = new User()
+                {
+                    Id = postEntity.User.Id,
+                    FirstName = postEntity.User.FirstName,
+                    LastName = postEntity.User.LastName,
+                    ProfilePictureUrl = postEntity.User.ProfilePictureUrl
+                },
                 LikedByUsers = new List<User>(),
                 Comments = new List<Comment>()
             };
