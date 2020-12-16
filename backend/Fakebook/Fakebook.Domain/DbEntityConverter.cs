@@ -120,47 +120,41 @@ namespace Fakebook.Domain
             return result;
         }
 
-        public static PostEntity ToPostEntity(Post post, int rabbitHoles = 0) {
-            List<CommentEntity> comments = null;
-            List<LikeEntity> likes = null;
+        public static PostEntity ToPostEntity(Post post) {
 
-            if (rabbitHoles > 0) {
-                if (post.Comments is not null && post.Comments.Any()) {
-                    comments = post.Comments
-                        .Select(p => {
-                            return new CommentEntity
-                            {
-                                Id = p.Id,
-                                UserId = p.User.Id,
-                                PostId = p.Post.Id,
-                                ParentId = p.ParentComment.Id,
-                                CreatedAt = p.CreatedAt,
-                                Content = p.Content
-                            };
-                        })
-                        .ToList();
-                }
-
-                if (post.LikedByUsers is not null && post.LikedByUsers.Any()) {
-                    likes = ToLikeEntities(post);
-                }
-            } else if (post is null) {
-                return null;
-            }
-
-            comments ??= new List<CommentEntity>();
-            likes ??= new List<LikeEntity>();
-
-            return new PostEntity
+            var result =  new PostEntity
             {
                 Id = post.Id,
                 UserId = post.User.Id,
                 Content = post.Content,
                 Picture = post.Picture,
                 CreatedAt = post.CreatedAt,
-                Comments = comments,
-                Likes = likes,
+                Comments = new List<CommentEntity>(),
             };
+
+            if(post.Comments != null)
+            {
+                var comments = post.Comments;
+                foreach(var comment in comments)
+                {
+                    var newComment = new CommentEntity
+                    {
+                        Id = comment.Id,
+                        UserId = comment.User.Id,
+                        PostId = comment.Post.Id,
+                        ParentId = comment.ParentComment.Id,
+                        CreatedAt = comment.CreatedAt,
+                        Content = comment.Content
+                    };
+                    result.Comments.Add(newComment);
+                }
+            }
+
+            if (post.LikedByUsers != null)
+            {
+                result.Likes = ToLikeEntities(post);
+            }
+            return result;
         }
 
         public static Post ToPost(PostEntity postEntity) {
@@ -254,7 +248,7 @@ namespace Fakebook.Domain
                 ParentId = comment.ParentComment?.Id,
                 CreatedAt = comment.CreatedAt,
                 Content = comment.Content,
-                User = ToUserEntity(comment.User, rabbitHoles - 1)
+                User = ToUserEntity(comment.User)
             };
         }
 
