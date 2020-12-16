@@ -10,58 +10,48 @@ namespace Fakebook.Domain
 {
     public static class DbEntityConverter
     {
-        public static UserEntity ToUserEntity(User user, int rabbitHoles = 0) {
-            List<FollowEntity> followees = null;
-            List<FollowEntity> followers = null;
-
-            if (rabbitHoles > 0) {
-                user.NullCheck(nameof(user));
-                user.Followees.NullCheck(nameof(user.Followees));
-                user.Followers.NullCheck(nameof(user.Followers));
-
-                if (user.Followees.Any()) {
-                    followees = user.Followees
-                        .Select(u => {
-                            return new FollowEntity
-                            {
-                                FollowerId = user.Id,
-                                FolloweeId = u.Id
-                            };
-                        })
-                        .ToList();
-                }
-
-                if (user.Followers.Any()) {
-                    followers = user.Followers
-                        .Select(u => {
-                            return new FollowEntity
-                            {
-                                FollowerId = u.Id,
-                                FolloweeId = user.Id
-                            };
-                        })
-                        .ToList();
-                }
-            } else if (user is null) {
-                return null;
-            }
-
-            followees ??= new List<FollowEntity>();
-            followers ??= new List<FollowEntity>();
-
-            return new UserEntity
+        public static UserEntity ToUserEntity(User user) {
+            var result = new UserEntity
             {
                 Id = user.Id,
                 ProfilePictureUrl = user.ProfilePictureUrl,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Email = user.Email,
-                PhoneNumber = user.PhoneNumber, 
+                PhoneNumber = user.PhoneNumber,
                 BirthDate = user.BirthDate,
                 Status = user.Status,
-                Followees = followees,
-                Followers = followers
+                Followees = new List<FollowEntity>(),
+                Followers = new List<FollowEntity>()
             };
+            // Check for all people the user is following, assign a new follow entity with the followee as the person this user is following
+            if (user.Followees != null) {
+                var followees = user.Followees;
+                foreach(var person in followees)
+                {
+                    var newFollowee = new FollowEntity()
+                    {
+                        FollowerId = result.Id,
+                        FolloweeId = person.Id
+                    };
+                    result.Followees.Add(newFollowee);
+                }
+            };
+            // Vice versa
+            if (user.Followers != null)
+            {
+                var followers = user.Followers;
+                foreach (var person in followers)
+                {
+                    var newFollower = new FollowEntity()
+                    {
+                        FollowerId = person.Id,
+                        FolloweeId = result.Id
+                    };
+                    result.Followers.Add(newFollower);
+                }
+            };
+            return result;
         }
 
         public static User ToUser(UserEntity userEntity) {
