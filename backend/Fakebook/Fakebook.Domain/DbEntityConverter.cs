@@ -253,25 +253,23 @@ namespace Fakebook.Domain
             }
         }
 
-        public static Comment ToComment(CommentEntity commentEntity, int rabbitHoles = 0) {
-            Comment parentComment = null;
-
-            if (rabbitHoles > 0) {
-                commentEntity.NullCheck(nameof(commentEntity));
-                parentComment = ToComment(commentEntity.ParentComment, rabbitHoles - 1);
-            } else if (commentEntity is null) {
-                return null;
-            }
-
-            return new Comment
+        public static Comment ToComment(CommentEntity commentEntity) {
+            var result = new Comment
             {
                 Id = commentEntity.Id,
                 Content = commentEntity.Content,
                 CreatedAt = commentEntity.CreatedAt,
                 Post = ToPost(commentEntity.Post),
-                User = ToUser(commentEntity.User),
-                ParentComment = parentComment
+                User = ToUser(commentEntity.User)
             };
+
+            if (commentEntity.ParentComment != null)
+            {
+                var newComment = ToComment(commentEntity.ParentComment);
+                result.ParentComment = newComment;
+            };
+
+            return result;
         }
 
         public static List<FollowEntity> ToFollowEntities(User user, int rabbitHoles = 0) {
