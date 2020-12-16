@@ -272,22 +272,23 @@ namespace Fakebook.Domain
             return result;
         }
 
-        public static List<FollowEntity> ToFollowEntities(User user, int rabbitHoles = 0) {
-            if (rabbitHoles > 0) {
-                user.NullCheck(nameof(user));
-                user.Followers.NullCheck(nameof(user.Followers));
-            } else if (user is null) {
-                return null;
-            }
+        public static List<FollowEntity> ToFollowEntities(User user) {
+            var result = new List<FollowEntity>();
 
-            return user.Followers.Select(u => {
-                return new FollowEntity
+            if(user.Followers != null)
+            {
+                foreach(var follower in user.Followers)
                 {
-                    FollowerId = u.Id,
-                    FolloweeId = user.Id
-                };
-            })
-            .ToList();
+                    var newFollower = new FollowEntity
+                    {
+                        FollowerId = follower.Id,
+                        FolloweeId = user.Id
+                    };
+                    result.Add(newFollower);
+                }
+            };
+
+            return result;
         }
 
         public static List<LikeEntity> ToLikeEntities(Post post, int rabbitHoles = 0) {
