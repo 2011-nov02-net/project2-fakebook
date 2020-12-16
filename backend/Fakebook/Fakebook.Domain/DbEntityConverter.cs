@@ -10,58 +10,48 @@ namespace Fakebook.Domain
 {
     public static class DbEntityConverter
     {
-        public static UserEntity ToUserEntity(User user, int rabbitHoles = 0) {
-            List<FollowEntity> followees = null;
-            List<FollowEntity> followers = null;
-
-            if (rabbitHoles > 0) {
-                user.NullCheck(nameof(user));
-                user.Followees.NullCheck(nameof(user.Followees));
-                user.Followers.NullCheck(nameof(user.Followers));
-
-                if (user.Followees.Any()) {
-                    followees = user.Followees
-                        .Select(u => {
-                            return new FollowEntity
-                            {
-                                FollowerId = user.Id,
-                                FolloweeId = u.Id
-                            };
-                        })
-                        .ToList();
-                }
-
-                if (user.Followers.Any()) {
-                    followers = user.Followers
-                        .Select(u => {
-                            return new FollowEntity
-                            {
-                                FollowerId = u.Id,
-                                FolloweeId = user.Id
-                            };
-                        })
-                        .ToList();
-                }
-            } else if (user is null) {
-                return null;
-            }
-
-            followees ??= new List<FollowEntity>();
-            followers ??= new List<FollowEntity>();
-
-            return new UserEntity
+        public static UserEntity ToUserEntity(User user) {
+            var result = new UserEntity
             {
                 Id = user.Id,
                 ProfilePictureUrl = user.ProfilePictureUrl,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Email = user.Email,
-                PhoneNumber = user.PhoneNumber, 
+                PhoneNumber = user.PhoneNumber,
                 BirthDate = user.BirthDate,
                 Status = user.Status,
-                Followees = followees,
-                Followers = followers
+                Followees = new List<FollowEntity>(),
+                Followers = new List<FollowEntity>()
             };
+            // Check for all people the user is following, assign a new follow entity with the followee as the person this user is following
+            if (user.Followees != null) {
+                var followees = user.Followees;
+                foreach(var person in followees)
+                {
+                    var newFollowee = new FollowEntity()
+                    {
+                        FollowerId = result.Id,
+                        FolloweeId = person.Id
+                    };
+                    result.Followees.Add(newFollowee);
+                }
+            };
+            // Vice versa
+            if (user.Followers != null)
+            {
+                var followers = user.Followers;
+                foreach (var person in followers)
+                {
+                    var newFollower = new FollowEntity()
+                    {
+                        FollowerId = person.Id,
+                        FolloweeId = result.Id
+                    };
+                    result.Followers.Add(newFollower);
+                }
+            };
+            return result;
         }
 
         public static User ToUser(UserEntity userEntity) {
@@ -130,47 +120,42 @@ namespace Fakebook.Domain
             return result;
         }
 
-        public static PostEntity ToPostEntity(Post post, int rabbitHoles = 0) {
-            List<CommentEntity> comments = null;
-            List<LikeEntity> likes = null;
+        public static PostEntity ToPostEntity(Post post) {
 
-            if (rabbitHoles > 0) {
-                if (post.Comments is not null && post.Comments.Any()) {
-                    comments = post.Comments
-                        .Select(p => {
-                            return new CommentEntity
-                            {
-                                Id = p.Id,
-                                UserId = p.User.Id,
-                                PostId = p.Post.Id,
-                                ParentId = p.ParentComment.Id,
-                                CreatedAt = p.CreatedAt,
-                                Content = p.Content
-                            };
-                        })
-                        .ToList();
-                }
-
-                if (post.LikedByUsers is not null && post.LikedByUsers.Any()) {
-                    likes = ToLikeEntities(post);
-                }
-            } else if (post is null) {
-                return null;
-            }
-
-            comments ??= new List<CommentEntity>();
-            likes ??= new List<LikeEntity>();
-
-            return new PostEntity
+            var result =  new PostEntity
             {
                 Id = post.Id,
                 UserId = post.User.Id,
                 Content = post.Content,
                 Picture = post.Picture,
                 CreatedAt = post.CreatedAt,
-                Comments = comments,
-                Likes = likes,
+                Comments = new List<CommentEntity>(),
             };
+
+            if(post.Comments != null)
+            {
+                var comments = post.Comments;
+                foreach(var comment in comments)
+                {
+                    var newComment = new CommentEntity
+                    {
+                        Id = comment.Id,
+                        UserId = comment.User.Id,
+                        PostId = comment.Post.Id,
+                        ParentId = comment.ParentComment.Id,
+                        CreatedAt = comment.CreatedAt,
+                        Content = comment.Content
+                    };
+                    result.Comments.Add(newComment);
+                }
+            };
+
+            if (post.LikedByUsers != null)
+            {
+                result.Likes = ToLikeEntities(post);
+            };
+
+            return result;
         }
 
         public static Post ToPost(PostEntity postEntity) {
@@ -180,7 +165,13 @@ namespace Fakebook.Domain
                 Content = postEntity.Content,
                 //Picture = postEntity.Picture,
                 CreatedAt = postEntity.CreatedAt,
-                User = ToUser(postEntity.User),
+                User = new User()
+                {
+                    Id = postEntity.User.Id,
+                    FirstName = postEntity.User.FirstName,
+                    LastName = postEntity.User.LastName,
+                    ProfilePictureUrl = postEntity.User.ProfilePictureUrl
+                },
                 LikedByUsers = new List<User>(),
                 Comments = new List<Comment>()
             };
@@ -242,81 +233,81 @@ namespace Fakebook.Domain
             return result;
         }
 
-        public static CommentEntity ToCommentEntity(Comment comment, int rabbitHoles = 0) {
-            if (rabbitHoles > 0) {
-                comment.NullCheck(nameof(comment));
-                comment.User.NullCheck(nameof(comment.User));
-            } else if(comment is null) {
+        public static CommentEntity ToCommentEntity(Comment comment) {
+            if(comment != null)
+            {
+                return new CommentEntity
+                {
+                    Id = comment.Id,
+                    UserId = comment.User.Id,
+                    PostId = comment.Post.Id,
+                    ParentId = comment.ParentComment?.Id,
+                    CreatedAt = comment.CreatedAt,
+                    Content = comment.Content,
+                    User = ToUserEntity(comment.User)
+                };
+            }
+            else
+            {
                 return null;
             }
-
-            return new CommentEntity
-            {
-                Id = comment.Id,
-                UserId = comment.User.Id,
-                PostId = comment.Post.Id,
-                ParentId = comment.ParentComment?.Id,
-                CreatedAt = comment.CreatedAt,
-                Content = comment.Content,
-                User = ToUserEntity(comment.User, rabbitHoles - 1)
-            };
         }
 
-        public static Comment ToComment(CommentEntity commentEntity, int rabbitHoles = 0) {
-            Comment parentComment = null;
-
-            if (rabbitHoles > 0) {
-                commentEntity.NullCheck(nameof(commentEntity));
-                parentComment = ToComment(commentEntity.ParentComment, rabbitHoles - 1);
-            } else if (commentEntity is null) {
-                return null;
-            }
-
-            return new Comment
+        public static Comment ToComment(CommentEntity commentEntity) {
+            var result = new Comment
             {
                 Id = commentEntity.Id,
                 Content = commentEntity.Content,
                 CreatedAt = commentEntity.CreatedAt,
                 Post = ToPost(commentEntity.Post),
-                User = ToUser(commentEntity.User),
-                ParentComment = parentComment
+                User = ToUser(commentEntity.User)
             };
+
+            if (commentEntity.ParentComment != null)
+            {
+                var newComment = ToComment(commentEntity.ParentComment);
+                result.ParentComment = newComment;
+            };
+
+            return result;
         }
 
-        public static List<FollowEntity> ToFollowEntities(User user, int rabbitHoles = 0) {
-            if (rabbitHoles > 0) {
-                user.NullCheck(nameof(user));
-                user.Followers.NullCheck(nameof(user.Followers));
-            } else if (user is null) {
-                return null;
-            }
+        public static List<FollowEntity> ToFollowEntities(User user) {
+            var result = new List<FollowEntity>();
 
-            return user.Followers.Select(u => {
-                return new FollowEntity
+            if(user.Followers != null)
+            {
+                foreach(var follower in user.Followers)
                 {
-                    FollowerId = u.Id,
-                    FolloweeId = user.Id
-                };
-            })
-            .ToList();
+                    var newFollower = new FollowEntity
+                    {
+                        FollowerId = follower.Id,
+                        FolloweeId = user.Id
+                    };
+                    result.Add(newFollower);
+                }
+            };
+
+            return result;
         }
 
-        public static List<LikeEntity> ToLikeEntities(Post post, int rabbitHoles = 0) {
-            if (rabbitHoles > 0) {
-                post.NullCheck(nameof(post));
-                post.LikedByUsers.NullCheck(nameof(post.LikedByUsers));
-            } else if (post is null) {
-                return null;
-            }
+        public static List<LikeEntity> ToLikeEntities(Post post) {
+            var result = new List<LikeEntity>();
 
-            return post.LikedByUsers.Select(u => {
-                return new LikeEntity
+            if(post.LikedByUsers != null)
+            {
+                foreach(var like in post.LikedByUsers)
                 {
-                    UserId = u.Id,
-                    PostId = post.Id
-                };
-            })
-            .ToList();
+                    var newLike = new LikeEntity
+                    {
+                        UserId = like.Id,
+                        PostId = post.Id
+                    };
+                    result.Add(newLike);
+                }
+            };
+
+            return result;
         }
     }
 }
