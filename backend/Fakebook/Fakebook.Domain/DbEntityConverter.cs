@@ -148,12 +148,13 @@ namespace Fakebook.Domain
                     };
                     result.Comments.Add(newComment);
                 }
-            }
+            };
 
             if (post.LikedByUsers != null)
             {
                 result.Likes = ToLikeEntities(post);
-            }
+            };
+
             return result;
         }
 
@@ -232,24 +233,24 @@ namespace Fakebook.Domain
             return result;
         }
 
-        public static CommentEntity ToCommentEntity(Comment comment, int rabbitHoles = 0) {
-            if (rabbitHoles > 0) {
-                comment.NullCheck(nameof(comment));
-                comment.User.NullCheck(nameof(comment.User));
-            } else if(comment is null) {
+        public static CommentEntity ToCommentEntity(Comment comment) {
+            if(comment != null)
+            {
+                return new CommentEntity
+                {
+                    Id = comment.Id,
+                    UserId = comment.User.Id,
+                    PostId = comment.Post.Id,
+                    ParentId = comment.ParentComment?.Id,
+                    CreatedAt = comment.CreatedAt,
+                    Content = comment.Content,
+                    User = ToUserEntity(comment.User)
+                };
+            }
+            else
+            {
                 return null;
             }
-
-            return new CommentEntity
-            {
-                Id = comment.Id,
-                UserId = comment.User.Id,
-                PostId = comment.Post.Id,
-                ParentId = comment.ParentComment?.Id,
-                CreatedAt = comment.CreatedAt,
-                Content = comment.Content,
-                User = ToUserEntity(comment.User)
-            };
         }
 
         public static Comment ToComment(CommentEntity commentEntity, int rabbitHoles = 0) {
