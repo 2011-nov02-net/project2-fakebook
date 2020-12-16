@@ -64,38 +64,8 @@ namespace Fakebook.Domain
             };
         }
 
-        public static User ToUser(UserEntity userEntity, int rabbitHoles = 0) {
-            List<User> followees = null;
-            List<User> followers = null;
-
-            if (rabbitHoles > 0) {
-                userEntity.NullCheck(nameof(userEntity));
-                userEntity.Followees.NullCheck(nameof(userEntity.Followees));
-                userEntity.Followers.NullCheck(nameof(userEntity.Followers));
-
-                if (userEntity.Followees.Any()) {
-                    followees = userEntity.Followees
-                        .Select(f => f.Followee)
-                        .Where(u => u is not null)
-                        .Select(u => ToUser(u))
-                        .ToList();
-                }
-
-                if (userEntity.Followers.Any()) {
-                    followees = userEntity.Followers
-                        .Select(f => f.Follower)
-                        .Where(u => u is not null)
-                        .Select(u => ToUser(u))
-                        .ToList();
-                }
-            } else if (userEntity is null) {
-                return null;
-            }
-
-            followees ??= new List<User>();
-            followers ??= new List<User>();
-
-            return new User
+        public static User ToUser(UserEntity userEntity) {
+            var result = new User
             {
                 Id = userEntity.Id,
                 ProfilePictureUrl = userEntity.ProfilePictureUrl,
@@ -105,9 +75,59 @@ namespace Fakebook.Domain
                 PhoneNumber = userEntity.PhoneNumber,
                 BirthDate = userEntity.BirthDate,
                 Status = userEntity.Status,
-                Followees = followees,
-                Followers = followers
+                Followees = new List<User>(),
+                Followers = new List<User>(),
+                Posts = new List<Post>()
             };
+
+            if(userEntity.Followees != null)
+            {
+                var followees = userEntity.Followees;
+                foreach(var person in followees)
+                {
+                    var newFollowee = new User()
+                    {
+                        Id = person.FolloweeId,
+                        ProfilePictureUrl = person.Followee.ProfilePictureUrl,
+                        FirstName = person.Followee.FirstName,
+                        LastName = person.Followee.LastName
+                    };
+                    result.Followees.Add(newFollowee);
+                }
+            }
+
+            if (userEntity.Followers != null)
+            {
+                var followers = userEntity.Followers;
+                foreach (var person in followers)
+                {
+                    var newFollower = new User()
+                    {
+                        Id = person.FollowerId,
+                        ProfilePictureUrl = person.Follower.ProfilePictureUrl,
+                        FirstName = person.Follower.FirstName,
+                        LastName = person.Follower.LastName
+                    };
+                    result.Followers.Add(newFollower);
+                }
+            }
+
+            if (userEntity.Posts != null)
+            {
+                var posts = userEntity.Posts;
+                foreach (var post in posts)
+                {
+                    var newPost = new Post()
+                    {
+                        Id = post.Id,
+                        Content = post.Content,
+                        Picture = post.Picture,
+                        CreatedAt = post.CreatedAt
+                    };
+                    result.Posts.Add(newPost);
+                }
+            }
+            return result;
         }
 
         public static PostEntity ToPostEntity(Post post, int rabbitHoles = 0) {
@@ -258,7 +278,7 @@ namespace Fakebook.Domain
                 Content = commentEntity.Content,
                 CreatedAt = commentEntity.CreatedAt,
                 Post = ToPost(commentEntity.Post),
-                User = ToUser(commentEntity.User, rabbitHoles - 1),
+                User = ToUser(commentEntity.User),
                 ParentComment = parentComment
             };
         }

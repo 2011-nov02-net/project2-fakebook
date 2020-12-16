@@ -23,7 +23,13 @@ namespace Fakebook.Domain.Repository
         /// <returns></returns>
         public IEnumerable<User> GetAllUsers()
         {
-            var entity = _context.UserEntities.ToList();
+            var entity = _context.UserEntities
+                .Include(u => u.Followees)
+                     .ThenInclude(u => u.Followee)
+                .Include(u => u.Followers)
+                      .ThenInclude(u => u.Follower)
+                .Include(u => u.Posts)
+                .ToList();
             var users = entity.Select(e => DbEntityConverter.ToUser(e));
             return users;
         }
@@ -33,7 +39,13 @@ namespace Fakebook.Domain.Repository
         /// <returns></returns>
         public async Task<IEnumerable<User>> GetAllUsersAsync()
         {
-            var entities = await _context.UserEntities.ToListAsync();
+            var entities = await _context.UserEntities
+                .Include(u => u.Followees)
+                     .ThenInclude(u => u.Followee)
+                .Include(u => u.Followers)
+                      .ThenInclude(u => u.Follower)
+                .Include(u => u.Posts)
+                .ToListAsync();
             var users = entities.Select(e => DbEntityConverter.ToUser(e)); // turn into a list.
             return users;
         }
@@ -46,7 +58,10 @@ namespace Fakebook.Domain.Repository
         public async Task<IEnumerable<User>> GetUsersByIdsAsync(IEnumerable<int> ids) {
             var users = await _context.UserEntities
                 .Include(u => u.Followees)
+                     .ThenInclude(u => u.Followee)
                 .Include(u => u.Followers)
+                      .ThenInclude(u => u.Follower)
+                .Include(u => u.Posts)
                 .ToListAsync();
 
             if(!ids.Any() || !users.Any()) {
@@ -66,14 +81,27 @@ namespace Fakebook.Domain.Repository
         /// <returns></returns>
         public async Task<User> GetUserByIdAsync(int id)
         {
-            var entity = await _context.UserEntities.FindAsync(id);
-            var user = DbEntityConverter.ToUser(entity); // turn into a user
+            var entity = await _context.UserEntities
+                .Where(u => u.Id == id)
+                .Include(u => u.Followees)
+                     .ThenInclude(u => u.Followee)
+                .Include(u => u.Followers)
+                      .ThenInclude(u => u.Follower)
+                .FirstOrDefaultAsync();
+            var user = DbEntityConverter.ToUser(entity); // turn inato a user
             return user;
         }
 
         public async Task<User> GetUserByEmailAsync(string email)
         {
-            var entity = await _context.UserEntities.Where(e => e.Email == email).FirstOrDefaultAsync();
+            var entity = await _context.UserEntities
+                .Where(e => e.Email == email)
+                .Include(u => u.Followees)
+                     .ThenInclude(u => u.Followee)
+                .Include(u => u.Followers)
+                      .ThenInclude(u => u.Follower)
+                .Include(u => u.Posts)
+                .FirstOrDefaultAsync();
             var user = DbEntityConverter.ToUser(entity); // turn into a user
             return user;
         }
