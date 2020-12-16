@@ -11,6 +11,7 @@ import { ProfilePictureViewComponent } from './component/profile-picture-view/pr
 import { CommentViewComponent } from './component/comment-view/comment-view.component';
 import { LikeViewComponent } from './component/like-view/like-view.component';
 import { UserControlsComponent } from './component/user-controls/user-controls.component';
+import { NavbarViewComponent } from './component/navbar-view/navbar-view.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { UserControlsComponent } from './component/user-controls/user-controls.c
     ProfilePictureViewComponent,
     CommentViewComponent,
     LikeViewComponent,
-    UserControlsComponent
+    UserControlsComponent,
+    NavbarViewComponent
   ],
   imports: [
     BrowserModule,
