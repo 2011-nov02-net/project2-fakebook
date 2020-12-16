@@ -291,22 +291,23 @@ namespace Fakebook.Domain
             return result;
         }
 
-        public static List<LikeEntity> ToLikeEntities(Post post, int rabbitHoles = 0) {
-            if (rabbitHoles > 0) {
-                post.NullCheck(nameof(post));
-                post.LikedByUsers.NullCheck(nameof(post.LikedByUsers));
-            } else if (post is null) {
-                return null;
-            }
+        public static List<LikeEntity> ToLikeEntities(Post post) {
+            var result = new List<LikeEntity>();
 
-            return post.LikedByUsers.Select(u => {
-                return new LikeEntity
+            if(post.LikedByUsers != null)
+            {
+                foreach(var like in post.LikedByUsers)
                 {
-                    UserId = u.Id,
-                    PostId = post.Id
-                };
-            })
-            .ToList();
+                    var newLike = new LikeEntity
+                    {
+                        UserId = like.Id,
+                        PostId = post.Id
+                    };
+                    result.Add(newLike);
+                }
+            };
+
+            return result;
         }
     }
 }
