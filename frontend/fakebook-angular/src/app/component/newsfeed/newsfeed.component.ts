@@ -1,24 +1,24 @@
 import { Component, OnInit } from '@angular/core';
-import { ConfigService } from '../../service/config.service';
+import { NewsfeedService } from '../../service/newsfeed.service';
 import { Post } from '../../model/post';
 
 @Component({
   selector: 'app-newsfeed',
-  providers: [ConfigService],
+  providers: [NewsfeedService],
   templateUrl: './newsfeed.component.html',
   styleUrls: ['./newsfeed.component.css']
 })
 export class NewsfeedComponent implements OnInit {
-  posts: any[] = [];
+  posts: Post[] | null =  null;
 
-  constructor(private configService: ConfigService) { }
+  constructor(private newsfeedService: NewsfeedService) { }
 
   ngOnInit(){
     this.getPosts();
   }
 
   getPosts(): void {
-    this.configService.getPosts()
-      .subscribe(posts => console.log(posts));
+    this.newsfeedService.getPosts()
+      .subscribe(posts => this.posts = posts);
   }
 }
