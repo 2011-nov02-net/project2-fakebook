@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -12,6 +13,8 @@ import { CommentViewComponent } from './component/comment-view/comment-view.comp
 import { LikeViewComponent } from './component/like-view/like-view.component';
 import { UserControlsComponent } from './component/user-controls/user-controls.component';
 import { NavbarViewComponent } from './component/navbar-view/navbar-view.component';
+
+import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 
 @NgModule({
   declarations: [
@@ -28,6 +31,7 @@ import { NavbarViewComponent } from './component/navbar-view/navbar-view.compone
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     AppRoutingModule
   ],
   providers: [],
