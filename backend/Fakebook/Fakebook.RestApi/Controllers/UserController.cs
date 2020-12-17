@@ -8,7 +8,7 @@ using Fakebook.RestApi.Model;
 
 namespace Fakebook.RestApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/User")]
     [ApiController]
     // /api/user
     public class UserController : ControllerBase
