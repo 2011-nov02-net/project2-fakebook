@@ -46,6 +46,7 @@ namespace Fakebook.RestApi
             if (env.IsDevelopment()) {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
+                app.UseCors(builder => builder.WithOrigins("http://localhost:4200").AllowAnyHeader());
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Fakebook.RestApi v1"));
             }
 
