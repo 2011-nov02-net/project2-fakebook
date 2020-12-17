@@ -8,7 +8,7 @@ namespace Fakebook.Domain.Repository
         Task<bool> CreatePostAsync(Post post);
         Task<Post> GetPostByIdAsync(int id);
         Task<List<Post>> GetAllPostsAsync();
-        Task<List<Post>> GetPostByIdAsync(int id);
+        Task<List<Post>> GetPostsByIdAsync(int id);
         Task<List<Post>> GetPostsByUserIdAsync(int id);
         Task<int> CountLikesAsync(int id);
         Task<bool> UpdatePostAsync(Post post);

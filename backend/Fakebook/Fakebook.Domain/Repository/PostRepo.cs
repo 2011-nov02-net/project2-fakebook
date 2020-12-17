@@ -48,7 +48,7 @@ namespace Fakebook.Domain.Repository
             return posts;
         }
 
-        public async Task<List<Post>> GetPostByIdAsync(int id)
+        public async Task<List<Post>> GetPostsByIdAsync(int id)
         {
             var entity = await _context.PostEntities
                 .Where(e => e.Id == id)
