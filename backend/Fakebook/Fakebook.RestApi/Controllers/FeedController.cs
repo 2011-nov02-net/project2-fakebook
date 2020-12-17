@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Fakebook.RestApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/Newsfeed")]
     [ApiController]
     public class FeedController : ControllerBase
     {

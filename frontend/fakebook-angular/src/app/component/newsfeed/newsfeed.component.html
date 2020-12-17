@@ -1,4 +1,25 @@
 <h2>Newsfeed</h2>
-<li *ngFor="let item of posts">
-    {{ item.id }}
-  </li>
+<div class="panel">
+<div class="panel-body">
+  <ul *ngFor="let item of posts">
+      <div class="media-block">
+        <a class="media-left" href="#"><img class="rounded-circle img-sm" alt="Profile Picture" src="https://bootdey.com/img/Content/avatar/avatar1.png"></a>
+        <div class="media-body">
+          <div class="mar-btm">
+            <a href="#" class="btn-link text-semibold media-heading box-inline">NAME</a>
+            <p class="text-muted text-sm">X MINUTES AGO</p>
+          </div>
+          <p>{{item.content}}</p>
+          <div class="pad-ver">
+            <div class="btn-group">
+              <a class="btn btn-sm btn-default btn-hover-success" href="#"><i class="fa fa-thumbs-up"></i></a>
+              <a class="btn btn-sm btn-default btn-hover-danger" href="#"><i class="fa fa-thumbs-down"></i></a>
+            </div>
+            <a class="btn btn-sm btn-default btn-hover-primary" href="#">Comment</a>
+          </div>
+          <hr>
+        </div>
+      </div>
+    </ul>
+</div>
+</div>
