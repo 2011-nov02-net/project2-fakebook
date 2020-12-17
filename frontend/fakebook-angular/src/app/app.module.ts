@@ -14,8 +14,6 @@ import { LikeViewComponent } from './component/like-view/like-view.component';
 import { UserControlsComponent } from './component/user-controls/user-controls.component';
 import { NavbarViewComponent } from './component/navbar-view/navbar-view.component';
 
-import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
-
 @NgModule({
   declarations: [
     AppComponent,
