@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,14 +8,12 @@ namespace Fakebook.RestApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class FakebookController : ControllerBase
+    public class zTestController
     {
-        // GET: api/<Fakebook>
         [HttpGet]
-        public IActionResult Get()
+        public string Get()
         {
-            return Ok("Success");
-
+            return "Success";
         }
     }
 }

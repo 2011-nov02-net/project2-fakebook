@@ -1,0 +1,30 @@
+Services:
+- UserService:
+  + Login
+  + Logout
+  + Register (Create)
+  + Follow/Unfollow
+
+- PostService:
+  + Create
+  + Read
+  + Update
+  + Delete
+  + Like/Unlike
+
+- CommentService:
+  + Create
+  + Read
+  + Update
+  + Delete
+
+Components:
+- nav-bar
+- login-controls
+- post-view
+- comment-view
+- like-view
+- user-view (follower/followee)
+- user-profile-view
+- user-newsfeed
+- profile-picture-view
