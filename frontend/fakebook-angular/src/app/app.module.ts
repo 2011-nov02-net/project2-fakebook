@@ -14,8 +14,8 @@ import { LikeViewComponent } from './component/like-view/like-view.component';
 import { UserControlsComponent } from './component/user-controls/user-controls.component';
 import { NavbarViewComponent } from './component/navbar-view/navbar-view.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FooterComponent } from './footer/footer.component';
-import { FooterViewComponent } from './footer-view/footer-view.component';
+import { FooterViewComponent } from './component/footer-view/footer-view.component';
+import { AboutUsViewComponent } from './component/about-us-view/about-us-view.component';
 
 @NgModule({
   declarations: [
@@ -29,8 +29,8 @@ import { FooterViewComponent } from './footer-view/footer-view.component';
     LikeViewComponent,
     UserControlsComponent,
     NavbarViewComponent,
-    FooterComponent,
-    FooterViewComponent
+    FooterViewComponent,
+    AboutUsViewComponent
   ],
   imports: [
     BrowserModule,
