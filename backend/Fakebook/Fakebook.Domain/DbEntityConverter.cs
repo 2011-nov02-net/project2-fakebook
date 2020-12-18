@@ -163,7 +163,7 @@ namespace Fakebook.Domain
             {
                 Id = postEntity.Id,
                 Content = postEntity.Content,
-                //Picture = postEntity.Picture,
+                Picture = postEntity.Picture,
                 CreatedAt = postEntity.CreatedAt,
                 User = new User()
                 {
@@ -188,7 +188,8 @@ namespace Fakebook.Domain
                         {
                             Id = comment.User.Id,
                             FirstName = comment.User.FirstName,
-                            LastName = comment.User.LastName
+                            LastName = comment.User.LastName,
+                            ProfilePictureUrl = postEntity.User.ProfilePictureUrl
                         },
                         CreatedAt = comment.CreatedAt,
                         ChildrenComments = new List<Comment>()
