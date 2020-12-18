@@ -1,0 +1,35 @@
+trigger:
+- master
+
+pr:
+- master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  appDir: frontend/fakebook-angular/
+
+steps:
+- task: NodeTool@0
+  displayName: node install
+  inputs:
+    versionSpec: '14.x'
+
+- script: npm ci
+  displayName: npm install
+  workingDirectory: $(appDir)
+
+- script: npx ng build --prod
+  displayName: ng build
+  workingDirectory: $(appDir)
+
+##### insert sound cloud stuff  ##########
+
+- task: AzureRmWebAppDeployment@4
+  inputs:
+    ConnectionType: 'AzureRM'
+    azureSubscription: 'Angular Deploy'
+    appType: 'webApp'
+    WebAppName: 'fakebook-proj'
+    packageForLinux: '$(appDir)/dist/fakebook-angular'
