@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Fakebook.UnitTests.Repository.UserTests
+namespace Fakebook.UnitTests.Repository.User
 {
     public class UserRepository_CreateTests
     {

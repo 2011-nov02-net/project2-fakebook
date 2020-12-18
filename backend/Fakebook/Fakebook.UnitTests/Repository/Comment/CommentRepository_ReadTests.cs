@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Fakebook.UnitTests.Repository.CommentTests
+namespace Fakebook.UnitTests.Repository.Comment
 {
     public class CommentRepository_ReadTests
     {
