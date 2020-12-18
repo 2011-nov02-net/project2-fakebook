@@ -146,11 +146,11 @@ namespace Fakebook.Domain.Repository
         /// <param name="PostId"></param>
         /// <param name="UserId"></param>
         /// <returns></returns>
-        public async Task<bool> LikePostAsync(int PostId, int UserId)
+        public async Task<bool> LikePostAsync(int id, int userId)
         {
             try
             {
-                var like = new LikeEntity(PostId, UserId); // convert
+                var like = new LikeEntity(id, userId); // convert
                 await _context.LikeEntities.AddAsync(like);
                 return true;
             }
@@ -167,12 +167,11 @@ namespace Fakebook.Domain.Repository
         /// <param name="PostId"></param>
         /// <param name="UserId"></param>
         /// <returns></returns>
-        public async Task<bool> UnlikePostAsync(int PostId, int UserId)
-        {
+        public async Task<bool> UnlikePostAsync(int id, int userId) {
             try
             {
                 // find the like entity
-                var entity = await _context.LikeEntities.FirstOrDefaultAsync(i => i.UserId == UserId && i.PostId == PostId);
+                var entity = await _context.LikeEntities.FirstOrDefaultAsync(i => i.UserId == userId && i.PostId == id);
                 if (entity != null)
                 {
                     // remove and if able to return true
@@ -188,6 +187,7 @@ namespace Fakebook.Domain.Repository
             }
 
         }
+
         /// <summary>
         /// Count the amount of likes in a post and return it as an int.
         /// </summary>
@@ -198,6 +198,7 @@ namespace Fakebook.Domain.Repository
             var query = _context.LikeEntities.Where(c => c.PostId == id).Select(u => u.UserId).Count(); // selects the post by their id and counts the users
             return query;
         }
+
         /// <summary>
         /// get posts of the user and the poeple they are following
         /// </summary>
@@ -234,6 +235,5 @@ namespace Fakebook.Domain.Repository
             newsFeed.Reverse();
             return newsFeed;
         }
-
     }
 }
