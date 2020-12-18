@@ -17,7 +17,7 @@ namespace Fakebook.RestApi.Model
             // if content is not null, filter out any special characters
             var regex = new Regex(RegularExpressions.NoSpecialCharacters);
             if (apiModel.Content is not null && !regex.IsMatch(apiModel.Content)) {
-
+                throw new ArgumentException("No special characters are permitted in the content.");
             }
 
             // must not be in future
@@ -28,7 +28,7 @@ namespace Fakebook.RestApi.Model
             // if status is not null, filter out any non-file allowed characters
             regex = new Regex(RegularExpressions.NoSpecialCharacters);
             if (apiModel.Picture is not null && !regex.IsMatch(apiModel.Picture)) {
-
+                throw new ArgumentException("No special characters are permitted in the picture URL.");
             }
 
             var user = userRepo.GetUserByIdAsync(apiModel.UserId).Result;
@@ -138,7 +138,7 @@ namespace Fakebook.RestApi.Model
             // if content is not null, filter out any special characters
             var regex = new Regex(RegularExpressions.NoSpecialCharacters);
             if (apiModel.Content is not null && regex.IsMatch(apiModel.Content)) {
-
+                throw new ArgumentException("No special characters are permitted in the content.");
             }
 
             // must not be in future
