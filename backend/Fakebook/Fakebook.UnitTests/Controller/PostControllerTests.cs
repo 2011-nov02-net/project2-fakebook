@@ -1,7 +1,5 @@
 ﻿using Fakebook.Domain.Repository;
-using Fakebook.Domain;
 using Moq;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
@@ -9,26 +7,27 @@ using Fakebook.RestApi.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 
-namespace Fakebook.UnitTests.Repository.Post
+
+namespace Fakebook.UnitTests.Controller
 {
-    public class PostRepository_ReadTests
-    { 
+    public class PostControllerTests
+    {
         /// <summary>
         /// test the results of what happens in Index Display Users
         /// </summary>
         /// <returns></returns>
         [Fact]
-        public async Task Index_Display_UsersAsync()
-        {
+        public async Task Index_Display_UsersAsync() {
             // ARRANGE
 
-            var mockRepository = new Mock<IUserRepo>();
+            var mockUserRepository = new Mock<IUserRepo>();
+            var mockPostRepository = new Mock<IPostRepo>();
 
             // create a moq that returns users
-            mockRepository.Setup(r => r.GetAllUsersAsync()).ReturnsAsync(GetDatabaseSession());
+            mockUserRepository.Setup(r => r.GetAllUsersAsync()).ReturnsAsync(GetDatabaseSession());
 
             // make a controller using my mock
-            var controller = new UserController(mockRepository.Object);
+            var controller = new UserController(mockUserRepository.Object, mockPostRepository.Object);
 
             // ACT
             var result = await controller.Get();
@@ -37,18 +36,18 @@ namespace Fakebook.UnitTests.Repository.Post
             var viewResult = Assert.IsAssignableFrom<IActionResult>(result);
         }
         [Fact]
-        public void Index_Display_Users()
-        {
+        public void Index_Display_Users() {
             // ARRANGE
 
             var mockRepository = new Mock<IUserRepo>();
+            var mockPostRepository = new Mock<IPostRepo>();
 
             // create a moq that returns users
             mockRepository.Setup(r => r.GetAllUsers()).Returns(GetDatabaseSession);
 
             // make a controller using my mock
-            var controller = new UserController(mockRepository.Object);
-            
+            var controller = new UserController(mockRepository.Object, mockPostRepository.Object);
+
             // ACT
             var result = controller.Get();
 
@@ -56,16 +55,18 @@ namespace Fakebook.UnitTests.Repository.Post
             var viewResult = Assert.IsAssignableFrom<IActionResult>(result.Result);
         }
         [Fact]
-        public void Index_Get_User_By_ID()
-        {
+        public void Index_Get_User_By_ID() {
             // Arrange
             var mockRepository = new Mock<IUserRepo>();
+            var mockPostRepository = new Mock<IPostRepo>();
+
             var p = GetDatabaseSession();
+
             // create a moq that returns users
             mockRepository.Setup(r => r.GetUserByIdAsync(1)).ReturnsAsync(p.First);
 
             // make a controller using my Mock
-            var controller = new UserController(mockRepository.Object);
+            var controller = new UserController(mockRepository.Object, mockPostRepository.Object);
             // ACT
             // get the "get by user ids function"
             var result = controller.Get(1);
@@ -80,8 +81,7 @@ namespace Fakebook.UnitTests.Repository.Post
         /// Standard list of users to be added.
         /// </summary>
         /// <returns></returns>
-        private IEnumerable<Domain.User> GetDatabaseSession()
-        {
+        private IEnumerable<Domain.User> GetDatabaseSession() {
             var person1 = new Domain.User();
             person1.Id = 1;
             person1.FirstName = "Jordan";
