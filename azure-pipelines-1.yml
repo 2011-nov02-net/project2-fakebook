@@ -1,35 +1,67 @@
-trigger:
-- master
-
-pr:
-- master
-
 pool:
   vmImage: 'ubuntu-latest'
 
 variables:
   appDir: frontend/fakebook-angular/
 
-steps:
-- task: NodeTool@0
-  displayName: node install
-  inputs:
-    versionSpec: '14.x'
+trigger:
+- master
 
-- script: npm ci
-  displayName: npm install
-  workingDirectory: $(appDir)
+pool:
+  vmImage: 'ubuntu-latest'
 
-- script: npx ng build --prod
-  displayName: ng build
-  workingDirectory: $(appDir)
+stages:
+  - stage: install
+    
+    jobs:
+      - job: install
+        steps:
+        - task: NodeTool@0
+          inputs:
+            versionSpec: '10.x'
+          displayName: 'Setup Environment'
+
+        - script: npm install
+          displayName: 'Install Dependencies'
+          workingDirectory: $(appDir)
+
+        - script: npx ng build --prod
+          displayName: 'Build'
+          workingDirectory: $(appDir)
+        
+        - task: ArchiveFiles@2
+          inputs:
+            rootFolderOrFile: 'yourepic/dist/yourepic'
+            includeRootFolder: false
+            archiveType: 'zip'
+            archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+            replaceExistingArchive: true
+        - task: PublishBuildArtifacts@1
+          inputs:
+            PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+            ArtifactName: 'drop'
+            publishLocation: 'Container'
+      
 
 ##### insert sound cloud stuff  ##########
 
-- task: AzureRmWebAppDeployment@4
-  inputs:
-    ConnectionType: 'AzureRM'
-    azureSubscription: 'Angular Deploy'
-    appType: 'webApp'
-    WebAppName: 'fakebook-proj'
-    packageForLinux: '$(appDir)/dist/fakebook-angular'
+  - stage: release
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+    jobs:
+      - deployment: app_service
+        environment: prod
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+              - download: current
+                artifact: 'drop'
+                displayName: download app
+              - task: AzureRmWebAppDeployment@4
+                inputs:
+                  ConnectionType: 'AzureRM'
+                  azureSubscription: 'Angular Deploy'
+                  appType: 'webApp'
+                  WebAppName: 'fakebook-proj'
+                  packageForLinux: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
+
