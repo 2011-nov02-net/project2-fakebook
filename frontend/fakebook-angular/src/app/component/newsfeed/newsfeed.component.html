@@ -1,25 +1,48 @@
-<h2>Newsfeed</h2>
-<div id="newsfeed-div" class="panel">
-<div class="panel-body">
-  <ul *ngFor="let item of posts">
-      <div class="media-block">
-        <a class="media-left" href="#"><img class="rounded-circle img-sm" alt="Profile Picture" src="https://bootdey.com/img/Content/avatar/avatar1.png"></a>
-        <div class="media-body">
-          <div class="mar-btm">
-            <a href="#" class="btn-link text-semibold media-heading box-inline">NAME</a>
-            <p class="text-muted text-sm">X MINUTES AGO</p>
+
+<div class="container">
+  <div class="col-md-12">
+     <!-- Iterate through all posts -->
+    <ul *ngFor="let item of posts">
+       <!-- Box containing one post and its comments -->
+      <div class="social-feed-box">
+        <div class="social-avatar">
+          <a href="" class="pull-left">
+            <img alt="image" src="">
+          </a>
+          <div class="media-body">
+            <a href="#">
+                {{item.user.firstName + " " + item.user.lastName}}
+            </a>
+            <small class="text-muted">{{item.createdAt}}</small>
           </div>
-          <p>{{item.content}}</p>
-          <div class="pad-ver">
-            <div class="btn-group">
-              <a class="btn btn-sm btn-default btn-hover-success" href="#"><i class="fa fa-thumbs-up"></i></a>
-              <a class="btn btn-sm btn-default btn-hover-danger" href="#"><i class="fa fa-thumbs-down"></i></a>
+        <div class="social-body">
+          <p>
+              {{item.content}}
+          </p>
+          <div class="btn-group">
+              <button class="btn btn-white btn-xs"><i class="fa fa-thumbs-up"></i> Like</button>
+              <button class="btn btn-white btn-xs"><i class="fa fa-comments"></i> Comment</button>
+          </div>
+        </div>
+        <!-- Add iteration through all commends for the post -->
+        <div class="social-footer">
+          <div class="social-comment">
+            <a href="" class="pull-left">
+              <img alt="image" src="">
+              </a>
+              <div class="media-body">
+                <a href="#">
+                  Commenter's name goes here.
+                </a>
+                  Comment goes here.
+                <br>
+                <a href="#" class="small"><i class="fa fa-thumbs-up"></i> 26 Like this!</a> -
+                <small class="text-muted">12.06.2014</small>
+              </div>
             </div>
-            <a class="btn btn-sm btn-default btn-hover-primary" href="#">Comment</a>
           </div>
-          <hr>
         </div>
       </div>
     </ul>
-</div>
+  </div>
 </div>
