@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using Fakebook.RestApi.Model;
 using System;
+using Fakebook.Domain;
 
 namespace Fakebook.RestApi.Controllers
 {
@@ -32,15 +33,17 @@ namespace Fakebook.RestApi.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(PostApiModel apiModel)
         {
-            var post = ApiModelConverter.ToPost(_userRepo, _commentRepo, apiModel);
+            try {
+                var post = ApiModelConverter.ToPost(_userRepo, _commentRepo, apiModel);
 
-            if (await _postRepo.CreatePostAsync(post))
-            {
-                return Ok();
-            }
-            else
-            {
-                return BadRequest();
+                if(await _postRepo.CreatePostAsync(post)) {
+                    // return Created()
+                    return Ok();
+                } else {
+                    return BadRequest();
+                }
+            } catch(ArgumentException ex) {
+                return BadRequest(ex.Message);
             }
         }
 
@@ -51,7 +54,9 @@ namespace Fakebook.RestApi.Controllers
                 var post = ApiModelConverter.ToPost(_userRepo, _commentRepo, apiModel);
                 await _postRepo.UpdatePostAsync(post);
                 return Ok();
-            } catch(ArgumentException/* ex*/) {
+            } catch(ArgumentException ex) {
+                return BadRequest(ex.Message);
+            } catch {
                 return BadRequest();
             }
         }

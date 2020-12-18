@@ -28,8 +28,14 @@ namespace Fakebook.RestApi.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            var posts = await _postRepo.GetFollowingPosts(id);
-            return Ok(posts);
+            try {
+                var posts = await _postRepo.GetFollowingPosts(id);
+                return Ok(posts);
+            } catch(ArgumentException ex) {
+                return BadRequest(ex.Message);
+            } catch {
+                return BadRequest();
+            }
         }
 
     }
