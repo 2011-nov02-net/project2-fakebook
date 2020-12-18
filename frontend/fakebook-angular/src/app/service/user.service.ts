@@ -1,12 +1,15 @@
 import { Injectable } from '@angular/core';
-
+import { HttpClient } from '@angular/common/http';
 import { User } from '../model/user';
+import { Observable } from 'rxjs';
+import { Post } from '../model/post';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  constructor() { }
+  constructor(private http: HttpClient) { }
+  url = 'http://2011-project2-fakebook.azurewebsites.net/api/'; // url of the api
 
   login(email: string, password: string): void {
 
@@ -19,4 +22,11 @@ export class UserService {
   register(user: User): void {
 
   }
+  getUser(id:string | null): Observable<User>{
+    return this.http.get<User>(`${this.url}User/${id}`);
+  }
+  getPosts(id:string | null): Observable<Post[]>{
+    return this.http.get<Post[]>(`${this.url}User/${id}/Posts`)
+  }
+
 }
