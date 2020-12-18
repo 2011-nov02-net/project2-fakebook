@@ -1,3 +1,5 @@
+import { User } from "./user";
+
 export interface Comment {
   id: number;
   userId: number;
@@ -6,4 +8,5 @@ export interface Comment {
   parentCommentId: number | undefined;
   createdAt: Date;
   childCommentIds: number[];
+  user: User;
 }

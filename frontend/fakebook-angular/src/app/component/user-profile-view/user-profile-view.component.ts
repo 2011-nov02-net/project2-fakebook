@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router'; // getting the id number
 import { Post } from 'src/app/model/post';
 import { User } from 'src/app/model/user';
 import {  UserService } from '../../service/user.service';
+
 @Component({
   selector: 'app-user-profile-view',
   providers: [UserService],
@@ -36,5 +37,6 @@ export class UserProfileViewComponent implements OnInit {
 
     this.httpService.getPosts(id)
       .subscribe(posts => this.posts = posts)
+
   }
 }

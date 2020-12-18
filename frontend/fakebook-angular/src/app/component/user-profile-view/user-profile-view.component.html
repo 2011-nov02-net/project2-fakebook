@@ -1,11 +1,11 @@
-<div class="center row " *ngIf="user">
-    <img src="https://via.placeholder.com/900x320/FF7F50/000000" class="cover-img" alt="image">
-    <img id="profile-picture" class="img-fluid rounded-circle mx-auto d-block " src="{{user.profilePictureUrl}}" alt="noimage">
+<div class="" *ngIf="user">
+    <img id="cover" src="https://via.placeholder.com/900x320/FF7F50/000000" class="img-fluid "  alt="cover">
+    <img id="profile-picture" class="img-fluid rounded-circle mx-auto img-float d-block img-md" src="{{user.profilePictureUrl}}" alt="noimage">
     <h2 class="d-flex justify-content-center">{{user.firstName}} {{user.lastName}}</h2>
 </div>
-    <div class="container " *ngIf="user ; else elseBlock" >
+    <div class="container " *ngIf="user" >
     <div class="row">
-        <div class=" gutters-sm col-md-4 ">
+        <div class=" gutters-sm col-md-4 mt-4 ">
             <div class=" mb-3 ">
               <div class="card">
                 <div class="card-body">
@@ -22,11 +22,14 @@
                 </div>
               </div>
             </div>
-            <div>
+            <div class="row">
                 <h4>Friends: </h4>
-                <ul *ngFor="let friend of user.followees">
-                    {{friend}}
-                </ul>
+            <div class="row">
+                
+                <div class="col-2 col-md-3" *ngFor="let friend of user.followees">
+                    <a href="/user/{{friend.id}}">  <img data-toggle="tooltip" data-placement="top" title="{{friend.firstName}}" class="img-fluid img-md img-round rounded-circle" src="{{friend.profilePictureUrl}}"> </a>
+                </div>
+                </div>
             </div>
         </div>
     <div class="panel col-md-8 mt-4">
@@ -56,4 +59,5 @@
     
 </div>
 </div>
-<ng-template #elseBlock>Content to render when condition is false.</ng-template>
+
+<div *ngIf="!user"></div>
