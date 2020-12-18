@@ -1,11 +1,11 @@
+import { User } from './user';
+
 export interface Post {
   id: number;
   content: string;
-  userId: number;
-  firstName: string;
-  lastLast: string;
+  user: User;
   pictureUrl: string | undefined;
-  createdAd: Date;
+  createdAt: Date;
   likedByUserIds: number[];
   commentIds: number[];
 }
