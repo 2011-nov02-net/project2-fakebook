@@ -104,7 +104,6 @@ namespace Fakebook.DataAccess.Migrations
                         .HasDefaultValueSql("(getdate())");
 
                     b.Property<string>("Picture")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("UserId")

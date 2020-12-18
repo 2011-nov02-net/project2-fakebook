@@ -21,6 +21,9 @@ namespace Fakebook.DataAccess.Model
             modelBuilder.Entity<UserEntity>(entity => {
                 entity.ToTable("User", "Fakebook");
 
+                entity.Property(e => e.ProfilePictureUrl)
+                    .IsRequired(false);
+
                 entity.Property(e => e.FirstName)
                       .IsRequired();
 
@@ -59,7 +62,7 @@ namespace Fakebook.DataAccess.Model
                 entity.Property(e => e.Content)
                       .IsRequired();
                 entity.Property(e => e.Picture)
-                      .IsRequired();
+                      .IsRequired(false);
                 entity.Property(e => e.CreatedAt)
                       .HasColumnType("datetime2")
                       .HasDefaultValueSql("(getdate())");

@@ -86,7 +86,7 @@ namespace Fakebook.Domain.Repository
 
             return comments
                 .Where(c => c.UserId == userId)
-                .Select(c => DbEntityConverter.ToComment(c, 2));
+                .Select(c => DbEntityConverter.ToComment(c));
         }
 
         public async Task<IEnumerable<Comment>> GetCommentsByPostIdAsync(int postId) {
@@ -103,7 +103,7 @@ namespace Fakebook.Domain.Repository
 
             return comments
                 .Where(c => c.PostId == postId)
-                .Select(c => DbEntityConverter.ToComment(c, 2));
+                .Select(c => DbEntityConverter.ToComment(c));
         }
 
         public async Task<bool> CreateAsync(Comment comment) {

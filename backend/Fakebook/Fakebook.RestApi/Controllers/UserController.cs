@@ -8,7 +8,7 @@ using Fakebook.RestApi.Model;
 
 namespace Fakebook.RestApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/User")]
     [ApiController]
     // /api/user
     public class UserController : ControllerBase
@@ -16,9 +16,10 @@ namespace Fakebook.RestApi.Controllers
         private readonly IUserRepo _userRepo;
         private readonly IPostRepo _postRepo;
 
-        public UserController(IUserRepo repository)
+        public UserController(IUserRepo repository, IPostRepo postRepo)
         {
             _userRepo = repository;
+            _postRepo = postRepo;
         }
 
         /// <summary>
@@ -27,25 +28,29 @@ namespace Fakebook.RestApi.Controllers
         /// <returns></returns>
         // GET: api/user
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<ActionResult<IEnumerable<User>>> Get()
         {
-            var users = await _userRepo.GetAllUsersAsync();
+            IEnumerable<User> users = await _userRepo.GetAllUsersAsync();
             return Ok(users);
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
+        public async Task<ActionResult<User>> Get(int id)
         {
-            var user = await _userRepo.GetUserByIdAsync(id);
-            return Ok(user);
+            User user = await _userRepo.GetUserByIdAsync(id);
+            if(user==null)
+            {
+                return NotFound();
+            }
+            return user;
         }
 
         // Gets all posts by a specific user id
         [HttpGet("{id}/Posts")]
-        public async Task<IActionResult> GetUserPosts(int id)
+        public async Task<ActionResult<List<Post>>> GetUserPosts(int id)
         {
-            var posts = await _postRepo.GetPostsByUserIdAsync(id);
-            return Ok(posts);
+            List<Post> posts = await _postRepo.GetPostsByUserIdAsync(id);
+            return posts;
         }
 
         [HttpPost]

@@ -12,5 +12,6 @@ namespace Fakebook.Domain.Repository
         Task<List<Post>> GetPostsByIdAsync(int id);
         Task<List<Post>> GetPostsByUserIdAsync(int id);
         Task<bool> UpdatePostAsync(Post post);
+        Task<List<Post>> GetFollowingPosts(int id);
     }
 }
