@@ -67,8 +67,18 @@ namespace Fakebook.RestApi.Model
             apiModel.LastName.NullOrEmptyCheck(nameof(apiModel.LastName));
             apiModel.Email.NullOrEmptyCheck(nameof(apiModel.Email));
 
+            var regex = new Regex(RegularExpressions.NameCharacters);
+            if (!regex.IsMatch(apiModel.FirstName)) {
+                throw new ArgumentException("First name can only contain name characters.");
+            }
+
+            regex = new Regex(RegularExpressions.NameCharacters);
+            if (!regex.IsMatch(apiModel.LastName)) {
+                throw new ArgumentException("Last name can only contain name characters.");
+            }
+
             // must match email regex
-            var regex = new Regex(RegularExpressions.EmailCharacters);
+            regex = new Regex(RegularExpressions.EmailCharacters);
             if (!regex.IsMatch(apiModel.Email)) {
                 throw new ArgumentException("Email isn't a valid email.");
             }
@@ -90,13 +100,13 @@ namespace Fakebook.RestApi.Model
             // if status is not null, filter out any special characters
             regex = new Regex(RegularExpressions.NoSpecialCharacters);
             if (apiModel.Status is not null && regex.IsMatch(apiModel.Status)) {
-
+                throw new ArgumentException("Status cannot contain any special characters");
             }
 
             // if status is not null, filter out any non-file allowed characters
             regex = new Regex(RegularExpressions.NoSpecialCharacters);
             if (apiModel.ProfilePictureUrl is not null && regex.IsMatch(apiModel.ProfilePictureUrl)) {
-
+                throw new ArgumentException("Picture URL cannot contain any special characters");
             }
 
             List<User> followers = null;
