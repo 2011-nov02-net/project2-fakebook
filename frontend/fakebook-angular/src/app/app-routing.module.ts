@@ -6,7 +6,7 @@ import { UserProfileViewComponent } from './component/user-profile-view/user-pro
 import { AboutUsViewComponent } from './component/about-us-view/about-us-view.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/newsfeed', pathMatch: 'full' },
+  { path: 'newsfeed/:id', component: NewsfeedComponent},
   { path: 'user/:id', component: UserProfileViewComponent},
   { path: 'about' , component: AboutUsViewComponent}
 

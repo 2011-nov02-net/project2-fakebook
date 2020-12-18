@@ -15,7 +15,6 @@ namespace Fakebook.RestApi.Model
         public int? ParentCommentId { get; set; }
         public DateTime CreatedAt { get; set; }
         public int UserId { get; set; }
-
         public List<int> ChildCommentIds { get; set; }
     }
 }
