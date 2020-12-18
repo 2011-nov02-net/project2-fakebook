@@ -23,23 +23,25 @@
               <button class="btn btn-white btn-xs"><i class="fa fa-comments"></i> Comment</button>
           </div>
         </div>
-        <!-- Add iteration through all commends for the post -->
+        <!-- Add iteration through all comments for the post -->
         <div class="social-footer">
-          <div class="social-comment">
-            <a href="" class="pull-left">
-              <img alt="image" src="">
-              </a>
-              <div class="media-body">
-                <a href="#">
-                  Commenter's name goes here.
+          <ul *ngFor="let comment of item.comments">  
+            <div class="social-comment">
+              <a href="" class="pull-left">
+                <img alt="image" src="">
                 </a>
-                  Comment goes here.
-                <br>
-                <a href="#" class="small"><i class="fa fa-thumbs-up"></i> 26 Like this!</a> -
-                <small class="text-muted">12.06.2014</small>
+                <div class="media-body">
+                  <a href="#">
+                    {{comment.user.firstName}}
+                  </a>
+                    {{comment.content}}
+                  <br>
+                  <a href="#" class="small"><i class="fa fa-thumbs-up"></i> 26 Like this!</a> -
+                  <small class="text-muted">12.06.2014</small>
               </div>
             </div>
-          </div>
+          </ul>   
+        </div>
         </div>
       </div>
     </ul>
