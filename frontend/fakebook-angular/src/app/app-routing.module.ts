@@ -5,7 +5,7 @@ import { NewsfeedComponent } from './component/newsfeed/newsfeed.component';
 import { UserProfileViewComponent } from './component/user-profile-view/user-profile-view.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/newsfeed', pathMatch: 'full' },
+  { path: 'newsfeed/:id', component: NewsfeedComponent},
   { path: 'user/:id', component: UserProfileViewComponent},
 
 ];
