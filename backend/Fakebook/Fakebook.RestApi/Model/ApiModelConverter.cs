@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 using Fakebook.Domain;
 using Fakebook.Domain.Extension;
@@ -11,6 +13,23 @@ namespace Fakebook.RestApi.Model
     {
         public static Post ToPost(IUserRepo userRepo, ICommentRepo commentRepo, PostApiModel apiModel) {
             apiModel.Content.NullOrEmptyCheck(nameof(apiModel.Content));
+
+            // if content is not null, filter out any special characters
+            var regex = new Regex(RegularExpressions.NoSpecialCharacters);
+            if (apiModel.Content is not null && !regex.IsMatch(apiModel.Content)) {
+
+            }
+
+            // must not be in future
+            if (apiModel.CreatedAt > DateTime.Now) {
+                throw new ArgumentException("Date is in the future.");
+            }
+
+            // if status is not null, filter out any non-file allowed characters
+            regex = new Regex(RegularExpressions.NoSpecialCharacters);
+            if (apiModel.Picture is not null && !regex.IsMatch(apiModel.Picture)) {
+
+            }
 
             var user = userRepo.GetUserByIdAsync(apiModel.UserId).Result;
             List<Comment> comments = null;
@@ -48,6 +67,38 @@ namespace Fakebook.RestApi.Model
             apiModel.LastName.NullOrEmptyCheck(nameof(apiModel.LastName));
             apiModel.Email.NullOrEmptyCheck(nameof(apiModel.Email));
 
+            // must match email regex
+            var regex = new Regex(RegularExpressions.EmailCharacters);
+            if (!regex.IsMatch(apiModel.Email)) {
+                throw new ArgumentException("Email isn't a valid email.");
+            }
+
+            // must match phone number regex
+            regex = new Regex(RegularExpressions.PhoneNumberCharacters);
+            if (apiModel.PhoneNumber is not null && !regex.IsMatch(apiModel.PhoneNumber)) {
+                throw new ArgumentException("Phone Number isn't a valid phone number.");
+            }
+
+            // must not be in future
+            // must also be within 18 years from today
+            var today = DateTime.Today;
+            var date = new DateTime(today.Year - 18, today.Month, today.Day);
+            if (apiModel.BirthDate > date) {
+                throw new ArgumentException("Date is greater than 18 years ago from today.");
+            }
+
+            // if status is not null, filter out any special characters
+            regex = new Regex(RegularExpressions.NoSpecialCharacters);
+            if (apiModel.Status is not null && regex.IsMatch(apiModel.Status)) {
+
+            }
+
+            // if status is not null, filter out any non-file allowed characters
+            regex = new Regex(RegularExpressions.NoSpecialCharacters);
+            if (apiModel.ProfilePictureUrl is not null && regex.IsMatch(apiModel.ProfilePictureUrl)) {
+
+            }
+
             List<User> followers = null;
             List<User> followees = null;
 
@@ -83,7 +134,18 @@ namespace Fakebook.RestApi.Model
 
         public static Comment ToComment(ICommentRepo commentRepo, IUserRepo userRepo, IPostRepo postRepo, CommentApiModel apiModel) {
             apiModel.Content.NullOrEmptyCheck(nameof(apiModel.Content));
-            
+
+            // if content is not null, filter out any special characters
+            var regex = new Regex(RegularExpressions.NoSpecialCharacters);
+            if (apiModel.Content is not null && regex.IsMatch(apiModel.Content)) {
+
+            }
+
+            // must not be in future
+            if (apiModel.CreatedAt > DateTime.Now) {
+                throw new ArgumentException("Date is in the future.");
+            }
+
             var user = userRepo.GetUserByIdAsync(apiModel.UserId)
                 .Result;
 

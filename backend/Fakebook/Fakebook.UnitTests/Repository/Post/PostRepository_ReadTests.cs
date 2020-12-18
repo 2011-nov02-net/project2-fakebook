@@ -21,14 +21,14 @@ namespace Fakebook.UnitTests.Repository.Post
         public async Task Index_Display_UsersAsync()
         {
             // ARRANGE
-
-            var mockRepository = new Mock<IUserRepo>();
+            var mockUserRepository = new Mock<IUserRepo>();
+            var mockPostRepository = new Mock<IPostRepo>();
 
             // create a moq that returns users
-            mockRepository.Setup(r => r.GetAllUsersAsync()).ReturnsAsync(GetDatabaseSession());
+            mockUserRepository.Setup(r => r.GetAllUsersAsync()).ReturnsAsync(GetDatabaseSession());
 
             // make a controller using my mock
-            var controller = new UserController(mockRepository.Object);
+            var controller = new UserController(mockUserRepository.Object, mockPostRepository.Object);
 
             // ACT
             var result = await controller.Get();
@@ -41,13 +41,14 @@ namespace Fakebook.UnitTests.Repository.Post
         {
             // ARRANGE
 
-            var mockRepository = new Mock<IUserRepo>();
+            var mockUserRepository = new Mock<IUserRepo>();
+            var mockPostRepository = new Mock<IPostRepo>();
 
             // create a moq that returns users
-            mockRepository.Setup(r => r.GetAllUsers()).Returns(GetDatabaseSession);
+            mockUserRepository.Setup(r => r.GetAllUsers()).Returns(GetDatabaseSession);
 
             // make a controller using my mock
-            var controller = new UserController(mockRepository.Object);
+            var controller = new UserController(mockUserRepository.Object, mockPostRepository.Object);
             
             // ACT
             var result = controller.Get();
@@ -59,13 +60,15 @@ namespace Fakebook.UnitTests.Repository.Post
         public void Index_Get_User_By_ID()
         {
             // Arrange
-            var mockRepository = new Mock<IUserRepo>();
+            var mockUserRepository = new Mock<IUserRepo>();
+            var mockPostRepository = new Mock<IPostRepo>();
+
             var p = GetDatabaseSession();
             // create a moq that returns users
-            mockRepository.Setup(r => r.GetUserByIdAsync(1)).ReturnsAsync(p.First);
+            mockUserRepository.Setup(r => r.GetUserByIdAsync(1)).ReturnsAsync(p.First);
 
             // make a controller using my Mock
-            var controller = new UserController(mockRepository.Object);
+            var controller = new UserController(mockUserRepository.Object, mockPostRepository.Object);
             // ACT
             // get the "get by user ids function"
             var result = controller.Get(1);
