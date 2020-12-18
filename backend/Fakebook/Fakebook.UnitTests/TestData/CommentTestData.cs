@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 using Fakebook.Domain;
@@ -17,102 +18,93 @@ namespace Fakebook.UnitTests.Repository.CommentTests
                 public DateTime CreatedAt { get; set; }
                 public User User { get; set; } 
              */
-
-            public static IEnumerable<object[]> Valid
+            public class Valid : IEnumerable<object[]>
             {
-                get
-                {
-                    return new List<object[]>
-                    {
-                        new object[] { new User { }, new Post { }, new Comment { },  }
-                    };
+                public IEnumerator<object[]> GetEnumerator() {
+                    yield return new object[] { };
+                    yield return new object[] { };
                 }
+
+                IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
             }
 
-            public static IEnumerable<object[]> Invalid
+            public class Invalid : IEnumerable<object[]>
             {
-                get
-                {
-                    return new List<object[]>
-                    {
-                        new object[] { new object(), new object() }
-                    };
+                public IEnumerator<object[]> GetEnumerator() {
+                    yield return new object[] { };
+                    yield return new object[] { };
                 }
+
+                IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
             }
         }
 
         public static class Read
         {
-            public static IEnumerable<object[]> Valid
+            public class Valid : IEnumerable<object[]>
             {
-                get
-                {
-                    return new List<object[]>
-                    {
-                        new object[] { new object(), new object() }
-                    };
+                public IEnumerator<object[]> GetEnumerator() {
+                    yield return new object[] { };
+                    yield return new object[] { };
                 }
+
+                IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
             }
 
-            public static IEnumerable<object[]> Invalid
+            public class Invalid : IEnumerable<object[]>
             {
-                get
-                {
-                    return new List<object[]>
-                    {
-                        new object[] { new object(), new object() }
-                    };
+                public IEnumerator<object[]> GetEnumerator() {
+                    yield return new object[] { };
+                    yield return new object[] { };
                 }
+
+                IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
             }
         }
 
         public static class Update
         {
-            public static IEnumerable<object[]> Valid
+            public class Valid : IEnumerable<object[]>
             {
-                get
-                {
-                    return new List<object[]>
-                    {
-                        new object[] { new object(), new object() }
-                    };
+                public IEnumerator<object[]> GetEnumerator() {
+                    yield return new object[] { };
+                    yield return new object[] { };
                 }
+
+                IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
             }
 
-            public static IEnumerable<object[]> Invalid
+            public class Invalid : IEnumerable<object[]>
             {
-                get
-                {
-                    return new List<object[]>
-                    {
-                        new object[] { new object(), new object() }
-                    };
+                public IEnumerator<object[]> GetEnumerator() {
+                    yield return new object[] { };
+                    yield return new object[] { };
                 }
+
+                IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
             }
         }
 
         public static class Delete
         {
-            public static IEnumerable<object[]> Valid
+            public class Valid : IEnumerable<object[]>
             {
-                get
-                {
-                    return new List<object[]>
-                    {
-                        new object[] { new object(), new object() }
-                    };
+                public IEnumerator<object[]> GetEnumerator() {
+                    yield return new object[] { };
+                    yield return new object[] { };
                 }
+
+                IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
             }
 
-            public static IEnumerable<object[]> Invalid
+            public class Invalid : IEnumerable<object[]>
             {
-                get
-                {
-                    return new List<object[]>
-                    {
-                        new object[] { new object(), new object() }
-                    };
+                public IEnumerator<object[]> GetEnumerator() {
+                    yield return new object[] { };
+                    yield return new object[] { };
                 }
+
+                IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
             }
         }
     }
