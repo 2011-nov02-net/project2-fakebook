@@ -32,4 +32,4 @@ steps:
     azureSubscription: 'Angular Deploy'
     appType: 'webApp'
     WebAppName: 'fakebook-proj'
-    packageForLinux: '$(appDir)/dist/$(appDir)'
+    packageForLinux: '$(appDir)/dist/fakebook-angular'
