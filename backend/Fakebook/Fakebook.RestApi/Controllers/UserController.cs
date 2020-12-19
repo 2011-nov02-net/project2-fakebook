@@ -106,8 +106,8 @@ namespace Fakebook.RestApi.Controllers
                         throw new ArgumentException("id cannot be -1");
                     }
 
-                    var user = ApiModelConverter.ToUser(_userRepo, apiModel);
-                    await _userRepo.UpdateUserAsync(id, user
+                    var result = ApiModelConverter.ToUser(_userRepo, apiModel);
+                    await _userRepo.UpdateUserAsync(id, result);
                     return Ok();
                 } catch (ArgumentException ex) {
                     return BadRequest(ex.Message);
