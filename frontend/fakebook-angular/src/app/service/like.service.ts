@@ -13,17 +13,18 @@ export class LikeService {
   constructor(private http: HttpClient) { }
   url = 'http://2011-project2-fakebook.azurewebsites.net/api/';
 
-  like(post: Post, user: User): Observable<Like> {
+  like(post: Post, user: User): any {
     let httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return this.http.post<Like>(`${this.url}api/posts/${post.id}/like/${user.id}`, httpOptions)
-      .pipe(
-        tap((newLike: Like) => console.log(`add log w/ id='${newLike}'`)),
-        catchError(this.handleError)
-      );
+    return this.http.post(`${this.url}Posts/${post.id}/like/${user.id}`, httpOptions)
+    .toPromise().then(res => console.log(JSON.stringify(res)));
+      // .pipe(
+      //   tap((newLike: Like) => console.log(`add log w/ id='${newLike}'`)),
+      //   catchError(this.handleError)
+      // );
   }
 
   unlike(post: Post, user: User): boolean {
