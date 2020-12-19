@@ -38,7 +38,9 @@ namespace Fakebook.RestApi.Controllers
             try {
                 var post = ApiModelConverter.ToPost(_userRepo, _commentRepo, apiModel);
 
-                if(await _postRepo.CreatePostAsync(post)) {
+                int result = await _postRepo.CreatePostAsync(post);
+
+                if (result != -1) {
                     // return Created()
                     return Ok();
                 } else {
