@@ -75,8 +75,11 @@ namespace Fakebook.RestApi.Controllers
         [Authorize]
         public async Task<IActionResult> Delete(int id)
         {
-            if (await _userRepo.DeleteUserAsync(id))
+            var user = await _userRepo.GetUserByIdAsync(id);
+            var email = User.FindFirst(ct => ct.Type.Contains("Email")).Value;
+            if (email == user.Email)
             {
+                await _userRepo.DeleteUserAsync(id);
                 return Ok();
             } else {
                 return BadRequest();
