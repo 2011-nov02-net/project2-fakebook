@@ -19,8 +19,7 @@ namespace Fakebook.RestApi.Controllers
         private readonly IUserRepo _userRepo;
         private readonly ICommentRepo _commentRepo;
 
-        public FeedController(IPostRepo postRepo, IUserRepo userRepo, ICommentRepo commentRepo)
-        {
+        public FeedController(IPostRepo postRepo, IUserRepo userRepo, ICommentRepo commentRepo) {
             _postRepo = postRepo;
             _userRepo = userRepo;
             _commentRepo = commentRepo;
@@ -28,16 +27,21 @@ namespace Fakebook.RestApi.Controllers
         // GET: api/<Feed>
         [HttpGet("{id}")]
         [Authorize]
-        public async Task<IActionResult> Get(int id)
-        {
-            var user = await _userRepo.GetUserByIdAsync(id);
-            var email = User.FindFirst(ct => ct.Type.Contains("nameidentifier")).Value;
-            if(email == user.Email) {
-                var posts = await _postRepo.GetFollowingPosts(id);
-                return Ok(posts);
-            }
-            else {
-                return StatusCode(StatusCodes.Status403Forbidden);
+
+        public async Task<IActionResult> Get(int id) {
+            try {
+                var user = await _userRepo.GetUserByIdAsync(id);
+                var email = User.FindFirst(ct => ct.Type.Contains("nameidentifier")).Value;
+                if (email == user.Email) {
+                    var posts = await _postRepo.GetFollowingPosts(id);
+                    return Ok(posts);
+                } else {
+                    return StatusCode(StatusCodes.Status403Forbidden);
+                }
+            } catch (ArgumentException ex) {
+                return BadRequest(ex.Message);
+            } catch {
+                return BadRequest();
             }
         }
     }

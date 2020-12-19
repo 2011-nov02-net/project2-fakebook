@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Fakebook.RestApi.Model;
 using System;
 using Microsoft.AspNetCore.Authorization;
+using Fakebook.Domain;
 
 namespace Fakebook.RestApi.Controllers
 {
@@ -36,11 +37,21 @@ namespace Fakebook.RestApi.Controllers
         {
             var user = await _userRepo.GetUserByIdAsync(apiModel.UserId);
             var email = User.FindFirst(ct => ct.Type.Contains("nameidentifier")).Value;
-            var post = ApiModelConverter.ToPost(_userRepo, _commentRepo, apiModel);
             if (email == user.Email)
             {
-                await  _postRepo.CreatePostAsync(post);
-                return Ok();
+              try {
+                  var post = ApiModelConverter.ToPost(_userRepo, _commentRepo, apiModel);
+
+                  if(await _postRepo.CreatePostAsync(post)) {
+                      // return Created()
+                      return Ok();
+                  } else {
+                      return BadRequest();
+                  }
+              } 
+              catch(ArgumentException ex) {
+                  return BadRequest(ex.Message);
+              }
             }
             else
             {
@@ -56,14 +67,15 @@ namespace Fakebook.RestApi.Controllers
             var email = User.FindFirst(ct => ct.Type.Contains("nameidentifier")).Value;
             if(email == user.Email)
             {
-                try
-                {
+                try {
                     var post = ApiModelConverter.ToPost(_userRepo, _commentRepo, apiModel);
                     await _postRepo.UpdatePostAsync(post);
                     return Ok();
-                }
-                catch (ArgumentException/* ex*/)
-                {
+                } 
+                catch(ArgumentException ex) {
+                    return BadRequest(ex.Message);
+                } 
+                catch {
                     return BadRequest();
                 }
             }

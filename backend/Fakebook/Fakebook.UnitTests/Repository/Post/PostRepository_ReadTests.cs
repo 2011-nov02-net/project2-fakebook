@@ -21,6 +21,8 @@ namespace Fakebook.UnitTests.Repository.Post
         public async Task Index_Display_UsersAsync()
         {
             // ARRANGE
+            var mockUserRepository = new Mock<IUserRepo>();
+            var mockPostRepository = new Mock<IPostRepo>();
 
             var mockUserRepository = new Mock<IUserRepo>();
             var mockPostRepostiory = new Mock<IPostRepo>();
