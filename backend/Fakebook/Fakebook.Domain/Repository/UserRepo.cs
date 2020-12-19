@@ -14,16 +14,14 @@ namespace Fakebook.Domain.Repository
     {
         // create a read only for our database
         private readonly FakebookContext _context;
-        public UserRepo(FakebookContext context)
-        {
+        public UserRepo(FakebookContext context) {
             _context = context;
         }
         /// <summary>
         /// Get all users
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<User> GetAllUsers()
-        {
+        public IEnumerable<User> GetAllUsers() {
             var entity = _context.UserEntities
                 .Include(u => u.Followees)
                      .ThenInclude(u => u.Followee)
@@ -38,8 +36,7 @@ namespace Fakebook.Domain.Repository
         /// Get all users asyncronously
         /// </summary>
         /// <returns></returns>
-        public async Task<IEnumerable<User>> GetAllUsersAsync()
-        {
+        public async Task<IEnumerable<User>> GetAllUsersAsync() {
             var entities = await _context.UserEntities
                 .Include(u => u.Followees)
                      .ThenInclude(u => u.Followee)
@@ -74,7 +71,7 @@ namespace Fakebook.Domain.Repository
                 .Include(u => u.Posts)
                 .ToListAsync();
 
-            if(!ids.Any() || !users.Any()) {
+            if (!ids.Any() || !users.Any()) {
                 return new List<User>();
             }
 
@@ -89,8 +86,7 @@ namespace Fakebook.Domain.Repository
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<User> GetUserByIdAsync(int id)
-        {
+        public async Task<User> GetUserByIdAsync(int id) {
             var entities = _context.UserEntities;
 
             if (id < 1 || !entities.Any() || id > entities.Max(u => u.Id)) {
@@ -113,7 +109,7 @@ namespace Fakebook.Domain.Repository
 
             email.EnforceEmailCharacters(nameof(email));
 
-            if(!entities.Any()) {
+            if (!entities.Any()) {
                 throw new ArgumentException($"{email} does not belong to any user");
             }
 
@@ -133,17 +129,13 @@ namespace Fakebook.Domain.Repository
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        public async Task<int> CreateUser(User user)
-        {
-            try
-            {
+        public async Task<int> CreateUser(User user) {
+            try {
                 var newUser = DbEntityConverter.ToUserEntity(user); // convert
                 await _context.AddAsync(newUser);
                 await _context.SaveChangesAsync();
                 return newUser.Id;
-            }
-            catch
-            {
+            } catch {
                 return -1;
             }
 
@@ -153,18 +145,14 @@ namespace Fakebook.Domain.Repository
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<bool> DeleteUserAsync(int id)
-        {
-            try
-            {
+        public async Task<bool> DeleteUserAsync(int id) {
+            try {
 
                 var entity = await _context.UserEntities.FindAsync(id);
                 _context.UserEntities.Remove(entity);
                 await _context.SaveChangesAsync();
                 return true;
-            }
-            catch
-            {
+            } catch {
                 Console.WriteLine("Invalid user");
                 return false;
             }
@@ -175,29 +163,22 @@ namespace Fakebook.Domain.Repository
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        public async Task<bool> UpdateUserAsync(int id, User user)
-        {
-            try
-            {
-                UserEntity entity = await _context.UserEntities.FindAsync(id);
-                // assign all the values
-                {
-                    entity.Status = user.Status;
-                    entity.FirstName = user.FirstName;
-                    if (!String.IsNullOrEmpty(user.Email))
-                        entity.Email = user.Email;
-                    entity.LastName = user.LastName;
-                }
-                // save changes.
-                _context.SaveChanges();
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+        public async Task<bool> UpdateUserAsync(int id, User user) {
+            // make sure the user can be converted
+            var userEntity = DbEntityConverter.ToUserEntity(user);
 
+            UserEntity entity = await _context.UserEntities.FindAsync(id);
+            // assign all the values
+            {
+                entity.Status = userEntity.Status;
+                entity.FirstName = userEntity.FirstName;
+                if (!userEntity.Email.IsNullOrEmpty())
+                    entity.Email = userEntity.Email;
+                entity.LastName = userEntity.LastName;
+            }
+            // save changes.
+            _context.SaveChanges();
+            return true;
         }
-
     }
 }

@@ -489,6 +489,7 @@ namespace Fakebook.UnitTests.TestData
                     {
                         new User
                         {
+                            Id = 1,
                             FirstName = GenerateRandom.String(),
                             LastName = GenerateRandom.String(),
                             ProfilePictureUrl = null,
@@ -499,6 +500,7 @@ namespace Fakebook.UnitTests.TestData
                         },
                         new User
                         {
+                            Id = 1,
                             FirstName =  GenerateRandom.String(),
                             LastName =  GenerateRandom.String(),
                             ProfilePictureUrl = null,
@@ -513,6 +515,7 @@ namespace Fakebook.UnitTests.TestData
                     {
                         new User
                         {
+                            Id = 2,
                             FirstName =  GenerateRandom.String(),
                             LastName =  GenerateRandom.String(),
                             ProfilePictureUrl = null,
@@ -523,6 +526,7 @@ namespace Fakebook.UnitTests.TestData
                         },
                         new User
                         {
+                            Id = 2,
                             FirstName = GenerateRandom.String(),
                             LastName = GenerateRandom.String(),
                             ProfilePictureUrl = null,
@@ -537,6 +541,7 @@ namespace Fakebook.UnitTests.TestData
                     {
                         new User
                         {
+                            Id = 3,
                             FirstName = GenerateRandom.String(),
                             LastName = GenerateRandom.String(),
                             ProfilePictureUrl = GenerateRandom.String(),
@@ -547,6 +552,7 @@ namespace Fakebook.UnitTests.TestData
                         },
                         new User
                         {
+                            Id = 3,
                             FirstName =  GenerateRandom.String(),
                             LastName =  GenerateRandom.String(),
                             ProfilePictureUrl = GenerateRandom.String(),
@@ -561,6 +567,7 @@ namespace Fakebook.UnitTests.TestData
                     {
                         new User
                         {
+                            Id = 4,
                             FirstName =  GenerateRandom.String(),
                             LastName =  GenerateRandom.String(),
                             ProfilePictureUrl = GenerateRandom.String(),
@@ -571,6 +578,7 @@ namespace Fakebook.UnitTests.TestData
                         },
                         new User
                         {
+                            Id = 4,
                             FirstName = GenerateRandom.String(),
                             LastName = GenerateRandom.String(),
                             ProfilePictureUrl = null,
@@ -592,6 +600,7 @@ namespace Fakebook.UnitTests.TestData
                     {
                         new User
                         {
+                            Id = 1,
                             FirstName =  GenerateRandom.String(),
                             LastName =  GenerateRandom.String(),
                             ProfilePictureUrl = GenerateRandom.String(),
@@ -602,6 +611,7 @@ namespace Fakebook.UnitTests.TestData
                         },
                         new User
                         {
+                            Id = 1,
                             FirstName =  null,
                             LastName =  null,
                             ProfilePictureUrl = GenerateRandom.String(),
@@ -616,6 +626,7 @@ namespace Fakebook.UnitTests.TestData
                     {
                         new User
                         {
+                            Id = 2,
                             FirstName =  GenerateRandom.String(),
                             LastName =  GenerateRandom.String(),
                             ProfilePictureUrl = GenerateRandom.String(),
@@ -626,6 +637,7 @@ namespace Fakebook.UnitTests.TestData
                         },
                         new User
                         {
+                            Id = 2,
                             FirstName =  GenerateRandom.String(),
                             LastName =  GenerateRandom.String(),
                             ProfilePictureUrl = GenerateRandom.String(),

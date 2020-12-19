@@ -83,14 +83,13 @@ namespace Fakebook.UnitTests.Repository.UserTests
             using (var assertionContext = new FakebookContext(options)) {
                 var repo = new UserRepo(assertionContext);
 
-                bool updateResult = repo.UpdateUserAsync(user.Id, userUpdates).Result;
+                Assert.ThrowsAsync<ArgumentException>(() => repo.UpdateUserAsync(user.Id, userUpdates));
 
-                Assert.False(updateResult, "Unable to update the user.");
                 var userActual = repo.GetUserByIdAsync(user.Id).Result;
 
                 Assert.Equal(user.FirstName, userActual.FirstName);
                 Assert.Equal(user.LastName, userActual.LastName);
-                Assert.Equal(user.Status, userActual.Status);
+                Assert.Equal(user.Email, userActual.Email);
             }
         }
     }
