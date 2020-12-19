@@ -45,7 +45,7 @@ namespace Fakebook.RestApi
                 options.AddDefaultPolicy(
                     builder =>
                     {
-                        builder.WithOrigins("http://localhost:4200", "https://fakebook-proj.azurewebsites.net/")
+                        builder.WithOrigins("http://localhost:4200", "https://fakebook-proj.azurewebsites.net", "http://fakebook-proj.azurewebsites.net")
                             .AllowAnyMethod()
                             .AllowAnyHeader()
                             .AllowCredentials();
