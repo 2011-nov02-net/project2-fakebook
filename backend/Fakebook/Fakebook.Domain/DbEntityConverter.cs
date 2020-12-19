@@ -11,6 +11,12 @@ namespace Fakebook.Domain
     public static class DbEntityConverter
     {
         public static UserEntity ToUserEntity(User user) {
+            user.NullCheck(nameof(user));
+            user.FirstName.NullCheck(nameof(user.FirstName));
+            user.LastName.NullCheck(nameof(user.LastName));
+            user.Email.NullCheck(nameof(user.Email));
+            user.BirthDate.EnforcePast();
+
             var result = new UserEntity
             {
                 Id = user.Id,
@@ -55,6 +61,12 @@ namespace Fakebook.Domain
         }
 
         public static User ToUser(UserEntity userEntity) {
+            userEntity.NullCheck(nameof(UserEntity));
+            userEntity.FirstName.NullCheck(nameof(userEntity.FirstName));
+            userEntity.LastName.NullCheck(nameof(userEntity.LastName));
+            userEntity.Email.NullCheck(nameof(userEntity.Email));
+            userEntity.BirthDate.EnforcePast();
+
             var result = new User
             {
                 Id = userEntity.Id,
@@ -121,6 +133,9 @@ namespace Fakebook.Domain
         }
 
         public static PostEntity ToPostEntity(Post post) {
+            post.NullCheck(nameof(post));
+            post.Content.NullCheck(nameof(post.Content));
+            post.CreatedAt.EnforcePast();
 
             var result =  new PostEntity
             {
@@ -159,6 +174,10 @@ namespace Fakebook.Domain
         }
 
         public static Post ToPost(PostEntity postEntity) {
+            postEntity.NullCheck(nameof(postEntity));
+            postEntity.Content.NullCheck(nameof(postEntity.Content));
+            postEntity.CreatedAt.EnforcePast();
+
             var result = new Post
             {
                 Id = postEntity.Id,
@@ -234,6 +253,10 @@ namespace Fakebook.Domain
         }
 
         public static CommentEntity ToCommentEntity(Comment comment) {
+            comment.NullCheck(nameof(comment));
+            comment.Content.NullCheck(nameof(comment.Content));
+            comment.CreatedAt.EnforcePast();
+
             if(comment != null)
             {
                 return new CommentEntity
@@ -254,6 +277,10 @@ namespace Fakebook.Domain
         }
 
         public static Comment ToComment(CommentEntity commentEntity) {
+            commentEntity.NullCheck(nameof(commentEntity));
+            commentEntity.Content.NullCheck(nameof(commentEntity.Content));
+            commentEntity.CreatedAt.EnforcePast();
+
             var result = new Comment
             {
                 Id = commentEntity.Id,
@@ -273,6 +300,8 @@ namespace Fakebook.Domain
         }
 
         public static List<FollowEntity> ToFollowEntities(User user) {
+            user.NullCheck(nameof(user));
+
             var result = new List<FollowEntity>();
 
             if(user.Followers != null)
@@ -292,6 +321,8 @@ namespace Fakebook.Domain
         }
 
         public static List<LikeEntity> ToLikeEntities(Post post) {
+            post.NullCheck(nameof(post));
+
             var result = new List<LikeEntity>();
 
             if(post.LikedByUsers != null)
