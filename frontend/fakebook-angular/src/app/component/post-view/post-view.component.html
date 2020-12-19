@@ -1,31 +1,31 @@
 <!-- Box containing one post and its comments -->
-<div class="social-feed-box">
+<div *ngIf="post" class="social-feed-box">
     <div class="social-avatar">
     <div class="row">
         <a href="" class="pull-left">
-        <img class="rounded-circle img-sm" alt="image" src="{{item.user.profilePictureUrl}}">
+        <img class="rounded-circle img-sm" alt="image" src="{{post.user.profilePictureUrl}}">
         </a>
         <div class="media-body">
         <a href="#">
-            {{item.user.firstName + " " + item.user.lastName}}
+            {{post.user.firstName + " " + post.user.lastName}}
         </a>
-        <small class="text-muted">{{item.createdAt}}</small>
+        <small class="text-muted">{{post.createdAt | date}}</small>
         </div>
     </div>
     </div>
     <div class="social-body">
     <p>
-        {{item.content}}
+        {{post.content}}
     </p>
     <div class="btn-group">
-        <button (click)="likePost(item)" class="btn btn-white btn-xs"><i class="fa fa-thumbs-up"></i> Like</button>
+        <!-- <button (click)="likePost(post)" class="btn btn-white btn-xs"><i class="fa fa-thumbs-up"></i> Like</button> -->
         <button class="btn btn-white btn-xs"><i class="fa fa-comments"></i> Comment</button>
     </div>
     </div>
 
     <!-- Iteration through all comments for the post -->
     <div class="social-footer">
-    <ul *ngFor="let comment of item.comments">  
+    <ul *ngFor="let comment of post.comments">  
         <div class="social-comment">
         <a href="" class="pull-left">
             <img class="rounded-circle img-sm" alt="image" src="{{comment.user.profilePictureUrl}}">

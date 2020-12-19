@@ -2,7 +2,7 @@
   <div class="col-md-12">
      <!-- Iterate through all posts -->
     <ul *ngFor="let item of posts">
-      <app-post-view [(ngModel)]='post'></app-post-view>
+      <app-post-view [post]="item"></app-post-view>
     </ul>
   </div>
 </div>
