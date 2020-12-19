@@ -79,7 +79,7 @@ namespace Fakebook.RestApi.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             var user = await _userRepo.GetUserByIdAsync(id);
-            var email = User.FindFirst(ct => ct.Type.Contains("Email")).Value;
+            var email = User.FindFirst(ct => ct.Type.Contains("nameidentifier")).Value;
             if (email == user.Email)
             {
                 await _userRepo.DeleteUserAsync(id);
@@ -101,11 +101,13 @@ namespace Fakebook.RestApi.Controllers
         [Authorize]
         public async Task<IActionResult> Put(UserApiModel apiModel, int id = -1)
         {
+            var user = await _userRepo.GetUserByIdAsync(apiModel.Id);
+            var email = User.FindFirst(ct => ct.Type.Contains("nameidentifier")).Value;
             // if the id is null switch to bad request
-            if (id != -1)
+            if (email == user.Email)
             {
-                var user = ApiModelConverter.ToUser(_userRepo, apiModel);
-                await _userRepo.UpdateUserAsync(id, user);
+                var result = ApiModelConverter.ToUser(_userRepo, apiModel);
+                await _userRepo.UpdateUserAsync(id, result);
                 return Ok();
             }
             else
@@ -123,11 +125,13 @@ namespace Fakebook.RestApi.Controllers
         }
         */
 
+        /*
         [HttpGet("{id}/Newsfeed")]
         [Authorize]
         public async Task<IActionResult> GetNewsfeedPosts(int id)
         {
             var currentUser = await _userRepo.GetUserByIdAsync(id);
+            var email = User.FindFirst(ct => ct.Type.Contains("nameidentifier")).Value;
             var result = new List<Post>();
             var userPosts = currentUser.Posts.OrderBy(p => p.CreatedAt).ToList();
             if (userPosts.Count < 3) // Check for any self user posts to include in newsfeed
@@ -168,5 +172,6 @@ namespace Fakebook.RestApi.Controllers
             result = result.OrderBy(p => p.CreatedAt).ToList(); // Order list by the date the posts were created
             return Ok(result);
         }
+        */
     }
 }
