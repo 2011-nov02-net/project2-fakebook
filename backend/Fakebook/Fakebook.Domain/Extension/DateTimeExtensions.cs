@@ -10,6 +10,12 @@ namespace Fakebook.Domain.Extension
             }
         }
 
+        public static void EnforceIsBefore(this DateTime datetime, DateTime target) {
+            if (datetime < target) {
+                throw new ArgumentException($"{nameof(datetime)} is greater than {target}.");
+            }
+        }
+
         public static bool InPast(this DateTime time) {
             return time <= DateTime.Now;
         }
