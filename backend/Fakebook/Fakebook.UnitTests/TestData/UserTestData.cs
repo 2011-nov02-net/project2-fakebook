@@ -126,10 +126,63 @@ namespace Fakebook.UnitTests.TestData
             public class Valid : IEnumerable<object[]>
             {
                 public IEnumerator<object[]> GetEnumerator() {
-                    yield return new object[] { -1, null, "rSFDjcov", "rSFDjcov", "udVpAGAxtgqBOZA", null, new DateTime(1980, 3, 25), null };
-                    yield return new object[] { -1, "yuVcRxsaeZMsBkaL", "rSFDjcov", "rSFDjcov", "udVpAGAxtgqBOZA", null, new DateTime(1986, 12, 24), null };
-                    yield return new object[] { -1, null, "rSFDjcov", "rSFDjcov", "udVpAGAxtgqBOZA", "HfZLSHsMRsehN", new DateTime(1980, 10, 9), "POiFeXAeMOIO" };
-                    yield return new object[] { -1, "IOGtyiULegzvsvN", "WrHVNnmwsYn", "QmohVdOugK", "lfVtvMurc", null, new DateTime(1988, 12, 28), "ZSwoUVqk" };
+                    yield return new object[]
+                    {
+                        new List<User>
+                        {
+                            new User
+                            {
+                                FirstName = GenerateRandom.String(),
+                                LastName = GenerateRandom.String(),
+                                ProfilePictureUrl = null,
+                                Email = GenerateRandom.Email(),
+                                PhoneNumber = GenerateRandom.PhoneNumber(),
+                                BirthDate = GenerateRandom.DateTime(),
+                                Status = null
+                            }
+                        },
+
+                        0
+                    };
+
+                    yield return new object[]
+                    {
+                        new List<User>
+                        {
+                            new User
+                            {
+                                FirstName = GenerateRandom.String(),
+                                LastName = GenerateRandom.String(),
+                                ProfilePictureUrl = null,
+                                Email = GenerateRandom.Email(),
+                                PhoneNumber = GenerateRandom.PhoneNumber(),
+                                BirthDate = GenerateRandom.DateTime(),
+                                Status = null
+                            },
+                            new User
+                            {
+                                FirstName = GenerateRandom.String(),
+                                LastName = GenerateRandom.String(),
+                                ProfilePictureUrl = null,
+                                Email = GenerateRandom.Email(),
+                                PhoneNumber = GenerateRandom.PhoneNumber(),
+                                BirthDate = GenerateRandom.DateTime(),
+                                Status = null
+                            },
+                            new User
+                            {
+                                FirstName = GenerateRandom.String(),
+                                LastName = GenerateRandom.String(),
+                                ProfilePictureUrl = null,
+                                Email = GenerateRandom.Email(),
+                                PhoneNumber = GenerateRandom.PhoneNumber(),
+                                BirthDate = GenerateRandom.DateTime(),
+                                Status = null
+                            }
+                        },
+
+                        GenerateRandom.Int(0, 2)
+                    };
                 }
 
                 IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
@@ -138,7 +191,63 @@ namespace Fakebook.UnitTests.TestData
             public class Invalid : IEnumerable<object[]>
             {
                 public IEnumerator<object[]> GetEnumerator() {
-                    yield return new object[] { };
+                    yield return new object[]
+                    {
+                        new List<User>
+                        {
+                            new User
+                            {
+                                FirstName = GenerateRandom.String(),
+                                LastName = GenerateRandom.String(),
+                                ProfilePictureUrl = null,
+                                Email = GenerateRandom.Email(),
+                                PhoneNumber = GenerateRandom.PhoneNumber(),
+                                BirthDate = GenerateRandom.DateTime(),
+                                Status = null
+                            }
+                        },
+
+                        -1
+                    };
+
+                    yield return new object[]
+                    {
+                        new List<User>
+                        {
+                            new User
+                            {
+                                FirstName = GenerateRandom.String(),
+                                LastName = GenerateRandom.String(),
+                                ProfilePictureUrl = null,
+                                Email = GenerateRandom.Email(),
+                                PhoneNumber = GenerateRandom.PhoneNumber(),
+                                BirthDate = GenerateRandom.DateTime(),
+                                Status = null
+                            },
+                            new User
+                            {
+                                FirstName = GenerateRandom.String(),
+                                LastName = GenerateRandom.String(),
+                                ProfilePictureUrl = null,
+                                Email = GenerateRandom.Email(),
+                                PhoneNumber = GenerateRandom.PhoneNumber(),
+                                BirthDate = GenerateRandom.DateTime(),
+                                Status = null
+                            },
+                            new User
+                            {
+                                FirstName = GenerateRandom.String(),
+                                LastName = GenerateRandom.String(),
+                                ProfilePictureUrl = null,
+                                Email = GenerateRandom.Email(),
+                                PhoneNumber = GenerateRandom.PhoneNumber(),
+                                BirthDate = GenerateRandom.DateTime(),
+                                Status = null
+                            }
+                        },
+
+                        3
+                    };
                 }
 
                 IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
@@ -147,10 +256,105 @@ namespace Fakebook.UnitTests.TestData
 
         public static class Update
         {
+
             public class Valid : IEnumerable<object[]>
             {
                 public IEnumerator<object[]> GetEnumerator() {
-                    yield return new object[] { };
+                    yield return new object[]
+                    {
+                        new User
+                        {
+                            FirstName = GenerateRandom.String(),
+                            LastName = GenerateRandom.String(),
+                            ProfilePictureUrl = null,
+                            Email = GenerateRandom.Email(),
+                            PhoneNumber = GenerateRandom.PhoneNumber(),
+                            BirthDate = GenerateRandom.DateTime(),
+                            Status = null
+                        },
+                        new User
+                        {
+                            FirstName =  GenerateRandom.String(),
+                            LastName =  GenerateRandom.String(),
+                            ProfilePictureUrl = null,
+                            Email = GenerateRandom.Email(),
+                            PhoneNumber = GenerateRandom.PhoneNumber(),
+                            BirthDate = GenerateRandom.DateTime(),
+                            Status = GenerateRandom.String()
+                        }
+                    };
+
+                    yield return new object[]
+                    {
+                        new User
+                        {
+                            FirstName =  GenerateRandom.String(),
+                            LastName =  GenerateRandom.String(),
+                            ProfilePictureUrl = null,
+                            Email = GenerateRandom.Email(),
+                            PhoneNumber = GenerateRandom.PhoneNumber(),
+                            BirthDate = GenerateRandom.DateTime(),
+                            Status = GenerateRandom.String()
+                        },
+                        new User
+                        {
+                            FirstName = GenerateRandom.String(),
+                            LastName = GenerateRandom.String(),
+                            ProfilePictureUrl = null,
+                            Email = GenerateRandom.Email(),
+                            PhoneNumber = GenerateRandom.PhoneNumber(),
+                            BirthDate = GenerateRandom.DateTime(),
+                            Status = null
+                        }
+                    };
+
+                    yield return new object[]
+                    {
+                        new User
+                        {
+                            FirstName = GenerateRandom.String(),
+                            LastName = GenerateRandom.String(),
+                            ProfilePictureUrl = GenerateRandom.String(),
+                            Email = GenerateRandom.Email(),
+                            PhoneNumber = GenerateRandom.PhoneNumber(),
+                            BirthDate = GenerateRandom.DateTime(),
+                            Status = null
+                        },
+                        new User
+                        {
+                            FirstName =  GenerateRandom.String(),
+                            LastName =  GenerateRandom.String(),
+                            ProfilePictureUrl = GenerateRandom.String(),
+                            Email = GenerateRandom.Email(),
+                            PhoneNumber = GenerateRandom.PhoneNumber(),
+                            BirthDate = GenerateRandom.DateTime(),
+                            Status = GenerateRandom.String()
+                        }
+                    };
+
+                    yield return new object[]
+                    {
+                        new User
+                        {
+                            FirstName =  GenerateRandom.String(),
+                            LastName =  GenerateRandom.String(),
+                            ProfilePictureUrl = GenerateRandom.String(),
+                            Email = GenerateRandom.Email(),
+                            PhoneNumber = GenerateRandom.PhoneNumber(),
+                            BirthDate = GenerateRandom.DateTime(),
+                            Status = GenerateRandom.String()
+                        },
+                        new User
+                        {
+                            FirstName = GenerateRandom.String(),
+                            LastName = GenerateRandom.String(),
+                            ProfilePictureUrl = null,
+                            Email = GenerateRandom.Email(),
+                            PhoneNumber = GenerateRandom.PhoneNumber(),
+                            BirthDate = GenerateRandom.DateTime(),
+                            Status = null
+                        }
+                    };
                 }
 
                 IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
@@ -159,7 +363,53 @@ namespace Fakebook.UnitTests.TestData
             public class Invalid : IEnumerable<object[]>
             {
                 public IEnumerator<object[]> GetEnumerator() {
-                    yield return new object[] { };
+                    yield return new object[]
+                    {
+                        new User
+                        {
+                            FirstName =  GenerateRandom.String(),
+                            LastName =  GenerateRandom.String(),
+                            ProfilePictureUrl = GenerateRandom.String(),
+                            Email = GenerateRandom.Email(),
+                            PhoneNumber = GenerateRandom.PhoneNumber(),
+                            BirthDate = GenerateRandom.DateTime(),
+                            Status = GenerateRandom.String()
+                        },
+                        new User
+                        {
+                            FirstName =  null,
+                            LastName =  null,
+                            ProfilePictureUrl = GenerateRandom.String(),
+                            Email = GenerateRandom.Email(),
+                            PhoneNumber = GenerateRandom.PhoneNumber(),
+                            BirthDate = GenerateRandom.DateTime(),
+                            Status = GenerateRandom.String()
+                        }
+                    };
+
+                    yield return new object[]
+                    {
+                        new User
+                        {
+                            FirstName =  GenerateRandom.String(),
+                            LastName =  GenerateRandom.String(),
+                            ProfilePictureUrl = GenerateRandom.String(),
+                            Email = GenerateRandom.Email(),
+                            PhoneNumber = GenerateRandom.PhoneNumber(),
+                            BirthDate = GenerateRandom.DateTime(),
+                            Status = GenerateRandom.String()
+                        },
+                        new User
+                        {
+                            FirstName =  GenerateRandom.String(),
+                            LastName =  GenerateRandom.String(),
+                            ProfilePictureUrl = GenerateRandom.String(),
+                            Email = GenerateRandom.String(),
+                            PhoneNumber = GenerateRandom.String(),
+                            BirthDate = GenerateRandom.DateTime(),
+                            Status = GenerateRandom.String()
+                        }
+                    };
                 }
 
                 IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
@@ -171,7 +421,63 @@ namespace Fakebook.UnitTests.TestData
             public class Valid : IEnumerable<object[]>
             {
                 public IEnumerator<object[]> GetEnumerator() {
-                    yield return new object[] { };
+                    yield return new object[]
+                    {
+                        new List<User>
+                        {
+                            new User
+                            {
+                                FirstName = GenerateRandom.String(),
+                                LastName = GenerateRandom.String(),
+                                ProfilePictureUrl = null,
+                                Email = GenerateRandom.Email(),
+                                PhoneNumber = GenerateRandom.PhoneNumber(),
+                                BirthDate = GenerateRandom.DateTime(),
+                                Status = null
+                            }
+                        },
+
+                        0
+                    };
+
+                    yield return new object[]
+                    {
+                        new List<User>
+                        {
+                            new User
+                            {
+                                FirstName = GenerateRandom.String(),
+                                LastName = GenerateRandom.String(),
+                                ProfilePictureUrl = null,
+                                Email = GenerateRandom.Email(),
+                                PhoneNumber = GenerateRandom.PhoneNumber(),
+                                BirthDate = GenerateRandom.DateTime(),
+                                Status = null
+                            },
+                            new User
+                            {
+                                FirstName = GenerateRandom.String(),
+                                LastName = GenerateRandom.String(),
+                                ProfilePictureUrl = null,
+                                Email = GenerateRandom.Email(),
+                                PhoneNumber = GenerateRandom.PhoneNumber(),
+                                BirthDate = GenerateRandom.DateTime(),
+                                Status = null
+                            },
+                            new User
+                            {
+                                FirstName = GenerateRandom.String(),
+                                LastName = GenerateRandom.String(),
+                                ProfilePictureUrl = null,
+                                Email = GenerateRandom.Email(),
+                                PhoneNumber = GenerateRandom.PhoneNumber(),
+                                BirthDate = GenerateRandom.DateTime(),
+                                Status = null
+                            }
+                        },
+
+                        GenerateRandom.Int(0, 2)
+                    };
                 }
 
                 IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
@@ -180,7 +486,63 @@ namespace Fakebook.UnitTests.TestData
             public class Invalid : IEnumerable<object[]>
             {
                 public IEnumerator<object[]> GetEnumerator() {
-                    yield return new object[] { };
+                    yield return new object[]
+                    {
+                        new List<User>
+                        {
+                            new User
+                            {
+                                FirstName = GenerateRandom.String(),
+                                LastName = GenerateRandom.String(),
+                                ProfilePictureUrl = null,
+                                Email = GenerateRandom.Email(),
+                                PhoneNumber = GenerateRandom.PhoneNumber(),
+                                BirthDate = GenerateRandom.DateTime(),
+                                Status = null
+                            }
+                        },
+
+                        -1
+                    };
+
+                    yield return new object[]
+                    {
+                        new List<User>
+                        {
+                            new User
+                            {
+                                FirstName = GenerateRandom.String(),
+                                LastName = GenerateRandom.String(),
+                                ProfilePictureUrl = null,
+                                Email = GenerateRandom.Email(),
+                                PhoneNumber = GenerateRandom.PhoneNumber(),
+                                BirthDate = GenerateRandom.DateTime(),
+                                Status = null
+                            },
+                            new User
+                            {
+                                FirstName = GenerateRandom.String(),
+                                LastName = GenerateRandom.String(),
+                                ProfilePictureUrl = null,
+                                Email = GenerateRandom.Email(),
+                                PhoneNumber = GenerateRandom.PhoneNumber(),
+                                BirthDate = GenerateRandom.DateTime(),
+                                Status = null
+                            },
+                            new User
+                            {
+                                FirstName = GenerateRandom.String(),
+                                LastName = GenerateRandom.String(),
+                                ProfilePictureUrl = null,
+                                Email = GenerateRandom.Email(),
+                                PhoneNumber = GenerateRandom.PhoneNumber(),
+                                BirthDate = GenerateRandom.DateTime(),
+                                Status = null
+                            }
+                        },
+
+                        3
+                    };
                 }
 
                 IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
