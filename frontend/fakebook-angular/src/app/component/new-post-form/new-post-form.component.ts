@@ -23,22 +23,20 @@ export class NewPostFormComponent implements OnInit {
 
   onSubmit() {
         this.submitted=true;
-        console.log(newPost)
+        this.httpPost.create(this.newPost)
         //this.httpPost.create(this.newPost)
   }
   getCurrentModel() { 
     return JSON.stringify(this.newPost); 
   }
-  getUser(): User | undefined {
+  getUser(): string | undefined {
     let id = "";
 
     if(this.route.snapshot.paramMap.get('id') != null)  {
       id += (this.route.snapshot.paramMap.get('id'));
+      return id;
     }
 
-    if( id != null) { 
-      this.userService.getUser(id).toPromise().then(user => this.user = user)
-    }
     return undefined;
   }
 }
