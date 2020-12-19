@@ -142,7 +142,7 @@ namespace Fakebook.UnitTests.TestData
                             }
                         },
 
-                        0
+                        1
                     };
 
                     yield return new object[]
@@ -181,7 +181,7 @@ namespace Fakebook.UnitTests.TestData
                             }
                         },
 
-                        GenerateRandom.Int(0, 2)
+                        GenerateRandom.Int(1, 3)
                     };
                 }
 
@@ -246,7 +246,7 @@ namespace Fakebook.UnitTests.TestData
                             }
                         },
 
-                        3
+                        4
                     };
                 }
 
@@ -437,7 +437,7 @@ namespace Fakebook.UnitTests.TestData
                             }
                         },
 
-                        0
+                        1
                     };
 
                     yield return new object[]
@@ -476,7 +476,7 @@ namespace Fakebook.UnitTests.TestData
                             }
                         },
 
-                        GenerateRandom.Int(0, 2)
+                        GenerateRandom.Int(1, 3)
                     };
                 }
 
@@ -541,7 +541,7 @@ namespace Fakebook.UnitTests.TestData
                             }
                         },
 
-                        3
+                        4
                     };
                 }
 

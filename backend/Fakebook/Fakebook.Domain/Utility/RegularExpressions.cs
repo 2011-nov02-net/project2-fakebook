@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Fakebook.RestApi.Model
+﻿namespace Fakebook.RestApi.Model
 {
     public static class RegularExpressions
     {

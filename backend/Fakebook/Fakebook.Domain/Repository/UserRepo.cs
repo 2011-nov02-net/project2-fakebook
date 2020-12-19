@@ -81,7 +81,13 @@ namespace Fakebook.Domain.Repository
         /// <returns></returns>
         public async Task<User> GetUserByIdAsync(int id)
         {
-            var entity = await _context.UserEntities
+            var entities = _context.UserEntities;
+
+            if (id < 1 || id > entities.Max(u => u.Id)) {
+                throw new ArgumentException($"{id} is not a valid id.");
+            }
+
+            var entity = await entities
                 .Where(u => u.Id == id)
                 .Include(u => u.Followees)
                      .ThenInclude(u => u.Followee)
