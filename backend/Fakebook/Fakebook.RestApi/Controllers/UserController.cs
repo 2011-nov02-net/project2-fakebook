@@ -78,7 +78,7 @@ namespace Fakebook.RestApi.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             var user = await _userRepo.GetUserByIdAsync(id);
-            var email = User.FindFirst(ct => ct.Type.Contains("Email")).Value;
+            var email = User.FindFirst(ct => ct.Type.Contains("nameidentifier")).Value;
             if (email == user.Email)
             {
                 await _userRepo.DeleteUserAsync(id);
@@ -98,21 +98,29 @@ namespace Fakebook.RestApi.Controllers
         [Authorize]
         public async Task<IActionResult> Put(UserApiModel apiModel, int id = -1)
         {
+            var user = await _userRepo.GetUserByIdAsync(apiModel.Id);
+            var email = User.FindFirst(ct => ct.Type.Contains("nameidentifier")).Value;
             // if the id is null switch to bad request
-            try {
-                if (id == -1) {
-                    throw new ArgumentException("id cannot be -1");
-                }
+            if (email == user.Email)
+            {
+                try {
+                    if (id == -1) {
+                        throw new ArgumentException("id cannot be -1");
+                    }
 
-                var user = ApiModelConverter.ToUser(_userRepo, apiModel);
-                await _userRepo.UpdateUserAsync(id, user);
-            } catch (ArgumentException ex) {
-                return BadRequest(ex.Message);
-            } catch {
+                    var result = ApiModelConverter.ToUser(_userRepo, apiModel);
+                    await _userRepo.UpdateUserAsync(id, result);
+                    return Ok();
+                } catch (ArgumentException ex) {
+                    return BadRequest(ex.Message);
+                } catch {
+                    return BadRequest();
+              }
+            }
+            else
+            {
                 return BadRequest();
             }
-
-            return Ok();
         }
 
         /*
@@ -124,11 +132,13 @@ namespace Fakebook.RestApi.Controllers
         }
         */
 
+        /*
         [HttpGet("{id}/Newsfeed")]
         [Authorize]
         public async Task<IActionResult> GetNewsfeedPosts(int id)
         {
             var currentUser = await _userRepo.GetUserByIdAsync(id);
+            var email = User.FindFirst(ct => ct.Type.Contains("nameidentifier")).Value;
             var result = new List<Post>();
             var userPosts = currentUser.Posts.OrderBy(p => p.CreatedAt).ToList();
             if (userPosts.Count < 3) // Check for any self user posts to include in newsfeed
@@ -163,5 +173,6 @@ namespace Fakebook.RestApi.Controllers
             result = result.OrderBy(p => p.CreatedAt).ToList(); // Order list by the date the posts were created
             return Ok(result);
         }
+        */
     }
 }
