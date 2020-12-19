@@ -15,19 +15,20 @@ import { NewsfeedComponent } from '../newsfeed/newsfeed.component';
 export class NewPostFormComponent implements OnInit {
   submitted = false;
   constructor( private httpPost: PostService, private route: ActivatedRoute, private userService: UserService) { }
-  user : User | undefined;
-
+  user = this.getUser();
   ngOnInit(): void {
-    this.user = this.getUser()
     //this.mygroup = new FormGroup()
   }
   newPost = new newPost('',  this.user, '')
 
   onSubmit() {
+        this.submitted=true;
         console.log(newPost)
         //this.httpPost.create(this.newPost)
   }
-  
+  getCurrentModel() { 
+    return JSON.stringify(this.newPost); 
+  }
   getUser(): User | undefined {
     let id = "";
 

@@ -1,8 +1,10 @@
 <p>new-post-form works!</p>
 <form>
     <label for="content">Content Below</label>
-    <input type="text" class="form-control" id="content" name="content">
-    <input type="test" class="form-control" id="pictureUrl" name="pictureUrl">
-    <input type="submit" class="btn btn-success" value=save>Submit</button>
-    </div>
+    <input type="text" class="form-control" id="content" name="content"[(ngModel)]="newPost.content"> 
+    <label for="content">url Below</label>
+
+    <input type="text" class="form-control" id="pictureUrl" name="pictureUrl" [(ngModel)]="newPost.pictureUrl">
+    <input type="submit" value="Save">
 </form>
+<pre>{{ getCurrentModel() }}</pre>
