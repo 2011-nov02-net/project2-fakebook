@@ -12,23 +12,14 @@ namespace Fakebook.RestApi.Model
     public static class ApiModelConverter
     {
         public static Post ToPost(IUserRepo userRepo, ICommentRepo commentRepo, PostApiModel apiModel) {
-            apiModel.Content.NullOrEmptyCheck(nameof(apiModel.Content));
-
-            // if content is not null, filter out any special characters
-            var regex = new Regex(RegularExpressions.NoSpecialCharacters);
-            if (apiModel.Content is not null && !regex.IsMatch(apiModel.Content)) {
-                throw new ArgumentException("No special characters are permitted in the content.");
-            }
-
+            apiModel.Content.EnforceNoSpecialCharacters(nameof(apiModel.Content));
+            
             // must not be in future
-            if (apiModel.CreatedAt > DateTime.Now) {
-                throw new ArgumentException("Date is in the future.");
-            }
+            apiModel.CreatedAt.EnforcePast();
 
             // if status is not null, filter out any non-file allowed characters
-            regex = new Regex(RegularExpressions.NoSpecialCharacters);
-            if (apiModel.Picture is not null && !regex.IsMatch(apiModel.Picture)) {
-                throw new ArgumentException("No special characters are permitted in the picture URL.");
+            if (apiModel.Picture is not null) {
+                apiModel.Picture.EnforceNoSpecialCharacters(nameof(apiModel.Picture));
             }
 
             var user = userRepo.GetUserByIdAsync(apiModel.UserId).Result;
@@ -63,50 +54,30 @@ namespace Fakebook.RestApi.Model
         }
 
         public static User ToUser(IUserRepo userRepo, UserApiModel apiModel) {
-            apiModel.FirstName.NullOrEmptyCheck(nameof(apiModel.FirstName));
-            apiModel.LastName.NullOrEmptyCheck(nameof(apiModel.LastName));
-            apiModel.Email.NullOrEmptyCheck(nameof(apiModel.Email));
-
-            var regex = new Regex(RegularExpressions.NameCharacters);
-            if (!regex.IsMatch(apiModel.FirstName)) {
-                throw new ArgumentException("First name can only contain name characters.");
-            }
-
-            regex = new Regex(RegularExpressions.NameCharacters);
-            if (!regex.IsMatch(apiModel.LastName)) {
-                throw new ArgumentException("Last name can only contain name characters.");
-            }
-
-            // must match email regex
-            regex = new Regex(RegularExpressions.EmailCharacters);
-            if (!regex.IsMatch(apiModel.Email)) {
-                throw new ArgumentException("Email isn't a valid email.");
-            }
+            apiModel.FirstName.EnforceNameCharacters(nameof(apiModel.FirstName));
+            apiModel.LastName.EnforceNameCharacters(nameof(apiModel.LastName));
+            apiModel.Email.EnforceEmailCharacters(nameof(apiModel.Email));
 
             // must match phone number regex
-            regex = new Regex(RegularExpressions.PhoneNumberCharacters);
-            if (apiModel.PhoneNumber is not null && !regex.IsMatch(apiModel.PhoneNumber)) {
-                throw new ArgumentException("Phone Number isn't a valid phone number.");
+            if(!apiModel.PhoneNumber.IsNullOrEmpty()) {
+                apiModel.PhoneNumber.EnforcePhoneNumberCharacters(nameof(apiModel.PhoneNumber));
             }
 
             // must not be in future
             // must also be within 18 years from today
             var today = DateTime.Today;
             var date = new DateTime(today.Year - 18, today.Month, today.Day);
-            if (apiModel.BirthDate > date) {
-                throw new ArgumentException("Date is greater than 18 years ago from today.");
-            }
+            apiModel.BirthDate.EnforceIsBefore(date);
 
             // if status is not null, filter out any special characters
-            regex = new Regex(RegularExpressions.NoSpecialCharacters);
-            if (apiModel.Status is not null && regex.IsMatch(apiModel.Status)) {
-                throw new ArgumentException("Status cannot contain any special characters");
+
+            if (apiModel.Status is not null) {
+                apiModel.Status.EnforceNoSpecialCharacters(nameof(apiModel.Status));
             }
 
             // if status is not null, filter out any non-file allowed characters
-            regex = new Regex(RegularExpressions.NoSpecialCharacters);
-            if (apiModel.ProfilePictureUrl is not null && regex.IsMatch(apiModel.ProfilePictureUrl)) {
-                throw new ArgumentException("Picture URL cannot contain any special characters");
+            if (apiModel.ProfilePictureUrl is not null) {
+                apiModel.ProfilePictureUrl.EnforceNoSpecialCharacters(nameof(apiModel.ProfilePictureUrl));
             }
 
             List<User> followers = null;
@@ -143,18 +114,11 @@ namespace Fakebook.RestApi.Model
         }
 
         public static Comment ToComment(ICommentRepo commentRepo, IUserRepo userRepo, IPostRepo postRepo, CommentApiModel apiModel) {
-            apiModel.Content.NullOrEmptyCheck(nameof(apiModel.Content));
-
-            // if content is not null, filter out any special characters
-            var regex = new Regex(RegularExpressions.NoSpecialCharacters);
-            if (apiModel.Content is not null && regex.IsMatch(apiModel.Content)) {
-                throw new ArgumentException("No special characters are permitted in the content.");
-            }
+            // no special characters are allowed
+            apiModel.Content.EnforceNoSpecialCharacters(nameof(apiModel.Content));
 
             // must not be in future
-            if (apiModel.CreatedAt > DateTime.Now) {
-                throw new ArgumentException("Date is in the future.");
-            }
+            apiModel.CreatedAt.EnforcePast();
 
             var user = userRepo.GetUserByIdAsync(apiModel.UserId)
                 .Result;
