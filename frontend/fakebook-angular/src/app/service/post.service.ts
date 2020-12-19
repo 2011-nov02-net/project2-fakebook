@@ -16,7 +16,7 @@ export class PostService {
         'Content-Type': 'application/json'
       })
     };
-    return this.http.post<Post>(`api/posts`, post, httpOptions);
+    return this.http.post<Post>(`${this.url}api/posts`, post, httpOptions);
   }
 
   getById(id: number): Post | undefined {
