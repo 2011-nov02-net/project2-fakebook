@@ -12,9 +12,11 @@ export class NavbarViewComponent implements OnInit {
   constructor(private oktaAuth: AuthService) { }
 
   async ngOnInit() {
-    this.isAuthenticated = await this.oktaAuth.isAuthenticated;
+    this.oktaAuth.subscribeAuthStateChange((authState: boolean) => {
+      this.isAuthenticated = authState;
+    });
   }
-
+  
   login() {
     this.oktaAuth.login();
   }

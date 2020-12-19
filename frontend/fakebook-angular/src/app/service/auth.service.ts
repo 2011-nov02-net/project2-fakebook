@@ -24,6 +24,10 @@ export class AuthService {
     this.isAuthenticated = await this.oktaAuth.isAuthenticated();
   }
   
+  subscribeAuthStateChange(updateFn: (authState: boolean) => void) {
+    this.oktaAuth.$authenticationState.subscribe((authState) => updateFn(authState));
+  }
+
   login() {
     this.oktaAuth.signInWithRedirect();
   }
