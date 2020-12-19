@@ -5,7 +5,7 @@ namespace Fakebook.Domain.Repository
 {
     public interface ICommentRepo
     {
-        Task<bool> CreateAsync(Comment comment);
+        Task<int> CreateAsync(Comment comment);
         Task<bool> DeleteAsync(int id);
         Task<IEnumerable<Comment>> GetAllAsync();
         Task<Comment> GetCommentByIdAsync(int userId);

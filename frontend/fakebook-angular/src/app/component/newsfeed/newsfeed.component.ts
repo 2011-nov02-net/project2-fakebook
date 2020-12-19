@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NewsfeedService } from '../../service/newsfeed.service';
 import { UserService } from '../../service/user.service';
+import { LikeService } from '../../service/like.service';
 import { Post } from '../../model/post';
-import { User } from 'src/app/model/user';
 
 @Component({
   selector: 'app-newsfeed',
@@ -14,7 +14,7 @@ import { User } from 'src/app/model/user';
 export class NewsfeedComponent implements OnInit {
   posts: Post[] | null = null;
 
-  constructor(private userService : UserService, private route: ActivatedRoute, private newsfeedService: NewsfeedService) { }
+  constructor(private likeService: LikeService, private userService: UserService, private route: ActivatedRoute, private newsfeedService: NewsfeedService) { }
 
   ngOnInit(){
     this.getUser();
@@ -36,5 +36,9 @@ export class NewsfeedComponent implements OnInit {
       this.userService.getUser(id).toPromise()
       .then(user => this.getPosts(user.id))
     }
+  }
+
+  likePost(post: Post): void{
+    this.likeService.like(post, post.user);
   }
 }

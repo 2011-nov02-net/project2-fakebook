@@ -5,7 +5,7 @@ namespace Fakebook.Domain.Repository
 {
     public interface IPostRepo
     {
-        Task<bool> CreatePostAsync(Post post);
+        Task<int> CreatePostAsync(Post post);
         Task<Post> GetPostByIdAsync(int id);
         Task<List<Post>> GetAllPostsAsync();
         Task<List<Post>> GetPostsByIdAsync(int id);
