@@ -1,44 +1,57 @@
+
 <div class="container">
   <div class="col-md-12">
      <!-- Iterate through all posts -->
     <ul *ngFor="let item of posts">
+
        <!-- Box containing one post and its comments -->
       <div class="social-feed-box">
         <div class="social-avatar">
-          <a href="" class="pull-left">
-            <img alt="image" src="">
-          </a>
-          <div class="media-body">
-            <a href="#">
-                {{item.user.firstName + " " + item.user.lastName}}
+          <div class="row">
+            <a href="" class="pull-left">
+              <img class="rounded-circle img-sm" alt="image" src="{{item.user.profilePictureUrl}}">
             </a>
-            <small class="text-muted">{{item.createdAt}}</small>
+            <div class="media-body">
+              <a href="#">
+                  {{item.user.firstName + " " + item.user.lastName}}
+              </a>
+              <small class="text-muted">{{item.createdAt}}</small>
+            </div>
           </div>
+        </div>
         <div class="social-body">
           <p>
               {{item.content}}
           </p>
           <div class="btn-group">
-              <button class="btn btn-white btn-xs"><i class="fa fa-thumbs-up"></i> Like</button>
+              <button (click)="likePost(item)" class="btn btn-white btn-xs"><i class="fa fa-thumbs-up"></i> Like</button>
               <button class="btn btn-white btn-xs"><i class="fa fa-comments"></i> Comment</button>
           </div>
         </div>
-        <!-- Add iteration through all commends for the post -->
+
+        <!-- Iteration through all comments for the post -->
         <div class="social-footer">
-          <div class="social-comment">
-            <a href="" class="pull-left">
-              <img alt="image" src="">
+          <ul *ngFor="let comment of item.comments">  
+            <div class="social-comment">
+              <a href="" class="pull-left">
+                <img class="rounded-circle img-sm" alt="image" src="{{comment.user.profilePictureUrl}}">
               </a>
               <div class="media-body">
                 <a href="#">
-                  Commenter's name goes here.
+                  {{comment.user.firstName + " " + comment.user.lastName}}
                 </a>
-                  Comment goes here.
+                  {{comment.content}}
                 <br>
-                <a href="#" class="small"><i class="fa fa-thumbs-up"></i> 26 Like this!</a> -
-                <small class="text-muted">12.06.2014</small>
+                <small class="text-muted">{{comment.createdAt}}</small>
               </div>
             </div>
+          </ul>   
+        </div>
+        
+        <!-- Box for making new comments responding to the post -->
+        <div class="social-comment">
+          <div class="media-body">
+               <textarea class="form-control" placeholder="Write comment..."></textarea>
           </div>
         </div>
       </div>

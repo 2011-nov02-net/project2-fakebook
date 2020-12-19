@@ -9,7 +9,7 @@ import { Post } from '../model/post';
 })
 export class UserService {
   constructor(private http: HttpClient) { }
-  url = 'http://2011-project2-fakebook.azurewebsites.net/api/'; // url of the api
+  url = 'https://2011-project2-fakebook.azurewebsites.net/api/'; // url of the api
 
   login(email: string, password: string): void {
 

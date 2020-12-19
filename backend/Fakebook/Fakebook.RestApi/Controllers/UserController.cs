@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
 using Fakebook.RestApi.Model;
+using Microsoft.AspNetCore.Authorization;
 using System;
 
 namespace Fakebook.RestApi.Controllers
@@ -71,8 +72,11 @@ namespace Fakebook.RestApi.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id) {
-            if (await _userRepo.DeleteUserAsync(id)) {
+        [Authorize]
+        public async Task<IActionResult> Delete(int id)
+        {
+            if (await _userRepo.DeleteUserAsync(id))
+            {
                 return Ok();
             } else {
                 return BadRequest();
@@ -86,7 +90,9 @@ namespace Fakebook.RestApi.Controllers
         /// <param name="user"></param>
         /// <returns></returns>
         [HttpPut("{id}/")]
-        public async Task<IActionResult> Put(UserApiModel apiModel, int id = -1) {
+        [Authorize]
+        public async Task<IActionResult> Put(UserApiModel apiModel, int id = -1)
+        {
             // if the id is null switch to bad request
             try {
                 if (id == -1) {
@@ -114,7 +120,9 @@ namespace Fakebook.RestApi.Controllers
         */
 
         [HttpGet("{id}/Newsfeed")]
-        public async Task<IActionResult> GetNewsfeedPosts(int id) {
+        [Authorize]
+        public async Task<IActionResult> GetNewsfeedPosts(int id)
+        {
             var currentUser = await _userRepo.GetUserByIdAsync(id);
             var result = new List<Post>();
             var userPosts = currentUser.Posts.OrderBy(p => p.CreatedAt).ToList();
