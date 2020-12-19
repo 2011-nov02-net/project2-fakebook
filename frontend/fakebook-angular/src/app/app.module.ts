@@ -16,6 +16,19 @@ import { NavbarViewComponent } from './component/navbar-view/navbar-view.compone
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FooterViewComponent } from './component/footer-view/footer-view.component';
 import { AboutUsViewComponent } from './component/about-us-view/about-us-view.component';
+import { OktaViewComponent } from './component/okta-view/okta-view.component';
+import { OktaAuthModule,
+         OKTA_CONFIG }
+         from '@okta/okta-angular';
+
+const config = {
+  issuer: 'https://dev-2137068.okta.com/oauth2/default',
+  pkce: true,
+  clientId: '0oa2rgza5gsrQvaBz5d6',
+  redirectUri: `${window.location.origin}/login/callback`,
+  scopes: ['openid'],
+  postLogoutRedirectUri: window.location.origin
+}
 
 @NgModule({
   declarations: [
@@ -30,15 +43,17 @@ import { AboutUsViewComponent } from './component/about-us-view/about-us-view.co
     UserControlsComponent,
     NavbarViewComponent,
     FooterViewComponent,
-    AboutUsViewComponent
+    AboutUsViewComponent,
+    OktaViewComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
+    OktaAuthModule,
     AppRoutingModule,
     BrowserAnimationsModule
   ],
-  providers: [],
+  providers: [{ provide: OKTA_CONFIG, useValue: config }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
