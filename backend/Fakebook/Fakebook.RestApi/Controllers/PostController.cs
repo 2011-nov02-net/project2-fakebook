@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using Fakebook.RestApi.Model;
 using System;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Fakebook.RestApi.Controllers
 {
@@ -30,6 +31,7 @@ namespace Fakebook.RestApi.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Post(PostApiModel apiModel)
         {
             var post = ApiModelConverter.ToPost(_userRepo, _commentRepo, apiModel);
@@ -45,6 +47,7 @@ namespace Fakebook.RestApi.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> Put(PostApiModel apiModel)
         {
             try {
@@ -57,6 +60,7 @@ namespace Fakebook.RestApi.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> Delete(int id)
         {
             if (await _postRepo.DeletePostAsync(id))
