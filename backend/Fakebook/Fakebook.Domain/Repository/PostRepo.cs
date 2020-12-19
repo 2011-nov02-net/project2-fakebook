@@ -31,6 +31,7 @@ namespace Fakebook.Domain.Repository
 
             return DbEntityConverter.ToPost(post);
         }
+
         public async Task<List<Post>> GetAllPostsAsync()
         {
             var entity = await _context.PostEntities
@@ -46,6 +47,7 @@ namespace Fakebook.Domain.Repository
                 .ToList();
             return posts;
         }
+
         public async Task<List<Post>> GetPostsByIdAsync(int id)
         {
             var entity = await _context.PostEntities
@@ -62,6 +64,7 @@ namespace Fakebook.Domain.Repository
                 .ToList();
             return posts;
         }
+
         public async Task<List<Post>> GetPostsByUserIdAsync(int id)
         {
             var entity = await _context.PostEntities
@@ -75,6 +78,22 @@ namespace Fakebook.Domain.Repository
             var posts = entity.Select(e => DbEntityConverter.ToPost(e)).ToList();
             return posts;
         }
+
+        /// <summary>
+        /// Count the amount of likes in a post and return it as an int.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<int> CountLikesAsync(int id) {
+            // selects the post by their id and counts the users
+            var query = await _context.LikeEntities
+                .Where(c => c.PostId == id)
+                .Select(u => u.UserId)
+                .CountAsync();
+
+            return query;
+        }
+
         public async Task<bool> CreatePostAsync(Post post)
         {
             var newPost = DbEntityConverter.ToPostEntity(post);
@@ -89,6 +108,7 @@ namespace Fakebook.Domain.Repository
                 return false;
             }
         }
+
         public async Task<bool> UpdatePostAsync(Post post)
         {
             try
@@ -103,6 +123,7 @@ namespace Fakebook.Domain.Repository
                 return false;
             }
         }
+
         public async Task<bool> DeletePostAsync(int id)
         {
             try
@@ -118,18 +139,19 @@ namespace Fakebook.Domain.Repository
                 return false;
             }
         }
+
         /// <summary>
         /// like a post
         /// </summary>
         /// <param name="PostId"></param>
         /// <param name="UserId"></param>
         /// <returns></returns>
-        public async Task<bool> LikePost(int PostId, int UserId)
+        public async Task<bool> LikePostAsync(int id, int userId)
         {
             try
             {
-                var like = new LikeEntity(PostId, UserId); // convert
-                await _context.AddAsync(like);
+                var like = new LikeEntity(id, userId); // convert
+                await _context.LikeEntities.AddAsync(like);
                 return true;
             }
             catch
@@ -138,22 +160,22 @@ namespace Fakebook.Domain.Repository
             }
 
         }
+
         /// <summary>
         /// Unlikes a post
         /// </summary>
         /// <param name="PostId"></param>
         /// <param name="UserId"></param>
         /// <returns></returns>
-        public async Task<bool> UnlikePost(int PostId, int UserId)
-        {
+        public async Task<bool> UnlikePostAsync(int id, int userId) {
             try
             {
                 // find the like entity
-                var entity = await _context.LikeEntities.FirstOrDefaultAsync(i => i.UserId == UserId & i.PostId == PostId); ;
+                var entity = await _context.LikeEntities.FirstOrDefaultAsync(i => i.UserId == userId && i.PostId == id);
                 if (entity != null)
                 {
                     // remove and if able to return true
-                    _context.Remove(entity);
+                    _context.LikeEntities.Remove(entity);
                     return true;
                 }
                 // otherwise return false
@@ -165,6 +187,7 @@ namespace Fakebook.Domain.Repository
             }
 
         }
+
         /// <summary>
         /// Count the amount of likes in a post and return it as an int.
         /// </summary>
@@ -175,6 +198,7 @@ namespace Fakebook.Domain.Repository
             var query = _context.LikeEntities.Where(c => c.PostId == id).Select(u => u.UserId).Count(); // selects the post by their id and counts the users
             return query;
         }
+
         /// <summary>
         /// get posts of the user and the poeple they are following
         /// </summary>
@@ -211,6 +235,5 @@ namespace Fakebook.Domain.Repository
             newsFeed.Reverse();
             return newsFeed;
         }
-
     }
 }
