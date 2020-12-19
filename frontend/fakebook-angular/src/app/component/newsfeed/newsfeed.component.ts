@@ -22,7 +22,7 @@ export class NewsfeedComponent implements OnInit {
 
   getPosts(int: number): void {
       this.newsfeedService.getPosts(int)
-        .subscribe(posts => this.posts = posts);
+        .then(posts => this.posts = posts);
   }
 
   getUser() {

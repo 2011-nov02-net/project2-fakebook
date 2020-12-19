@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../../service/auth.service';
 
 @Component({
   selector: 'app-navbar-view',
@@ -6,10 +7,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./navbar-view.component.css']
 })
 export class NavbarViewComponent implements OnInit {
+  isAuthenticated: boolean = false;
 
-  constructor() { }
+  constructor(private oktaAuth: AuthService) { }
 
-  ngOnInit(): void {
+  async ngOnInit() {
+    this.oktaAuth.subscribeAuthStateChange((authState: boolean) => {
+      this.isAuthenticated = authState;
+    });
   }
-
+  
+  login() {
+    this.oktaAuth.login();
+  }
 }
