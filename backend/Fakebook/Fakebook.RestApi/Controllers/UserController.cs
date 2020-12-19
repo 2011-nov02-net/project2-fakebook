@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Fakebook.RestApi.Model;
 using Microsoft.AspNetCore.Authorization;
+using System;
 
 namespace Fakebook.RestApi.Controllers
 {
@@ -17,8 +18,7 @@ namespace Fakebook.RestApi.Controllers
         private readonly IUserRepo _userRepo;
         private readonly IPostRepo _postRepo;
 
-        public UserController(IUserRepo repository, IPostRepo postRepo)
-        {
+        public UserController(IUserRepo repository, IPostRepo postRepo) {
             _userRepo = repository;
             _postRepo = postRepo;
         }
@@ -29,18 +29,15 @@ namespace Fakebook.RestApi.Controllers
         /// <returns></returns>
         // GET: api/user
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> Get()
-        {
+        public async Task<ActionResult<IEnumerable<User>>> Get() {
             IEnumerable<User> users = await _userRepo.GetAllUsersAsync();
             return Ok(users);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> Get(int id)
-        {
+        public async Task<ActionResult<User>> Get(int id) {
             User user = await _userRepo.GetUserByIdAsync(id);
-            if(user==null)
-            {
+            if (user == null) {
                 return NotFound();
             }
             return user;
@@ -48,24 +45,24 @@ namespace Fakebook.RestApi.Controllers
 
         // Gets all posts by a specific user id
         [HttpGet("{id}/Posts")]
-        public async Task<ActionResult<List<Post>>> GetUserPosts(int id)
-        {
+        public async Task<ActionResult<List<Post>>> GetUserPosts(int id) {
             List<Post> posts = await _postRepo.GetPostsByUserIdAsync(id);
             return posts;
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(UserApiModel apiModel)
-        {
-            var user = ApiModelConverter.ToUser(_userRepo, apiModel);
+        public async Task<IActionResult> Post(UserApiModel apiModel) {
+            try {
+                var user = ApiModelConverter.ToUser(_userRepo, apiModel);
 
-            if (await _userRepo.CreateUser(user))
-            {
-                return Ok();
-            }
-            else
-            {
-                return BadRequest();
+                if (await _userRepo.CreateUser(user)) {
+                    // return Created();
+                    return Ok();
+                } else {
+                    return BadRequest();
+                }
+            } catch (ArgumentException ex) {
+                return BadRequest(ex.Message);
             }
         }
 
@@ -84,9 +81,7 @@ namespace Fakebook.RestApi.Controllers
             {
                 await _userRepo.DeleteUserAsync(id);
                 return Ok();
-            }
-            else
-            {
+            } else {
                 return BadRequest();
             }
         }
@@ -102,16 +97,20 @@ namespace Fakebook.RestApi.Controllers
         public async Task<IActionResult> Put(UserApiModel apiModel, int id = -1)
         {
             // if the id is null switch to bad request
-            if (id != -1)
-            {
+            try {
+                if (id == -1) {
+                    throw new ArgumentException("id cannot be -1");
+                }
+
                 var user = ApiModelConverter.ToUser(_userRepo, apiModel);
                 await _userRepo.UpdateUserAsync(id, user);
-                return Ok();
-            }
-            else
-            {
+            } catch (ArgumentException ex) {
+                return BadRequest(ex.Message);
+            } catch {
                 return BadRequest();
             }
+
+            return Ok();
         }
 
         /*
@@ -132,13 +131,10 @@ namespace Fakebook.RestApi.Controllers
             var userPosts = currentUser.Posts.OrderBy(p => p.CreatedAt).ToList();
             if (userPosts.Count < 3) // Check for any self user posts to include in newsfeed
             {
-                foreach (var post in userPosts)
-                {
+                foreach (var post in userPosts) {
                     result.Add(post);
                 }
-            }
-            else
-            {
+            } else {
                 for (var i = 0; i < 3; i++) // Add up to 3 posts from self user to the result
                 {
                     result.Add(userPosts.ElementAt(i));
@@ -151,13 +147,10 @@ namespace Fakebook.RestApi.Controllers
                     var followeePosts = followee.Posts.OrderBy(p => p.CreatedAt).ToList();
                     if (followeePosts.Count < 3) // If followee has less than 3 posts, add all posts to result
                     {
-                        foreach (var post in followeePosts)
-                        {
+                        foreach (var post in followeePosts) {
                             result.Add(post);
                         }
-                    }
-                    else
-                    {
+                    } else {
                         for (var i = 0; i < 3; i++) // Add up to 3 posts from the followee to the result
                         {
                             result.Add(followeePosts.ElementAt(i));
