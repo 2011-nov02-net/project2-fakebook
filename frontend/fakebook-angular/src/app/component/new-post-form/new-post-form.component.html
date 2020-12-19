@@ -1,10 +1,13 @@
 <p>new-post-form works!</p>
-<form>
+<form (ngSubmit)="onSubmit(); newPostForm.reset()" #newPostForm="ngForm">
     <label for="content">Content Below</label>
-    <input type="text" class="form-control" id="content" name="content"[(ngModel)]="newPost.content"> 
+    <input type="text" class="form-control" id="content" name="content"[(ngModel)]="newPost.content" required #trackName="ngModel"> 
+    <p class="alert" *ngIf="!trackName.valid && trackName.touched">The name is required</p>
     <label for="content">url Below</label>
 
     <input type="text" class="form-control" id="pictureUrl" name="pictureUrl" [(ngModel)]="newPost.pictureUrl">
     <input type="submit" value="Save">
 </form>
 <pre>{{ getCurrentModel() }}</pre>
+<pre>{{newPostForm.value | json}}</pre>
+<pre>{{newPostForm.valid}}</pre>
