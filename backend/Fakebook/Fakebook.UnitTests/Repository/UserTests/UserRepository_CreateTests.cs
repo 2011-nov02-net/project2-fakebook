@@ -26,7 +26,7 @@ namespace Fakebook.UnitTests.Repository.UserTests
                 .UseSqlite(connection)
                 .Options;
 
-            bool result;
+            int result;
 
             // Act
             using (var actingContext = new FakebookContext(options)) {
@@ -39,7 +39,7 @@ namespace Fakebook.UnitTests.Repository.UserTests
             }
 
             // Assert
-            Assert.True(result, "Unable to create the user.");
+            Assert.True(result != -1, "Unable to create the user.");
 
             using (var assertionContext = new FakebookContext(options)) {
                 var repo = new UserRepo(assertionContext);
@@ -48,11 +48,19 @@ namespace Fakebook.UnitTests.Repository.UserTests
 
                 Assert.True(users.Any());
 
+                var userActual = repo.GetUserByIdAsync(result).Result;
+
+                Assert.NotNull(userActual);
+
+                Assert.Equal(user.Email, userActual.Email);
+                Assert.Equal(user.FirstName, userActual.FirstName);
+                Assert.Equal(user.LastName, userActual.LastName);
+                Assert.Equal(user.BirthDate, userActual.BirthDate);
             }
         }
 
         [Theory]
-        [ClassData(typeof(UserTestData.Read.Invalid))]
+        [ClassData(typeof(UserTestData.Create.Invalid))]
         public void CreateUser_InvalidData(User user) {
             // Arrange
             using var connection = new SqliteConnection("Data Source=:memory:");
@@ -62,8 +70,6 @@ namespace Fakebook.UnitTests.Repository.UserTests
                 .UseSqlite(connection)
                 .Options;
 
-            bool result;
-
             // Act
             using (var actingContext = new FakebookContext(options)) {
                 actingContext.Database.EnsureCreated();
@@ -71,11 +77,8 @@ namespace Fakebook.UnitTests.Repository.UserTests
                 var repo = new UserRepo(actingContext);
 
                 // Create the user data
-                result = repo.CreateUser(user).Result;
+                Assert.ThrowsAsync<ArgumentException>(() => repo.CreateUser(user));
             }
-
-            // Assert
-            Assert.True(result, "Unable to create the user.");
 
             using (var assertionContext = new FakebookContext(options)) {
                 var repo = new UserRepo(assertionContext);
