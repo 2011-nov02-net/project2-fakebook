@@ -25,7 +25,7 @@ namespace Fakebook.UnitTests.Repository.UserTests
                 .UseSqlite(connection)
                 .Options;
 
-            bool result;
+            int result;
 
             // Act
             using (var actingContext = new FakebookContext(options)) {
@@ -38,14 +38,14 @@ namespace Fakebook.UnitTests.Repository.UserTests
             }
 
             // Assert
-            Assert.True(result, "Unable to create the user.");
+            Assert.True(result != -1, "Unable to create the user.");
 
             using (var assertionContext = new FakebookContext(options)) {
                 var repo = new UserRepo(assertionContext);
 
-                result = repo.UpdateUserAsync(user.Id, userUpdates).Result;
+                bool updateResult = repo.UpdateUserAsync(user.Id, userUpdates).Result;
 
-                Assert.True(result, "Unable to update the user.");
+                Assert.True(updateResult, "Unable to update the user.");
                 var alteredUser = repo.GetUserByIdAsync(user.Id).Result;
 
                 Assert.NotEqual(user.FirstName, alteredUser.FirstName);
@@ -65,7 +65,7 @@ namespace Fakebook.UnitTests.Repository.UserTests
                 .UseSqlite(connection)
                 .Options;
 
-            bool result;
+            int result;
 
             // Act
             using (var actingContext = new FakebookContext(options)) {
@@ -78,14 +78,14 @@ namespace Fakebook.UnitTests.Repository.UserTests
             }
 
             // Assert
-            Assert.True(result, "Unable to create the user.");
+            Assert.True(result != -1, "Unable to create the user.");
 
             using (var assertionContext = new FakebookContext(options)) {
                 var repo = new UserRepo(assertionContext);
 
-                result = repo.UpdateUserAsync(user.Id, userUpdates).Result;
+                bool updateResult = repo.UpdateUserAsync(user.Id, userUpdates).Result;
 
-                Assert.False(result, "Unable to update the user.");
+                Assert.False(updateResult, "Unable to update the user.");
                 var userActual = repo.GetUserByIdAsync(user.Id).Result;
 
                 Assert.Equal(user.FirstName, userActual.FirstName);

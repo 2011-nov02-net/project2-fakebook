@@ -25,7 +25,7 @@ namespace Fakebook.UnitTests.Repository.CommentTests
                 .UseSqlite(connection)
                 .Options;
 
-            bool result;
+            int result;
 
             // Act
             using (var actingContext = new FakebookContext(options)) {
@@ -36,7 +36,7 @@ namespace Fakebook.UnitTests.Repository.CommentTests
                 result = repo.CreateAsync(comment).Result;
             }
 
-            Assert.True(result);
+            Assert.True(result != -1);
 
             // Assert
             using var assertionContext = new FakebookContext(options);
