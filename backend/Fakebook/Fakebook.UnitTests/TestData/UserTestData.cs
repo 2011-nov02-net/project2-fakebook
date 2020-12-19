@@ -88,7 +88,33 @@ namespace Fakebook.UnitTests.TestData
             public class Invalid : IEnumerable<object[]>
             {
                 public IEnumerator<object[]> GetEnumerator() {
-                    yield return new object[] { };
+                    yield return new object[]
+                    {
+                        new User
+                        {
+                            FirstName =  null,
+                            LastName =  null,
+                            ProfilePictureUrl = GenerateRandom.String(),
+                            Email = GenerateRandom.Email(),
+                            PhoneNumber = GenerateRandom.PhoneNumber(),
+                            BirthDate = GenerateRandom.DateTime(),
+                            Status = GenerateRandom.String()
+                        }
+                    };
+
+                    yield return new object[]
+                    {
+                        new User
+                        {
+                            FirstName =  GenerateRandom.String(),
+                            LastName =  GenerateRandom.String(),
+                            ProfilePictureUrl = GenerateRandom.String(),
+                            Email = GenerateRandom.String(),
+                            PhoneNumber = GenerateRandom.String(),
+                            BirthDate = GenerateRandom.DateTime(),
+                            Status = GenerateRandom.String()
+                        }
+                    };
                 }
 
                 IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
