@@ -121,7 +121,7 @@ namespace Fakebook.UnitTests.TestData
             }
         }
 
-        public static class Read
+        public static class ReadById
         {
             public class Valid : IEnumerable<object[]>
             {
@@ -247,6 +247,231 @@ namespace Fakebook.UnitTests.TestData
                         },
 
                         4
+                    };
+                }
+
+                IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+            }
+        }
+
+        public static class ReadByEmail
+        {
+            public class Valid : IEnumerable<object[]>
+            {
+                public IEnumerator<object[]> GetEnumerator() {
+                    string target = GenerateRandom.Email();
+
+                    yield return new object[]
+                    {
+                        new List<User>
+                        {
+                            new User
+                            {
+                                FirstName = GenerateRandom.String(),
+                                LastName = GenerateRandom.String(),
+                                ProfilePictureUrl = null,
+                                Email = target,
+                                PhoneNumber = GenerateRandom.PhoneNumber(),
+                                BirthDate = GenerateRandom.DateTime(),
+                                Status = null
+                            }
+                        },
+                        target
+                    };
+
+                    target = GenerateRandom.Email();
+                    yield return new object[]
+                    {
+                        new List<User>
+                        {
+                            new User
+                            {
+                                FirstName = GenerateRandom.String(),
+                                LastName = GenerateRandom.String(),
+                                ProfilePictureUrl = null,
+                                Email = target,
+                                PhoneNumber = GenerateRandom.PhoneNumber(),
+                                BirthDate = GenerateRandom.DateTime(),
+                                Status = null
+                            },
+                            new User
+                            {
+                                FirstName = GenerateRandom.String(),
+                                LastName = GenerateRandom.String(),
+                                ProfilePictureUrl = null,
+                                Email = GenerateRandom.Email(),
+                                PhoneNumber = GenerateRandom.PhoneNumber(),
+                                BirthDate = GenerateRandom.DateTime(),
+                                Status = null
+                            },
+                            new User
+                            {
+                                FirstName = GenerateRandom.String(),
+                                LastName = GenerateRandom.String(),
+                                ProfilePictureUrl = null,
+                                Email = GenerateRandom.Email(),
+                                PhoneNumber = GenerateRandom.PhoneNumber(),
+                                BirthDate = GenerateRandom.DateTime(),
+                                Status = null
+                            }
+                        },
+                        target
+                    };
+                }
+
+                IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+            }
+
+            public class Invalid : IEnumerable<object[]>
+            {
+                public IEnumerator<object[]> GetEnumerator() {
+                    yield return new object[]
+                    {
+                        new List<User>
+                        {
+                            new User
+                            {
+                                FirstName = GenerateRandom.String(),
+                                LastName = GenerateRandom.String(),
+                                ProfilePictureUrl = null,
+                                Email = GenerateRandom.Email(),
+                                PhoneNumber = GenerateRandom.PhoneNumber(),
+                                BirthDate = GenerateRandom.DateTime(),
+                                Status = null
+                            }
+                        },
+                        GenerateRandom.Email()
+                    };
+
+                    yield return new object[]
+                    {
+                        new List<User>
+                        {
+                            new User
+                            {
+                                FirstName = GenerateRandom.String(),
+                                LastName = GenerateRandom.String(),
+                                ProfilePictureUrl = null,
+                                Email = GenerateRandom.Email(),
+                                PhoneNumber = GenerateRandom.PhoneNumber(),
+                                BirthDate = GenerateRandom.DateTime(),
+                                Status = null
+                            }
+                        },
+                        null
+                    };
+
+                    yield return new object[]
+                    {
+                        new List<User>
+                        {
+                            new User
+                            {
+                                FirstName = GenerateRandom.String(),
+                                LastName = GenerateRandom.String(),
+                                ProfilePictureUrl = null,
+                                Email = GenerateRandom.Email(),
+                                PhoneNumber = GenerateRandom.PhoneNumber(),
+                                BirthDate = GenerateRandom.DateTime(),
+                                Status = null
+                            }
+                        },
+                        GenerateRandom.String()
+                    };
+                }
+
+                IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+            }
+        }
+
+        public static class ReadByIds
+        {
+            public class Valid : IEnumerable<object[]>
+            {
+                public IEnumerator<object[]> GetEnumerator() {
+                    yield return new object[]
+                    {
+                        new List<User>
+                        {
+                            new User
+                            {
+                                FirstName = GenerateRandom.String(),
+                                LastName = GenerateRandom.String(),
+                                ProfilePictureUrl = null,
+                                Email = GenerateRandom.Email(),
+                                PhoneNumber = GenerateRandom.PhoneNumber(),
+                                BirthDate = GenerateRandom.DateTime(),
+                                Status = null
+                            }
+                        },
+                        new List<int>{ 1 }
+                    };
+
+                    yield return new object[]
+                    {
+                        new List<User>
+                        {
+                            new User
+                            {
+                                FirstName = GenerateRandom.String(),
+                                LastName = GenerateRandom.String(),
+                                ProfilePictureUrl = null,
+                                Email = GenerateRandom.Email(),
+                                PhoneNumber = GenerateRandom.PhoneNumber(),
+                                BirthDate = GenerateRandom.DateTime(),
+                                Status = null
+                            },
+                            new User
+                            {
+                                FirstName = GenerateRandom.String(),
+                                LastName = GenerateRandom.String(),
+                                ProfilePictureUrl = null,
+                                Email = GenerateRandom.Email(),
+                                PhoneNumber = GenerateRandom.PhoneNumber(),
+                                BirthDate = GenerateRandom.DateTime(),
+                                Status = null
+                            },
+                            new User
+                            {
+                                FirstName = GenerateRandom.String(),
+                                LastName = GenerateRandom.String(),
+                                ProfilePictureUrl = null,
+                                Email = GenerateRandom.Email(),
+                                PhoneNumber = GenerateRandom.PhoneNumber(),
+                                BirthDate = GenerateRandom.DateTime(),
+                                Status = null
+                            }
+                        },
+                        new List<int>
+                        {
+                            GenerateRandom.Int(1, 3),
+                            GenerateRandom.Int(1, 3)
+                        }
+                    };
+                }
+
+                IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+            }
+
+            public class Invalid : IEnumerable<object[]>
+            {
+                public IEnumerator<object[]> GetEnumerator() {
+                    yield return new object[]
+                    {
+                        new List<User>
+                        {
+                            new User
+                            {
+                                FirstName = GenerateRandom.String(),
+                                LastName = GenerateRandom.String(),
+                                ProfilePictureUrl = null,
+                                Email = GenerateRandom.Email(),
+                                PhoneNumber = GenerateRandom.PhoneNumber(),
+                                BirthDate = GenerateRandom.DateTime(),
+                                Status = null
+                            }
+                        },
+                        new List<int> { -1, 4 }
                     };
                 }
 
