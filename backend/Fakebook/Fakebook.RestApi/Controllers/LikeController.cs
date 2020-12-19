@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 
 namespace Fakebook.RestApi.Controllers
 {
@@ -22,11 +23,21 @@ namespace Fakebook.RestApi.Controllers
         [Authorize]
         public async Task<IActionResult> Like(int id, int userId)
         {
-            // user is liking a post
-            if(await _postRepo.LikePostAsync(id, userId)) {
-                return Ok("Success");
-            } else {
-                return BadRequest();
+            var user = await  _userRepo.GetUserByIdAsync(userId);
+            var email = User.FindFirst(ct => ct.Type.Contains("nameidentifier")).Value;
+            if (email == user.Email) {
+                if (await _postRepo.LikePostAsync(id, userId))
+                {
+                    return Ok("Success");
+                }
+                else
+                {
+                    return BadRequest();
+                }
+            }
+            else
+            {
+                return StatusCode(StatusCodes.Status403Forbidden);
             }
         }
 
@@ -34,11 +45,22 @@ namespace Fakebook.RestApi.Controllers
         [HttpPost("{id}/unlike/{userId}")]
         [Authorize]
         public async Task<IActionResult> Unlike(int id, int userId) {
-            // user is unliking a post
-            if (await _postRepo.UnlikePostAsync(id, userId)) {
-                return Ok("Success");
-            } else {
-                return BadRequest();
+            var user = await _userRepo.GetUserByIdAsync(userId);
+            var email = User.FindFirst(ct => ct.Type.Contains("nameidentifier")).Value;
+            if (email == user.Email)
+            {
+                if (await _postRepo.UnlikePostAsync(id, userId))
+                {
+                    return Ok("Success");
+                }
+                else
+                {
+                    return BadRequest();
+                }
+            }
+            else
+            {
+                return StatusCode(StatusCodes.Status403Forbidden);
             }
         }
     }
