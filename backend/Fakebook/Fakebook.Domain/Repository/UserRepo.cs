@@ -146,17 +146,16 @@ namespace Fakebook.Domain.Repository
         /// <param name="id"></param>
         /// <returns></returns>
         public async Task<bool> DeleteUserAsync(int id) {
-            try {
+            var entities = _context.UserEntities;
 
-                var entity = await _context.UserEntities.FindAsync(id);
-                _context.UserEntities.Remove(entity);
-                await _context.SaveChangesAsync();
-                return true;
-            } catch {
-                Console.WriteLine("Invalid user");
-                return false;
+            if (id < 1 || !entities.Any() || id > entities.Max(u => u.Id)) {
+                throw new ArgumentException($"{id} is not a valid id.");
             }
 
+            var entity = await entities.FindAsync(id);
+            _context.UserEntities.Remove(entity);
+            await _context.SaveChangesAsync();
+            return true;
         }
         /// <summary>
         /// convert to user entity then save changes.
@@ -167,7 +166,13 @@ namespace Fakebook.Domain.Repository
             // make sure the user can be converted
             var userEntity = DbEntityConverter.ToUserEntity(user);
 
-            UserEntity entity = await _context.UserEntities.FindAsync(id);
+            var entities = _context.UserEntities;
+
+            if (id < 1 || !entities.Any() || id > entities.Max(u => u.Id)) {
+                throw new ArgumentException($"{id} is not a valid id.");
+            }
+
+            UserEntity entity = await entities.FindAsync(id);
             // assign all the values
             {
                 entity.Status = userEntity.Status;
