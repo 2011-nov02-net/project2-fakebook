@@ -31,7 +31,6 @@ namespace Fakebook.RestApi.Controllers
         public async Task<IActionResult> Get(int id)
         {
             var user = await _userRepo.GetUserByIdAsync(id);
-            Console.WriteLine(User.FindFirst(ct => ct.Type.Contains("nameidentifier")).Value);
             var email = User.FindFirst(ct => ct.Type.Contains("nameidentifier")).Value;
             if(email == user.Email) {
                 var posts = await _postRepo.GetFollowingPosts(id);

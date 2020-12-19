@@ -10,9 +10,11 @@ namespace Fakebook.RestApi.Controllers
     public class LikeController : ControllerBase
     {
         private readonly IPostRepo _postRepo;
+        private readonly IUserRepo _userRepo;
 
-        public LikeController(IPostRepo postRepo) {
+        public LikeController(IPostRepo postRepo, IUserRepo userRepo) {
             _postRepo = postRepo;
+            _userRepo = userRepo;
         }
 
         // POST: api/Posts/{id}/like/{userId}
