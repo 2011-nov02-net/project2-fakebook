@@ -106,18 +106,18 @@ namespace Fakebook.Domain.Repository
                 .Select(c => DbEntityConverter.ToComment(c));
         }
 
-        public async Task<bool> CreateAsync(Comment comment) {
+        public async Task<int> CreateAsync(Comment comment) {
             try {
                 comment.NullCheck(nameof(comment));
 
                 var entity = DbEntityConverter.ToCommentEntity(comment);
                 await _context.CommentEntities.AddAsync(entity);
                 await _context.SaveChangesAsync();
-            } catch {
-                return false;
-            }
 
-            return true;
+                return entity.Id;
+            } catch {
+                return -1;
+            }
         }
 
         public async Task<bool> UpdateAsync(Comment comment) {
