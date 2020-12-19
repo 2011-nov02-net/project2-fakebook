@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Fakebook.DataAccess.Model;
+using Fakebook.Domain.Extension;
 
 namespace Fakebook.Domain.Repository
 {
@@ -56,7 +57,16 @@ namespace Fakebook.Domain.Repository
         /// <param name="ids"></param>
         /// <returns></returns>
         public async Task<IEnumerable<User>> GetUsersByIdsAsync(IEnumerable<int> ids) {
-            var users = await _context.UserEntities
+            var userEntities = _context.UserEntities;
+            var userIds = userEntities
+                .Select(u => u.Id)
+                .ToList();
+
+            if (!ids.All(id => userIds.Contains(id))) {
+                throw new ArgumentException("Not all ids requested are present.");
+            }
+
+            var users = await userEntities
                 .Include(u => u.Followees)
                      .ThenInclude(u => u.Followee)
                 .Include(u => u.Followers)
@@ -83,7 +93,7 @@ namespace Fakebook.Domain.Repository
         {
             var entities = _context.UserEntities;
 
-            if (id < 1 || id > entities.Max(u => u.Id)) {
+            if (id < 1 || !entities.Any() || id > entities.Max(u => u.Id)) {
                 throw new ArgumentException($"{id} is not a valid id.");
             }
 
@@ -98,9 +108,16 @@ namespace Fakebook.Domain.Repository
             return user;
         }
 
-        public async Task<User> GetUserByEmailAsync(string email)
-        {
-            var entity = await _context.UserEntities
+        public async Task<User> GetUserByEmailAsync(string email) {
+            var entities = _context.UserEntities;
+
+            email.EnforceEmailCharacters(nameof(email));
+
+            if(!entities.Any()) {
+                throw new ArgumentException($"{email} does not belong to any user");
+            }
+
+            var entity = await entities
                 .Where(e => e.Email == email)
                 .Include(u => u.Followees)
                      .ThenInclude(u => u.Followee)
