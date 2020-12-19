@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
 using Fakebook.RestApi.Model;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Fakebook.RestApi.Controllers
 {
@@ -74,6 +75,7 @@ namespace Fakebook.RestApi.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> Delete(int id)
         {
             if (await _userRepo.DeleteUserAsync(id))
@@ -93,6 +95,7 @@ namespace Fakebook.RestApi.Controllers
         /// <param name="user"></param>
         /// <returns></returns>
         [HttpPut("{id}/")]
+        [Authorize]
         public async Task<IActionResult> Put(UserApiModel apiModel, int id = -1)
         {
             // if the id is null switch to bad request
@@ -118,6 +121,7 @@ namespace Fakebook.RestApi.Controllers
         */
 
         [HttpGet("{id}/Newsfeed")]
+        [Authorize]
         public async Task<IActionResult> GetNewsfeedPosts(int id)
         {
             var currentUser = await _userRepo.GetUserByIdAsync(id);
