@@ -31,4 +31,8 @@ export class AuthService {
   login() {
     this.oktaAuth.signInWithRedirect();
   }
+
+  logout(){
+    this.oktaAuth.signOut();
+  }
 }

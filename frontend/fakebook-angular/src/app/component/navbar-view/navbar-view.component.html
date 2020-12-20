@@ -18,7 +18,7 @@
         </form>
         
         <button class="ml-3 btn btn-outline-info" *ngIf="!isAuthenticated" (click)="login()">Login</button>
-        <button class="ml-3 btn btn-outline-info" *ngIf="isAuthenticated">Logout</button>
+        <button class="ml-3 btn btn-outline-info" *ngIf="isAuthenticated" (click)="logout()">Logout</button>
       </div>
     </div>
   </nav>
