@@ -4,6 +4,7 @@ namespace Fakebook.DataAccess.Model
 {
     public class FollowEntity
     {
+        public FollowEntity() { }
         public FollowEntity(int id, int userId)
         {
             FollowerId = id;
