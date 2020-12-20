@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/service/auth.service';
+import { Comment } from 'src/app/model/comment';
 
 @Component({
   selector: 'app-comment-view',
@@ -6,10 +8,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./comment-view.component.css']
 })
 export class CommentViewComponent implements OnInit {
+  userOwnsComment: boolean;
 
-  constructor() { }
+  @Input() comment: Comment | null = null;
 
-  ngOnInit(): void {
+  constructor(private authService: AuthService) {
+    this.userOwnsComment = false;
   }
 
+  ngOnInit(): void { }
 }

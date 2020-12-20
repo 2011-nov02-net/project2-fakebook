@@ -1,0 +1,12 @@
+<div class='social-comment'>
+  <div>
+    <div class='media-body'>
+      <textarea 
+        class='form-control' 
+        [value]='comment.content'
+        placeholder='Write comment...'>
+      </textarea>
+      <button (click)='postComment(comment)'></button>
+    </div>
+  </div>
+</div>

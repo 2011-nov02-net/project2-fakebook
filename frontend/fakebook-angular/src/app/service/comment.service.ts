@@ -1,38 +1,33 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-
+import { OktaAuthService } from '@okta/okta-angular';
 import { Comment } from '../model/comment';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CommentService {
-  constructor() { }
+  url = `${environment.baseUrl}/api/posts/`;
 
-  create(comment: Comment): boolean {
-    return false;
-  }
+  constructor(
+    private http: HttpClient,
+    private oktaAuth: OktaAuthService
+  ) { }
 
-  getById(id: number): Comment | undefined {
-    return undefined;
-  }
+  create(comment: Comment): Promise<Comment> {
+    const accessToken = this.oktaAuth.getAccessToken();
+    const headers = {
+      Authorization: `Bearer ${accessToken}`,
+      Accept: 'application/json'
+    };
 
-  getComments(count: number): Comment[] {
-    return [];
-  }
-
-  getCommentsByUserId(userId: number): Comment[] {
-    return [];
-  }
-
-  getCommentsByPostId(postId: number): Comment[] {
-    return [];
-  }
-
-  update(comment: Comment): boolean {
-    return false;
-  }
-
-  delete(commentId: number): boolean {
-    return false;
+    return this.http
+      .post<Comment>(
+        `${this.url}${comment.postId}/comment`,
+        comment,
+        { headers }
+      )
+      .toPromise();
   }
 }

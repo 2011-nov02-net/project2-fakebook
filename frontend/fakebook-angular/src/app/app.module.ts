@@ -21,6 +21,7 @@ import { OktaAuthModule,
          OKTA_CONFIG }
          from '@okta/okta-angular';
 import { NewPostFormComponent } from './component/new-post-form/new-post-form.component';
+import { CommentFormComponent } from './component/comment-form/comment-form.component';
 
 const config = {
   issuer: 'https://dev-2137068.okta.com/oauth2/default',
@@ -46,7 +47,8 @@ const config = {
     FooterViewComponent,
     AboutUsViewComponent,
     OktaViewComponent,
-    NewPostFormComponent
+    NewPostFormComponent,
+    CommentFormComponent
     
   ],
   imports: [

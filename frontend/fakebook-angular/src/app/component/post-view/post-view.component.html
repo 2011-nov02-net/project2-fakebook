@@ -1,51 +1,35 @@
 <!-- Box containing one post and its comments -->
 <div *ngIf="post" class="social-feed-box">
-    <div class="social-avatar">
+  <div class="social-avatar">
     <div class="row">
-        <a href="" class="pull-left">
+      <a href="" class="pull-left">
         <img class="rounded-circle img-sm" alt="image" src="{{post.user.profilePictureUrl}}">
-        </a>
-        <div class="media-body">
+      </a>
+      <div class="media-body">
         <a href="#">
-            {{post.user.firstName + " " + post.user.lastName}}
+          {{post.user.firstName + " " + post.user.lastName}}
         </a>
         <small class="text-muted">{{post.createdAt | date:'medium'}}</small>
-        </div>
+      </div>
     </div>
-    </div>
-    <div class="social-body">
+  </div>
+  <div class="social-body">
     <p>
-        {{post.content}}
+      {{post.content}}
     </p>
     <div class="btn-group">
-        <!-- <button (click)="likePost(post)" class="btn btn-white btn-xs"><i class="fa fa-thumbs-up"></i> Like</button> -->
-        <button class="btn btn-white btn-xs"><i class="fa fa-comments"></i> Comment</button>
+      <!-- <button (click)="likePost(post)" class="btn btn-white btn-xs"><i class="fa fa-thumbs-up"></i> Like</button> -->
+      <button class="btn btn-white btn-xs"><i class="fa fa-comments"></i> Comment</button>
     </div>
-    </div>
+  </div>
 
-    <!-- Iteration through all comments for the post -->
-    <div class="social-footer">
-    <ul *ngFor="let comment of post.comments">  
-        <div class="social-comment">
-        <a href="" class="pull-left">
-            <img class="rounded-circle img-sm" alt="image" src="{{comment.user.profilePictureUrl}}">
-        </a>
-        <div class="media-body">
-            <a href="#">
-            {{comment.user.firstName + " " + comment.user.lastName}}
-            </a>
-            {{comment.content}}
-            <br>
-            <small class="text-muted">{{comment.createdAt}}</small>
-        </div>
-        </div>
-    </ul>   
-    </div>
-    
-    <!-- Box for making new comments responding to the post -->
-    <div class="social-comment">
-    <div class="media-body">
-            <textarea class="form-control" placeholder="Write comment..."></textarea>
-    </div>
-    </div>
+  <!-- Iteration through all comments for the post -->
+  <div *ngIf='post.comments.length > 0' class="social-footer">
+    <ul *ngFor="let comment of post.comments">
+      <app-comment-view [comment]='comment'></app-comment-view>
+    </ul>
+  </div>
+
+  <!-- Box for making new comments responding to the post -->
+  <app-comment-form></app-comment-form>
 </div>

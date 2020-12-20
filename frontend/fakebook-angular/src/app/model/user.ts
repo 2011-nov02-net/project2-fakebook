@@ -5,7 +5,7 @@ export interface User {
   email: string;
   phoneNumber: string | undefined;
   password: string;
-  profilePictureUrl: string | undefined;
+  profilePictureUrl: string | null;
   status: string | undefined;
   birthDate: Date;
   followerIds: number[];

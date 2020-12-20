@@ -1,1 +1,13 @@
-<p>comment-view works!</p>
+<div *ngIf='comment && comment.user && comment.user.profilePictureUrl' class="social-comment">
+  <a href="" class="pull-left">
+    <img class="rounded-circle img-sm" alt="image" src="{{comment.user.profilePictureUrl}}">
+  </a>
+  <div class="media-body">
+    <a href="#">
+      {{comment.user.firstName + " " + comment.user.lastName}}
+    </a>
+    {{comment.content}}
+    <br>
+    <small class="text-muted">{{comment.createdAt}}</small>
+  </div>
+</div>
