@@ -41,6 +41,29 @@ namespace Fakebook.RestApi.Controllers
             }
         }
 
+        [HttpPost("/follow/{userId}")]
+        [Authorize]
+        public async Task<IActionResult> Follow(int userId)
+        {
+            var email = User.FindFirst(ct => ct.Type.Contains("nameidentifier")).Value;
+            var user = await _userRepo.GetUserByEmailAsync(email);
+            if (user != null)
+            {
+                if (await _userRepo.FollowUserAsync(user.Id, userId))
+                {
+                    return Ok("Success");
+                }
+                else
+                {
+                    return BadRequest();
+                }
+            }
+            else
+            {
+                return StatusCode(StatusCodes.Status403Forbidden);
+            }
+        }
+
         // POST: api/Posts/{id}/unlike/{userId}
         [HttpPost("{id}/unfollow/{userId}")]
         [Authorize]
@@ -51,6 +74,29 @@ namespace Fakebook.RestApi.Controllers
             if (email == user.Email)
             {
                 if (await _userRepo.UnfollowUserAsync(id, userId))
+                {
+                    return Ok("Success");
+                }
+                else
+                {
+                    return BadRequest();
+                }
+            }
+            else
+            {
+                return StatusCode(StatusCodes.Status403Forbidden);
+            }
+        }
+
+        [HttpPost("/follow/{userId}")]
+        [Authorize]
+        public async Task<IActionResult> Unfollow(int userId)
+        {
+            var email = User.FindFirst(ct => ct.Type.Contains("nameidentifier")).Value;
+            var user = await _userRepo.GetUserByEmailAsync(email);
+            if (user != null)
+            {
+                if (await _userRepo.UnfollowUserAsync(user.Id, userId))
                 {
                     return Ok("Success");
                 }
