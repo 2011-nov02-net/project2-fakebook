@@ -17,14 +17,14 @@ export class NewPostFormComponent implements OnInit {
   submitted = false;
   constructor( private httpPost: PostService, private route: ActivatedRoute, private userService: UserService) { }
 
-  userid = this.getUserId();
   user: User | undefined;
   ngOnInit(): void {
     this.getUser();
   }
-  newPost = new newPost('',  this.userid, '')
+  newPost = new newPost('',  undefined, '') // we'll initialize user id at onsubmit
 
   onSubmit() {
+       this.newPost.userId = this.user?.id;
         this.submitted=true;
         this.httpPost.create(this.newPost)
   }
