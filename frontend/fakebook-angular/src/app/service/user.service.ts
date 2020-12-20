@@ -27,7 +27,7 @@ export class UserService {
     return this.http.get<User>(`${this.url}User/${id}`);
   }
   getPosts(id:string | null): Observable<Post[]>{
-    return this.http.get<Post[]>(`${this.url}User/${id}/Posts`)
+    return this.http.get<Post[]>(`${this.url}User/${id}/Posts`);
   }
 
 }
