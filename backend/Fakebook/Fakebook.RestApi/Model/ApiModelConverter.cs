@@ -147,7 +147,7 @@ namespace Fakebook.RestApi.Model
 
             // if content is not null, filter out any special characters
             var regex = new Regex(RegularExpressions.NoSpecialCharacters);
-            if (apiModel.Content is not null && regex.IsMatch(apiModel.Content)) {
+            if (apiModel.Content is not null && !regex.IsMatch(apiModel.Content)) {
                 throw new ArgumentException("No special characters are permitted in the content.");
             }
 
