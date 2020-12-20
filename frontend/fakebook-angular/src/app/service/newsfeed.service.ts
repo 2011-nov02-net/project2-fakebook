@@ -9,13 +9,13 @@ import { Observable } from 'rxjs';
 export class NewsfeedService {
   constructor(private http: HttpClient, private oktaAuth: OktaAuthService) { }
   url = 'https://2011-project2-fakebook.azurewebsites.net/api/Newsfeed';
-  
   getPosts(id:string | null): Observable<Post[]>{
     const accessToken = this.oktaAuth.getAccessToken();
     const headers = {
       Authorization: 'Bearer ' + accessToken,
       Accept: 'application/json',
     };
-    return this.http.get<Post[]>(`${this.url}/${id}`, { headers });
+
+    return this.http.get<Post[]>(`${this.url}/`, { headers });
   }
 }

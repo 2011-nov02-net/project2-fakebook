@@ -49,9 +49,18 @@ namespace Fakebook.RestApi.Controllers
             }
             return user;
         }
-
-        // Gets all posts by a specific user id
-        [HttpGet("{id}/Posts")]
+        [HttpGet("email/{email}")]
+        public async Task<ActionResult<User>> GetUserByEmail(string email)
+        {
+            User user = await _userRepo.GetUserByEmailAsync(email);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return user;
+        }
+            // Gets all posts by a specific user id
+            [HttpGet("{id}/Posts")]
         public async Task<ActionResult<List<Post>>> GetUserPosts(int id) {
             List<Post> posts = await _postRepo.GetPostsByUserIdAsync(id);
             return posts;
