@@ -12,20 +12,17 @@ export class CommentFormComponent implements OnInit {
   @Input() postId!: number;
   @Input() parentCommentId: number | undefined;
   
-  comment: CommentFormData;
+  comment: CommentFormData = { content: '', postId: -1, parentCommentId: undefined };
 
   constructor(
     private commentService: CommentService,
     private route: ActivatedRoute
-  ) { 
-    this.comment = {
-      content: '',
-      postId: this.postId,
-      parentCommentId: this.parentCommentId
-    };
-  }
+  ) { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void { 
+    this.comment.postId = this.postId;
+    this.comment.parentCommentId = this.parentCommentId;
+  }
 
   getUserId(): number {
     let id = -1;
@@ -41,7 +38,7 @@ export class CommentFormComponent implements OnInit {
   postComment(comment: CommentFormData): void {
     // create a comment from the current data
     let userId = this.getUserId();
-
+    
     this.commentService.create({
       id: 0,
       userId: userId,
@@ -52,5 +49,7 @@ export class CommentFormComponent implements OnInit {
       createdAt: undefined,
       childCommentIds: []
     });
+
+    this.comment.content = '';
   }
 }

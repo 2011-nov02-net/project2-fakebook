@@ -11,7 +11,6 @@ export class PostViewComponent implements OnInit {
   @Input() post : Post | null = null;
   constructor() { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
 
 }

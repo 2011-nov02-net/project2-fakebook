@@ -17,19 +17,13 @@
     <p>
       {{post.content}}
     </p>
-    <div class="btn-group">
-      <!-- <button (click)="likePost(post)" class="btn btn-white btn-xs"><i class="fa fa-thumbs-up"></i> Like</button> -->
-      <button class="btn btn-white btn-xs"><i class="fa fa-comments"></i> Comment</button>
+    <!-- Iteration through all comments for the post -->
+    <div *ngIf='post && post.comments.length > 0' class="social-footer">
+      <ul *ngFor="let comment of post.comments">
+        <app-comment-view [comment]='comment'></app-comment-view>
+      </ul>
     </div>
   </div>
-
-  <!-- Iteration through all comments for the post -->
-  <div *ngIf='post.comments.length > 0' class="social-footer">
-    <ul *ngFor="let comment of post.comments">
-      <app-comment-view [comment]='comment'></app-comment-view>
-    </ul>
-  </div>
-
   <!-- Box for making new comments responding to the post -->
-  <app-comment-form></app-comment-form>
+  <app-comment-form [postId]='post.id'></app-comment-form>
 </div>

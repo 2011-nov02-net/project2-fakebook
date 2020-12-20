@@ -8,7 +8,7 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class CommentService {
-  url = `${environment.baseUrl}/api/posts/`;
+  url = `${environment.baseUrl}/api/Posts/`;
 
   constructor(
     private http: HttpClient,
@@ -16,15 +16,19 @@ export class CommentService {
   ) { }
 
   create(comment: Comment): Promise<Comment> {
+    console.log(comment);
+
     const accessToken = this.oktaAuth.getAccessToken();
     const headers = {
       Authorization: `Bearer ${accessToken}`,
       Accept: 'application/json'
     };
 
+    const targetUrl = `${this.url}${comment.postId}/Comment`;
+
     return this.http
       .post<Comment>(
-        `${this.url}${comment.postId}/comment`,
+        targetUrl,
         comment,
         { headers }
       )
