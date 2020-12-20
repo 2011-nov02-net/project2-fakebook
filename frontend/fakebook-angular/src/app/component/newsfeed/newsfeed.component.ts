@@ -12,7 +12,7 @@ import { Post } from '../../model/post';
   styleUrls: ['./newsfeed.component.css']
 })
 export class NewsfeedComponent implements OnInit {
-  posts: Post[] | null = null;
+  posts: Post[] | undefined;
 
   constructor(private likeService: LikeService, private userService: UserService, private route: ActivatedRoute, private newsfeedService: NewsfeedService) { }
 
@@ -20,10 +20,9 @@ export class NewsfeedComponent implements OnInit {
     this.getUser();
   }
 
-  getPosts(int: number): void {
-      this.newsfeedService.getPosts(int)
-        .then(posts => this.posts = posts);
-  }
+ /* getPosts(int: string): void {
+      this.posts = this.newsfeedService.getPosts(int)
+  }*/
 
   getUser() {
     let id = "";
@@ -34,8 +33,9 @@ export class NewsfeedComponent implements OnInit {
 
     if( id != null) { 
       this.userService.getUser(id).toPromise()
-      .then(user => this.getPosts(user.id))
     }
+    this.newsfeedService.getPosts(id)
+        .subscribe(posts => this.posts = posts)
   }
 
   likePost(post: Post): void{
