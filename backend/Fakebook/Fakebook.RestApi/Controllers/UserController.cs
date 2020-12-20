@@ -7,6 +7,7 @@ using System.Linq;
 using Fakebook.RestApi.Model;
 using Microsoft.AspNetCore.Authorization;
 using System;
+using Microsoft.AspNetCore.Http;
 
 namespace Fakebook.RestApi.Controllers
 {
@@ -59,8 +60,24 @@ namespace Fakebook.RestApi.Controllers
             }
             return user;
         }
-            // Gets all posts by a specific user id
-            [HttpGet("{id}/Posts")]
+        // user/profile
+        [Authorize]
+        [HttpGet("profile")]
+        public async Task<ActionResult<User>> GetUserProfile()
+        {
+            var email = User.FindFirst(ct => ct.Type.Contains("nameidentifier")).Value;
+            var user = await _userRepo.GetUserByEmailAsync(email);
+            if (user != null)
+            {
+                return Ok(user);
+            }
+            else
+            {
+                return StatusCode(StatusCodes.Status403Forbidden);
+            }
+        }
+        // Gets all posts by a specific user id
+        [HttpGet("{id}/Posts")]
         public async Task<ActionResult<List<Post>>> GetUserPosts(int id) {
             List<Post> posts = await _postRepo.GetPostsByUserIdAsync(id);
             return posts;

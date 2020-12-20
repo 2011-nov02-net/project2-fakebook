@@ -13,34 +13,26 @@ import { inject } from '@angular/core/testing';
   templateUrl: './new-post-form.component.html',
   styleUrls: ['./new-post-form.component.css']
 })
-@Injectable()
 export class NewPostFormComponent implements OnInit {
   submitted = false;
   constructor( private httpPost: PostService, private route: ActivatedRoute, private userService: UserService) { }
 
   userid = this.getUserId();
-  @Input() user: User | undefined;
+  user: User | undefined;
   ngOnInit(): void {
-    //this.mygroup = new FormGroup()
+    this.getUser();
   }
   newPost = new newPost('',  this.userid, '')
 
   onSubmit() {
         this.submitted=true;
         this.httpPost.create(this.newPost)
-        //this.httpPost.create(this.newPost)
   }
-  getCurrentModel() { 
-    return JSON.stringify(this.newPost); 
+  getUser() {
+    this.userService.getUserProfile() // gets the user 
+        .subscribe(gotuser => this.user = gotuser)
   }
-  getUserId(): string | undefined {
-    let id = "";
-
-    if(this.route.snapshot.paramMap.get('id') != null)  {
-      id += (this.route.snapshot.paramMap.get('id'));
-      return id;
-    }
-
-    return undefined;
+  getUserId() {
+    return this.user?.id;
   }
 }
