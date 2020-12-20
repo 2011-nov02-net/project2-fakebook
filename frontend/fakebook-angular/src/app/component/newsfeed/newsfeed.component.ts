@@ -27,18 +27,10 @@ export class NewsfeedComponent implements OnInit {
   }*/
 
   getUser() {
-    let id = "";
-
-    if(this.route.snapshot.paramMap.get('id') != null)  {
-      id += (this.route.snapshot.paramMap.get('id'));
-    }
-
-    if( id != null) { 
-      this.userService.getUser(id)
+    this.userService.getUserProfile() // gets the user 
         .subscribe(gotuser => this.user = gotuser)
-    }
     
-    this.newsfeedService.getPosts(id)
+    this.newsfeedService.getPosts(null)
         .subscribe(posts => this.posts = posts)
   }
 
