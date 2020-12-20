@@ -5,6 +5,7 @@ using Fakebook.RestApi.Model;
 using System;
 using Microsoft.AspNetCore.Authorization;
 using Fakebook.Domain;
+using System.Linq;
 
 namespace Fakebook.RestApi.Controllers
 {
@@ -28,14 +29,14 @@ namespace Fakebook.RestApi.Controllers
         public async Task<IActionResult> Get()
         {
             var posts = await _postRepo.GetAllPostsAsync();
-            return Ok(posts);
+            return Ok(posts.Select(p => ApiModelConverter.ToPostApiModel(p)));
         }
 
         [HttpPost]
         [Authorize]
         public async Task<IActionResult> Post(PostApiModel apiModel)
         {
-            var user = await _userRepo.GetUserByIdAsync(apiModel.UserId);
+            var user = await _userRepo.GetUserByIdAsync(apiModel.User.Id);
             var email = User.FindFirst(ct => ct.Type.Contains("nameidentifier")).Value;
             if (email == user.Email)
             {
@@ -63,7 +64,7 @@ namespace Fakebook.RestApi.Controllers
         [Authorize]
         public async Task<IActionResult> Put(PostApiModel apiModel)
         {
-            var user = await _userRepo.GetUserByIdAsync(apiModel.UserId);
+            var user = await _userRepo.GetUserByIdAsync(apiModel.User.Id);
             var email = User.FindFirst(ct => ct.Type.Contains("nameidentifier")).Value;
             if(email == user.Email)
             {
