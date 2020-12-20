@@ -9,6 +9,7 @@ import { SearchViewComponent} from './component/search-view/search-view.componen
 
 const routes: Routes = [
   { path: 'newsfeed/:id', component: NewsfeedComponent},
+  { path: 'newsfeed', component: NewsfeedComponent},
   { path: 'user/:id', component: UserProfileViewComponent},
   { path: 'about' , component: AboutUsViewComponent},
   { path: 'login/callback', component: OktaCallbackComponent},

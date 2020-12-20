@@ -27,7 +27,6 @@ namespace Fakebook.RestApi.Controllers
         // GET: api/<Feed>
         [HttpGet("{id}")]
         [Authorize]
-
         public async Task<IActionResult> Get(int id) {
             try {
                 var user = await _userRepo.GetUserByIdAsync(id);
@@ -41,6 +40,34 @@ namespace Fakebook.RestApi.Controllers
             } catch (ArgumentException ex) {
                 return BadRequest(ex.Message);
             } catch {
+                return BadRequest();
+            }
+        }
+        // GET: api/<Feed>
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> Get()
+        {
+            try
+            {
+                var email = User.FindFirst(ct => ct.Type.Contains("nameidentifier")).Value;
+                var user = _userRepo.GetUserByEmailAsync(email);
+                if (user != null)
+                {
+                    var posts = await _postRepo.GetFollowingPosts(user.Id);
+                    return Ok(posts);
+                }
+                else
+                {
+                    return StatusCode(StatusCodes.Status403Forbidden);
+                }
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch
+            {
                 return BadRequest();
             }
         }
