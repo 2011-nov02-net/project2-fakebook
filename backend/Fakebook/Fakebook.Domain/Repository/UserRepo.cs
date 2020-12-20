@@ -193,5 +193,39 @@ namespace Fakebook.Domain.Repository
 
         }
 
+        // id is the follower, userId is followee aka person that the follower is following
+        public async Task<bool> FollowUserAsync(int id, int userId)
+        {
+            try
+            {
+                var follow = new FollowEntity(id, userId); // convert
+                await _context.FollowEntities.AddAsync(follow);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+        public async Task<bool> UnfollowUserAsync(int id, int userId)
+        {
+            try
+            {
+                // find the like entity
+                var entity = await _context.FollowEntities.FirstOrDefaultAsync(i => i.FollowerId == id && i.FolloweeId == userId);
+                if (entity != null)
+                {
+                    // remove and if able to return true
+                    _context.FollowEntities.Remove(entity);
+                    return true;
+                }
+                // otherwise return false
+                return false;
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }
