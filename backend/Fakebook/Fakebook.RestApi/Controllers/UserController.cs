@@ -34,7 +34,7 @@ namespace Fakebook.RestApi.Controllers
             return Ok(users);
         }
         [HttpGet("search/{name}")]
-        public async Task<ActionResult<IEnumerable<User>>> search(string name)
+        public async Task<ActionResult<IEnumerable<User>>> Search(string name)
         {
             IEnumerable<User> users = await _userRepo.GetUserByName(name);
             return Ok(users);
