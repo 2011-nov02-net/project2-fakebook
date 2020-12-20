@@ -27,16 +27,17 @@ namespace Fakebook.UnitTests.Controller
         public void LikePost_Valid(int postId, int userId) {
             // arrange
             var mockedPostRepo = new Mock<IPostRepo>();
+            var mockedUserRepo = new Mock<IUserRepo>();
 
             mockedPostRepo
                 .Setup(mpr => mpr.LikePostAsync(It.IsAny<int>(), It.IsAny<int>()))
                 .ReturnsAsync(true);
 
-            var controller = new LikeController(mockedPostRepo.Object);
+            var controller = new LikeController(mockedPostRepo.Object, mockedUserRepo.Object);
 
             // act
             var result = controller
-                .Like(postId, userId)
+                .Like(postId)
                 .Result;
 
             //assert
