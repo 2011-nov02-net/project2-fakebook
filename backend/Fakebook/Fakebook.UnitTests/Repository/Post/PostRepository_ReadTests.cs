@@ -24,15 +24,12 @@ namespace Fakebook.UnitTests.Repository.Post
             var mockUserRepository = new Mock<IUserRepo>();
             var mockPostRepository = new Mock<IPostRepo>();
 
-            var mockUserRepository = new Mock<IUserRepo>();
-            var mockPostRepostiory = new Mock<IPostRepo>();
-
             // create a moq that returns users
             mockUserRepository.Setup(r => r.GetAllUsersAsync()).ReturnsAsync(GetDatabaseSession());
             // post repository doesn't need setup because only the user repo is used
 
             // make a controller using my mock
-            var controller = new UserController(mockUserRepository.Object, mockPostRepostiory.Object);
+            var controller = new UserController(mockUserRepository.Object, mockPostRepository.Object);
 
             // ACT
             var result = await controller.Get();
@@ -40,6 +37,7 @@ namespace Fakebook.UnitTests.Repository.Post
             // assert
             var viewResult = Assert.IsAssignableFrom<IActionResult>(result);
         }
+
         [Fact]
         public void Index_Display_Users()
         {
@@ -61,6 +59,7 @@ namespace Fakebook.UnitTests.Repository.Post
             // assert
             var viewResult = Assert.IsAssignableFrom<IActionResult>(result.Result);
         }
+
         [Fact]
         public void Index_Get_User_By_ID()
         {
