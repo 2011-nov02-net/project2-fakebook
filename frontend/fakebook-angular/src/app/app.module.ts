@@ -48,11 +48,9 @@ const config = {
     FooterViewComponent,
     AboutUsViewComponent,
     OktaViewComponent,
-    CommentFormComponent
+    CommentFormComponent,
     NewPostFormComponent,
     SearchViewComponent
-    
-    
   ],
   imports: [
     BrowserModule,
