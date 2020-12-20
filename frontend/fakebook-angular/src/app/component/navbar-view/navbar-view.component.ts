@@ -24,5 +24,8 @@ export class NavbarViewComponent implements OnInit {
   }
   onSubmit() {
     this.router.navigateByUrl(`search/${this.searchName.value}`, { skipLocationChange: false });
+    
+  logout() {
+      this.oktaAuth.logout();
   }
 }
