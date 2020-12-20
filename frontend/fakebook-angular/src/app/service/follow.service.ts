@@ -1,35 +1,33 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Post } from '../model/post';
+import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 import { User } from '../model/user';
-import { Like } from '../model/like';
-import { Observable, throwError } from 'rxjs';
-import { tap, catchError } from 'rxjs/operators';
+import { OktaAuthService } from '@okta/okta-angular';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FollowService {
-  constructor(private http: HttpClient) { }
-  url = 'http://2011-project2-fakebook.azurewebsites.net/api/';
+  constructor(private http: HttpClient, private oktaAuth: OktaAuthService) { }
+  url = `${environment.baseUrl}/api/User`;
 
   follow(follower: User, followee: User): any {
-    let httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
+    const accessToken = this.oktaAuth.getAccessToken();
+    const headers = {
+      Authorization: 'Bearer ' + accessToken,
+      Accept: 'application/json',
     };
-    return this.http.post(`${this.url}User/${follower}/follow/${followee}`, httpOptions)
+    return this.http.post(`${this.url}/${follower}/follow/${followee}`, headers)
       .toPromise().then(res => console.log(JSON.stringify(res)));
   }
 
   unfollow(follower: User, followee: User): any {
-    let httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
+    const accessToken = this.oktaAuth.getAccessToken();
+    const headers = {
+      Authorization: 'Bearer ' + accessToken,
+      Accept: 'application/json',
     };
-    return this.http.post(`${this.url}User/${follower}/unfollow/${followee}`, httpOptions)
+    return this.http.post(`${this.url}/${follower}/unfollow/${followee}`, headers)
       .toPromise().then(res => console.log(JSON.stringify(res)));
   }
 }
