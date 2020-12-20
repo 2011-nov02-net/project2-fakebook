@@ -12,11 +12,13 @@
           </li>
         </ul>
         <form class="form-inline my-2 my-md-0">
-          <input class="form-control" type="text" placeholder="Search" aria-label="Search">
+          <input class="form-control" type="text" placeholder="Search" aria-label="Search" >
+          <input type="submit" class=" btn btn-primary btn-sm " value="Search">
+
         </form>
         
-        <button *ngIf="!isAuthenticated" (click)="login()">Login</button>
-        <button *ngIf="isAuthenticated">Logout</button>
+        <button class="ml-3 btn btn-outline-info" *ngIf="!isAuthenticated" (click)="login()">Login</button>
+        <button class="ml-3 btn btn-outline-info" *ngIf="isAuthenticated">Logout</button>
       </div>
     </div>
   </nav>
