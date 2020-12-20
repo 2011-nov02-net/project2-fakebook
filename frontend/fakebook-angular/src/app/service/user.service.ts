@@ -28,5 +28,8 @@ export class UserService {
   getPosts(id:string | null): Observable<Post[]>{
     return this.http.get<Post[]>(`${this.url}User/${id}/Posts`)
   }
+  searchUser(name:string | null): Observable<User[]> {
+    return this.http.get<User[]>(`${this.url}User/search/${name}`)
+  }
 
 }

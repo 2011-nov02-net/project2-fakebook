@@ -208,7 +208,7 @@ namespace Fakebook.Domain.Repository
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<List<Post>> GetFollowingPosts(int id)
+        public async Task<IOrderedEnumerable<Post>> GetFollowingPosts(int id)
         {
             List<Post> newsFeed = new List<Post>();
 
@@ -236,8 +236,8 @@ namespace Fakebook.Domain.Repository
             }
 
             // orderize it by date later. TODO
-            newsFeed.Reverse();
-            return newsFeed;
+            var order = newsFeed.OrderByDescending(d=> d.CreatedAt);
+            return order;
         }
     }
 }
