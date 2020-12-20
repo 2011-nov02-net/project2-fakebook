@@ -37,6 +37,7 @@ export class NewsfeedComponent implements OnInit {
       this.userService.getUser(id)
         .subscribe(gotuser => this.user = gotuser)
     }
+    
     this.newsfeedService.getPosts(id)
         .subscribe(posts => this.posts = posts)
   }
