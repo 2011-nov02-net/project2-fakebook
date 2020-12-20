@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router'; // getting the id number
 import { Post } from 'src/app/model/post';
 import { User } from 'src/app/model/user';
-import {  UserService } from '../../service/user.service';
+import { UserService } from '../../service/user.service';
+import { FollowService } from '../../service/follow.service';
 
 @Component({
   selector: 'app-user-profile-view',
-  providers: [UserService],
+  providers: [UserService, FollowService],
   templateUrl: './user-profile-view.component.html',
   styleUrls: ['./user-profile-view.component.css']
 })
@@ -14,9 +15,9 @@ export class UserProfileViewComponent implements OnInit {
   user : User | undefined; // our profile
   posts : Post[] | undefined; // our users profile
 
-  constructor(private httpService : UserService, 
+  constructor(private userService : UserService,
+    private followService: FollowService, 
     private route: ActivatedRoute, // getting the id # in route
-    
     ) { }
 
   ngOnInit(): void {
@@ -32,11 +33,16 @@ export class UserProfileViewComponent implements OnInit {
     // assign this to an id
     const id = tempId;
 
-    this.httpService.getUser(id)
+    this.userService.getUser(id)
       .subscribe(user => this.user = user);
 
-    this.httpService.getPosts(id)
+    this.userService.getPosts(id)
       .subscribe(posts => this.posts = posts)
+  }
 
+  followUser(): any {
+    if(this.user != undefined) {
+      this.followService.follow(this.user);
+    }
   }
 }

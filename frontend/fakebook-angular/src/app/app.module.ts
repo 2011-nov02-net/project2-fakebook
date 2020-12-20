@@ -49,8 +49,6 @@ const config = {
     OktaViewComponent,
     NewPostFormComponent,
     SearchViewComponent
-    
-    
   ],
   imports: [
     BrowserModule,
