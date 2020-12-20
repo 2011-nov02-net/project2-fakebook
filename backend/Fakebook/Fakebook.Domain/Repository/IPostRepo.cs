@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Fakebook.Domain.Repository
@@ -10,7 +11,7 @@ namespace Fakebook.Domain.Repository
         Task<bool> CreatePostAsync(Post post);
         Task<bool> DeletePostAsync(int id);
         Task<List<Post>> GetAllPostsAsync();
-        Task<List<Post>> GetFollowingPosts(int id);
+        Task<IOrderedEnumerable<Post>> GetFollowingPosts(int id);
         Task<Post> GetPostByIdAsync(int id);
         Task<List<Post>> GetPostsByIdAsync(int id);
         Task<List<Post>> GetPostsByUserIdAsync(int id);
