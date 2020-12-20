@@ -108,6 +108,21 @@ namespace Fakebook.Domain.Repository
             return user;
         }
         /// <summary>
+        /// get's users by a string that contains anything in this string
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public async Task<IEnumerable<User>> GetUserByName(string name)
+        {
+            // loser the string of both name and FirstName. also works for last name
+            var entity = await _context.UserEntities.Where(n => n.FirstName.ToLower().Contains(name.ToLower()) || n.LastName.ToLower().Contains(name.ToLower())).ToListAsync();
+
+            var users = entity.Select(e => DbEntityConverter.ToUser(e)); // turn into a list.
+            return users;
+
+        }
+
+        /// <summary>
         /// try to create a user if it goes through return a true otherwise return a flase
         /// </summary>
         /// <param name="user"></param>
