@@ -5,7 +5,6 @@ import { NewsfeedComponent } from './component/newsfeed/newsfeed.component';
 import { UserProfileViewComponent } from './component/user-profile-view/user-profile-view.component';
 import { AboutUsViewComponent } from './component/about-us-view/about-us-view.component';
 import { OktaCallbackComponent } from '@okta/okta-angular';
-import { NewsfeedGuard } from './guard/newsfeed.guard';
 import { SearchViewComponent} from './component/search-view/search-view.component'
 
 const routes: Routes = [
