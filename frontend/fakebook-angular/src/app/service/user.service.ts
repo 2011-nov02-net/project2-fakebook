@@ -22,7 +22,7 @@ export class UserService {
   register(user: User): void {
 
   }
-  getUser(id:string | null): Observable<User>{
+  getUser(id:string | undefined): Observable<User>{
     return this.http.get<User>(`${this.url}User/${id}`);
   }
   getPosts(id:string | null): Observable<Post[]>{

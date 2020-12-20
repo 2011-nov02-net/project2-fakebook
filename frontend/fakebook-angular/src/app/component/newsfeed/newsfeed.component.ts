@@ -4,6 +4,7 @@ import { NewsfeedService } from '../../service/newsfeed.service';
 import { UserService } from '../../service/user.service';
 import { LikeService } from '../../service/like.service';
 import { Post } from '../../model/post';
+import { User } from 'src/app/model/user';
 
 @Component({
   selector: 'app-newsfeed',
@@ -13,11 +14,12 @@ import { Post } from '../../model/post';
 })
 export class NewsfeedComponent implements OnInit {
   posts: Post[] | undefined;
-
+  user: User | undefined;
   constructor(private likeService: LikeService, private userService: UserService, private route: ActivatedRoute, private newsfeedService: NewsfeedService) { }
 
   ngOnInit(){
     this.getUser();
+
   }
 
  /* getPosts(int: string): void {
@@ -32,7 +34,8 @@ export class NewsfeedComponent implements OnInit {
     }
 
     if( id != null) { 
-      this.userService.getUser(id).toPromise()
+      this.userService.getUser(id)
+        .subscribe(gotuser => this.user = gotuser)
     }
     this.newsfeedService.getPosts(id)
         .subscribe(posts => this.posts = posts)
