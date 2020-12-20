@@ -10,12 +10,10 @@ namespace Fakebook.RestApi.Controllers
     [ApiController]
     public class FollowController : ControllerBase
     {
-        private readonly IPostRepo _postRepo;
         private readonly IUserRepo _userRepo;
 
-        public FollowController(IPostRepo postRepo, IUserRepo userRepo)
+        public FollowController(IUserRepo userRepo)
         {
-            _postRepo = postRepo;
             _userRepo = userRepo;
         }
 
