@@ -3,14 +3,13 @@ import { HttpClient } from '@angular/common/http';
 import { User } from '../model/user';
 import { Observable } from 'rxjs';
 import { Post } from '../model/post';
-import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
   constructor(private http: HttpClient) { }
-  url = `${environment.baseUrl}/api/`; // url of the api
+  url = 'https://2011-project2-fakebook.azurewebsites.net/api/'; // url of the api
 
   login(email: string, password: string): void {
 
@@ -27,7 +26,7 @@ export class UserService {
     return this.http.get<User>(`${this.url}User/${id}`);
   }
   getPosts(id:string | null): Observable<Post[]>{
-    return this.http.get<Post[]>(`${this.url}User/${id}/Posts`);
+    return this.http.get<Post[]>(`${this.url}User/${id}/Posts`)
   }
 
 }
