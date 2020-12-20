@@ -20,4 +20,8 @@ export class NavbarViewComponent implements OnInit {
   login() {
     this.oktaAuth.login();
   }
+
+  logout() {
+      this.oktaAuth.logout();
+  }
 }

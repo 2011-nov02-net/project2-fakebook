@@ -5,10 +5,9 @@ import { NewsfeedComponent } from './component/newsfeed/newsfeed.component';
 import { UserProfileViewComponent } from './component/user-profile-view/user-profile-view.component';
 import { AboutUsViewComponent } from './component/about-us-view/about-us-view.component';
 import { OktaCallbackComponent } from '@okta/okta-angular';
-import { NewsfeedGuard } from './guard/newsfeed.guard';
 
 const routes: Routes = [
-  { path: 'newsfeed/:id', component: NewsfeedComponent, canActivate: [NewsfeedGuard]},
+  { path: 'newsfeed/:id', component: NewsfeedComponent},
   { path: 'user/:id', component: UserProfileViewComponent},
   { path: 'about' , component: AboutUsViewComponent},
   { path: 'login/callback', component: OktaCallbackComponent},
