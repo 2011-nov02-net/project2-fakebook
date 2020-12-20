@@ -15,7 +15,8 @@ namespace Fakebook.Domain.Repository
         {
             _context = context;
         }
-        public async Task<Post> GetPostByIdAsync(int id) {
+        public async Task<Post> GetPostByIdAsync(int id)
+        {
             var posts = await _context.PostEntities
                 .Include(p => p.User)
                 .Include(p => p.Comments)
@@ -23,7 +24,8 @@ namespace Fakebook.Domain.Repository
                 .Include(p => p.Likes)
                 .ToListAsync();
 
-            if(!posts.Any()) {
+            if (!posts.Any())
+            {
                 return null;
             }
 
@@ -84,7 +86,8 @@ namespace Fakebook.Domain.Repository
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<int> CountLikesAsync(int id) {
+        public async Task<int> CountLikesAsync(int id)
+        {
             // selects the post by their id and counts the users
             var query = await _context.LikeEntities
                 .Where(c => c.PostId == id)
@@ -167,7 +170,8 @@ namespace Fakebook.Domain.Repository
         /// <param name="PostId"></param>
         /// <param name="UserId"></param>
         /// <returns></returns>
-        public async Task<bool> UnlikePostAsync(int id, int userId) {
+        public async Task<bool> UnlikePostAsync(int id, int userId)
+        {
             try
             {
                 // find the like entity
@@ -209,15 +213,15 @@ namespace Fakebook.Domain.Repository
             List<Post> newsFeed = new List<Post>();
 
             // find our user and make sure to include their followers
-            var entities = await _context.UserEntities.Where(u => u.Id ==id).Include(e => e.Followees).ToListAsync();
+            var entities = await _context.UserEntities.Where(u => u.Id == id).Include(e => e.Followees).ToListAsync();
             // create a list of ints for our followers
-            
+
             List<int> followList = new List<int>();
             followList.Add(id); //we should include ourself int the news feed
 
             // for each item in our list add them to our follow list of ints
             var p = entities.Select(e => e.Followees).ToList();
-            if (p.First().Count>=1)
+            if (p.First().Count >= 1)
             {
                 foreach (var item in p)
                 {
@@ -226,7 +230,7 @@ namespace Fakebook.Domain.Repository
             }
 
             // add posts into the newsfeed
-            foreach(var i in followList)
+            foreach (var i in followList)
             {
                 newsFeed.AddRange(await GetPostsByUserIdAsync(i));
             }

@@ -10,6 +10,7 @@ import { PostService } from '../../service/post.service'
   templateUrl: './new-post-form.component.html',
   styleUrls: ['./new-post-form.component.css']
 })
+@Injectable()
 export class NewPostFormComponent implements OnInit {
   submitted = false;
   user = this.getUser();

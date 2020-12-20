@@ -33,6 +33,13 @@ namespace Fakebook.RestApi.Controllers
             IEnumerable<User> users = await _userRepo.GetAllUsersAsync();
             return Ok(users);
         }
+        [HttpGet("search/{name}")]
+        public async Task<ActionResult<IEnumerable<User>>> search(string name)
+        {
+            IEnumerable<User> users = await _userRepo.GetUserByName(name);
+            return Ok(users);
+
+        }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> Get(int id) {

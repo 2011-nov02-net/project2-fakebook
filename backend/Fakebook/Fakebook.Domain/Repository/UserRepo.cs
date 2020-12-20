@@ -55,7 +55,8 @@ namespace Fakebook.Domain.Repository
         /// </summary>
         /// <param name="ids"></param>
         /// <returns></returns>
-        public async Task<IEnumerable<User>> GetUsersByIdsAsync(IEnumerable<int> ids) {
+        public async Task<IEnumerable<User>> GetUsersByIdsAsync(IEnumerable<int> ids)
+        {
             var users = await _context.UserEntities
                 .Include(u => u.Followees)
                      .ThenInclude(u => u.Followee)
@@ -64,7 +65,8 @@ namespace Fakebook.Domain.Repository
                 .Include(u => u.Posts)
                 .ToListAsync();
 
-            if(!ids.Any() || !users.Any()) {
+            if (!ids.Any() || !users.Any())
+            {
                 return new List<User>();
             }
 
@@ -105,6 +107,21 @@ namespace Fakebook.Domain.Repository
             var user = DbEntityConverter.ToUser(entity); // turn into a user
             return user;
         }
+        /// <summary>
+        /// get's users by a string that contains anything in this string
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public async Task<IEnumerable<User>> GetUserByName(string name)
+        {
+            // loser the string of both name and FirstName. also works for last name
+            var entity = await _context.UserEntities.Where(n => n.FirstName.ToLower().Contains(name.ToLower()) || n.LastName.ToLower().Contains(name.ToLower())).ToListAsync();
+
+            var users = entity.Select(e => DbEntityConverter.ToUser(e)); // turn into a list.
+            return users;
+
+        }
+
         /// <summary>
         /// try to create a user if it goes through return a true otherwise return a flase
         /// </summary>
@@ -176,5 +193,39 @@ namespace Fakebook.Domain.Repository
 
         }
 
+        // id is the follower, userId is followee aka person that the follower is following
+        public async Task<bool> FollowUserAsync(int id, int userId)
+        {
+            try
+            {
+                var follow = new FollowEntity(id, userId); // convert
+                await _context.FollowEntities.AddAsync(follow);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+        public async Task<bool> UnfollowUserAsync(int id, int userId)
+        {
+            try
+            {
+                // find the like entity
+                var entity = await _context.FollowEntities.FirstOrDefaultAsync(i => i.FollowerId == id && i.FolloweeId == userId);
+                if (entity != null)
+                {
+                    // remove and if able to return true
+                    _context.FollowEntities.Remove(entity);
+                    return true;
+                }
+                // otherwise return false
+                return false;
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }

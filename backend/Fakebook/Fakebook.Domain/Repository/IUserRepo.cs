@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Fakebook.Domain.Repository
@@ -7,11 +7,14 @@ namespace Fakebook.Domain.Repository
     {
         Task<bool> CreateUser(User user);
         Task<bool> DeleteUserAsync(int id);
+        Task<bool> FollowUserAsync(int id, int userId);
         IEnumerable<User> GetAllUsers();
         Task<IEnumerable<User>> GetAllUsersAsync();
-        Task<IEnumerable<User>> GetUsersByIdsAsync(IEnumerable<int> ids);
         Task<User> GetUserByEmailAsync(string email);
         Task<User> GetUserByIdAsync(int id);
+        Task<IEnumerable<User>> GetUserByName(string name);
+        Task<IEnumerable<User>> GetUsersByIdsAsync(IEnumerable<int> ids);
+        Task<bool> UnfollowUserAsync(int id, int userId);
         Task<bool> UpdateUserAsync(int id, User user);
     }
 }
