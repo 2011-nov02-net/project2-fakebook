@@ -1,9 +1,6 @@
 <div *ngIf="user" class=" mt-3 ">
     <form (ngSubmit)="onSubmit(); newPostForm.reset()" #newPostForm="ngForm">
-
-    <textarea rows="5" class="form-control" id="content" placeholder="What's on your mind {{user.firstName}}?" name="content"[(ngModel)]="newPost.content" required #trackName="ngModel"> </textarea>
-    <p class="alert" *ngIf="!trackName.valid && trackName.touched">Can't submit an empty post!</p>
-    
+    <textarea rows="5" class="form-control" id="content" placeholder="What's on your mind {{user.firstName}}?" name="content"[(ngModel)]="newPost.content" required #trackName="ngModel"> </textarea>    
     <input type="file" class="mt-2 form-control-file" name="pictureUrl" id="fileToUpload">
     <input type="submit" class="mt-4 mb-4 btn btn-primary btn-lg btn-block" value="Post" [disabled]="!newPostForm.form.valid">
 </form>

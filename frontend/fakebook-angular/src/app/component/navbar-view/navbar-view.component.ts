@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../service/auth.service';
-
+import {UserService} from '../../service/user.service'
+import {Router} from '@angular/router'
+import { FormControl } from '@angular/forms';
 @Component({
   selector: 'app-navbar-view',
   templateUrl: './navbar-view.component.html',
@@ -8,8 +10,8 @@ import { AuthService } from '../../service/auth.service';
 })
 export class NavbarViewComponent implements OnInit {
   isAuthenticated: boolean = false;
-
-  constructor(private oktaAuth: AuthService) { }
+  searchName = new FormControl('');
+  constructor(private oktaAuth: AuthService, private httpService: UserService, private router: Router) { }
 
   async ngOnInit() {
     this.oktaAuth.subscribeAuthStateChange((authState: boolean) => {
@@ -19,5 +21,11 @@ export class NavbarViewComponent implements OnInit {
   
   login() {
     this.oktaAuth.login();
+  }
+  onSubmit() {
+    this.router.navigateByUrl(`search/${this.searchName.value}`, { skipLocationChange: false });
+    
+  logout() {
+      this.oktaAuth.logout();
   }
 }

@@ -6,13 +6,15 @@ import { UserProfileViewComponent } from './component/user-profile-view/user-pro
 import { AboutUsViewComponent } from './component/about-us-view/about-us-view.component';
 import { OktaCallbackComponent } from '@okta/okta-angular';
 import { NewsfeedGuard } from './guard/newsfeed.guard';
+import { SearchViewComponent} from './component/search-view/search-view.component'
 
 const routes: Routes = [
-  { path: 'newsfeed/:id', component: NewsfeedComponent, canActivate: [NewsfeedGuard]},
+  { path: 'newsfeed/:id', component: NewsfeedComponent},
   { path: 'user/:id', component: UserProfileViewComponent},
   { path: 'about' , component: AboutUsViewComponent},
   { path: 'login/callback', component: OktaCallbackComponent},
-  { path: 'logout', component: OktaCallbackComponent}
+  { path: 'logout', component: OktaCallbackComponent},
+  { path: 'search/:name', component: SearchViewComponent}
 ];
 
 @NgModule({

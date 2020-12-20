@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NewsfeedComponent } from './component/newsfeed/newsfeed.component';
@@ -21,6 +21,7 @@ import { OktaAuthModule,
          OKTA_CONFIG }
          from '@okta/okta-angular';
 import { NewPostFormComponent } from './component/new-post-form/new-post-form.component';
+import { SearchViewComponent } from './component/search-view/search-view.component';
 import { CommentFormComponent } from './component/comment-form/comment-form.component';
 
 const config = {
@@ -47,8 +48,10 @@ const config = {
     FooterViewComponent,
     AboutUsViewComponent,
     OktaViewComponent,
-    NewPostFormComponent,
     CommentFormComponent
+    NewPostFormComponent,
+    SearchViewComponent
+    
     
   ],
   imports: [
@@ -57,7 +60,8 @@ const config = {
     OktaAuthModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [{ provide: OKTA_CONFIG, useValue: config }],
   bootstrap: [AppComponent]
