@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { User } from 'src/app/model/user';
 import { UserService } from 'src/app/service/user.service';
 
@@ -11,10 +11,14 @@ import { UserService } from 'src/app/service/user.service';
 export class SearchViewComponent implements OnInit {
   users : User[] | undefined; // our profile
 
-  constructor(private httpService : UserService, private route: ActivatedRoute) { }
+  constructor(private httpService : UserService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
     this.getUser();
+  }
+  ProfileSubmit(id: number)
+  {
+    this.router.navigateByUrl( `user/${id}`)
   }
   getUser(): void {
     let tempId = ""; //the only way i could declare a variable that may accept a null value in teh future

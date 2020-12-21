@@ -1,9 +1,42 @@
-<div class="container">
-<app-new-post-form></app-new-post-form>
-  <div class="col-md-12">
-     <!-- Iterate through all posts -->
-    <ul *ngFor="let item of posts">
-      <app-post-view [post]="item"></app-post-view>
-    </ul>
+<div class="container-fluid">
+  <div class="row mt-4">
+    <div class="col-md-3 mt-2">
+      <ul>
+        <li>
+          Newsfeed
+        </li>
+        <li>
+          Profile
+        </li>
+      </ul>
+    </div>
+    <div class="col-md-6">
+      <app-new-post-form [user]="user"></app-new-post-form>
+      <!-- Iterate through all posts -->
+      <ul *ngFor="let item of posts">
+        <app-post-view [post]="item"></app-post-view>
+      </ul>
+    </div>
+    <div class="col-md-3">
+      <h3>Friends: </h3>
+
+      <div class="" *ngIf="user">
+        <div *ngFor="let friend of user.followees">
+          <div id="profile-card" class="card p-3 mt-2">
+            <div class="d-flex align-items-center">
+              <div class="image"> <img src="{{friend.profilePictureUrl}}" class="rounded" width="50"> </div>
+              <div class="ml-3 w-100">
+                <h4 class="mb-0 mt-0">{{friend.firstName}} {{friend.lastName}}</h4> <span>{{friend.status}}</span>
+                <div class="button mt-2 d-flex flex-row align-items-center">
+                  <button (click)="ProfileSubmit(friend.id)"
+                    class="btn btn-sm btn-outline-primary w-100">Profile</button>
+                  <button hidden class="btn btn-sm btn-primary w-100 ml-2">Follow</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
