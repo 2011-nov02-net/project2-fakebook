@@ -9,26 +9,27 @@ import { OktaAuthService } from '@okta/okta-angular';
 })
 export class FollowService {
   constructor(private http: HttpClient, private oktaAuth: OktaAuthService) { }
-  url = `${environment.baseUrl}/api/User`;
+  url = `https://2011-project2-fakebook.azurewebsites.net/api`;
 
-  follow(followee: User): any {
+  follow(follower: User, followee: User): any {
     const accessToken = this.oktaAuth.getAccessToken();
     const headers = {
       Authorization: 'Bearer ' + accessToken,
       Accept: 'application/json',
+      'Content-Type': 'application/json'
     };
     console.log(followee.firstName)
-    return this.http.post(`${this.url}/follow/${followee.id}`,  { headers })
+    return this.http.post(`${this.url}/User/${follower.id}/follow/${followee.id}`, null, { headers })
       .toPromise().then(res => console.log(JSON.stringify(res)));
   }
 
-  unfollow(followee: User): any {
+  unfollow(follower: User, followee: User): any {
     const accessToken = this.oktaAuth.getAccessToken();
     const headers = {
       Authorization: 'Bearer ' + accessToken,
       Accept: 'application/json',
     };
-    return this.http.post(`${this.url}/unfollow/${followee.id}`, { headers })
+    return this.http.post(`${this.url}/User/${follower.id}/unfollow/${followee.id}`, null, { headers })
       .toPromise().then(res => console.log(JSON.stringify(res)));
   }
 }

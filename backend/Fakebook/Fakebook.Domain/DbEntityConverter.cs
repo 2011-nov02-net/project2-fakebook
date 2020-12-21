@@ -188,7 +188,8 @@ namespace Fakebook.Domain
                         {
                             Id = comment.User.Id,
                             FirstName = comment.User.FirstName,
-                            LastName = comment.User.LastName
+                            LastName = comment.User.LastName,
+                            ProfilePictureUrl = comment.User.ProfilePictureUrl
                         },
                         CreatedAt = comment.CreatedAt,
                         ChildrenComments = new List<Comment>()
@@ -244,7 +245,6 @@ namespace Fakebook.Domain
                     ParentId = comment.ParentComment?.Id,
                     CreatedAt = comment.CreatedAt,
                     Content = comment.Content,
-                    User = ToUserEntity(comment.User)
                 };
             }
             else

@@ -41,7 +41,7 @@ namespace Fakebook.RestApi.Controllers
             }
         }
 
-        [HttpPost("/follow/{userId}")]
+        [HttpPost("follow/{userId}")]
         [Authorize]
         public async Task<IActionResult> Follow(int userId)
         {
@@ -88,7 +88,7 @@ namespace Fakebook.RestApi.Controllers
             }
         }
 
-        [HttpPost("/follow/{userId}")]
+        [HttpPost("follow/{userId}")]
         [Authorize]
         public async Task<IActionResult> Unfollow(int userId)
         {

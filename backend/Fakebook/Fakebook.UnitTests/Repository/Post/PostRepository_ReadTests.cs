@@ -37,6 +37,7 @@ namespace Fakebook.UnitTests.Repository.Post
             // assert
             var viewResult = Assert.IsAssignableFrom<IActionResult>(result);
         }
+
         [Fact]
         public void Index_Display_Users()
         {
@@ -58,6 +59,7 @@ namespace Fakebook.UnitTests.Repository.Post
             // assert
             var viewResult = Assert.IsAssignableFrom<IActionResult>(result.Result);
         }
+
         [Fact]
         public void Index_Get_User_By_ID()
         {

@@ -1,12 +1,12 @@
 import { User } from "./user";
 
 export interface Comment {
-  id: number;
+  id: number | undefined;
   userId: number;
   content: string;
   postId: number;
   parentCommentId: number | undefined;
-  createdAt: Date;
+  createdAt: Date | undefined;
   childCommentIds: number[];
-  user: User;
+  user: User | undefined;
 }
