@@ -34,10 +34,11 @@ namespace Fakebook.RestApi.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(PostApiModel apiModel)
         {
-            var user = await _userRepo.GetUserByIdAsync(apiModel.User.Id);
             var email = User.FindFirst(ct => ct.Type.Contains("nameidentifier")).Value;
-            if (email == user.Email) {
+            var user = await _userRepo.GetUserByEmailAsync(email);
+            if (email.ToLower() == user.Email.ToLower()) {
                 try {
+                    apiModel.User = ApiModelConverter.ToUserApiModel(user);
                     var post = ApiModelConverter.ToPost(_userRepo, _commentRepo, apiModel);
 
                     int result = await _postRepo.CreatePostAsync(post);
@@ -62,8 +63,9 @@ namespace Fakebook.RestApi.Controllers
         {
             var user = await _userRepo.GetUserByIdAsync(apiModel.User.Id);
             var email = User.FindFirst(ct => ct.Type.Contains("nameidentifier")).Value;
-            if (email == user.Email) {
+            if (email.ToLower() == user.Email.ToLower()) {
                 try {
+                    apiModel.User = ApiModelConverter.ToUserApiModel(user);
                     var post = ApiModelConverter.ToPost(_userRepo, _commentRepo, apiModel);
                     await _postRepo.UpdatePostAsync(post);
                     return Ok();
@@ -82,7 +84,7 @@ namespace Fakebook.RestApi.Controllers
         public async Task<IActionResult> Delete(int id) {
             var post = await _postRepo.GetPostByIdAsync(id);
             var email = User.FindFirst(ct => ct.Type.Contains("nameidentifier")).Value;
-            if (email == post.User.Email) {
+            if (email.ToLower() == post.User.Email.ToLower()) {
                 await _postRepo.DeletePostAsync(id);
                 return Ok();
             } else {
