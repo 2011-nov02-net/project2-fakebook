@@ -8,15 +8,15 @@
       <div class="collapse navbar-collapse" id="navbarsExample07">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
-            <a class="nav-link" routerLink="/user/1">Profile <span class="sr-only">(current)</span></a>
+            <a class="nav-link" routerLink="/user/">Profile <span class="sr-only">(current)</span></a>
           </li>
         </ul>
-        <form class="form-inline my-2 my-md-0">
-          <input class="form-control" type="text" placeholder="Search" aria-label="Search">
+        <form class="form-inline my-2 my-md-0" (submit)="onSubmit()">
+          <input class="form-control" type="text" placeholder="Search" aria-label="Search" [formControl]="searchName">
+          <input type="submit" class=" btn btn-primary btn-sm " value="Search">
         </form>
-        
-        <button *ngIf="!isAuthenticated" (click)="login()">Login</button>
-        <button *ngIf="isAuthenticated">Logout</button>
+        <button class="ml-3 btn btn-outline-info" *ngIf="!isAuthenticated" (click)="login()">Login</button>
+        <button class="ml-3 btn btn-outline-info" *ngIf="isAuthenticated" (click)="logout()">Logout</button>
       </div>
     </div>
   </nav>

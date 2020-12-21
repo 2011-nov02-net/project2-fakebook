@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace Fakebook.RestApi.Controllers
 {
-    [Route("api/Posts/")]
+    [Route("api/Posts")]
     [ApiController]
     public class LikeController : ControllerBase
     {
@@ -19,14 +19,14 @@ namespace Fakebook.RestApi.Controllers
         }
 
         // POST: api/Posts/{id}/like/{userId}
-        [HttpPost("{id}/like/{userId}")]
+        [HttpPost("{id}/like/")]
         [Authorize]
-        public async Task<IActionResult> Like(int id, int userId)
+        public async Task<IActionResult> Like(int id)
         {
-            var user = await  _userRepo.GetUserByIdAsync(userId);
             var email = User.FindFirst(ct => ct.Type.Contains("nameidentifier")).Value;
+            var user = await  _userRepo.GetUserByEmailAsync(email);
             if (email == user.Email) {
-                if (await _postRepo.LikePostAsync(id, userId))
+                if (await _postRepo.LikePostAsync(id, user.Id))
                 {
                     return Ok("Success");
                 }
@@ -42,14 +42,14 @@ namespace Fakebook.RestApi.Controllers
         }
 
         // POST: api/Posts/{id}/unlike/{userId}
-        [HttpPost("{id}/unlike/{userId}")]
+        [HttpPost("{id}/unlike/")]
         [Authorize]
-        public async Task<IActionResult> Unlike(int id, int userId) {
-            var user = await _userRepo.GetUserByIdAsync(userId);
+        public async Task<IActionResult> Unlike(int id) {
             var email = User.FindFirst(ct => ct.Type.Contains("nameidentifier")).Value;
+            var user = await _userRepo.GetUserByEmailAsync(email);
             if (email == user.Email)
             {
-                if (await _postRepo.UnlikePostAsync(id, userId))
+                if (await _postRepo.UnlikePostAsync(id, user.Id))
                 {
                     return Ok("Success");
                 }

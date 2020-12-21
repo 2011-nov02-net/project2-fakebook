@@ -7,6 +7,7 @@ using System.Linq;
 using Fakebook.RestApi.Model;
 using Microsoft.AspNetCore.Authorization;
 using System;
+using Microsoft.AspNetCore.Http;
 
 namespace Fakebook.RestApi.Controllers
 {
@@ -33,6 +34,12 @@ namespace Fakebook.RestApi.Controllers
             IEnumerable<User> users = await _userRepo.GetAllUsersAsync();
             return Ok(users);
         }
+        [HttpGet("search/{name}")]
+        public async Task<ActionResult<IEnumerable<User>>> Search(string name)
+        {
+            IEnumerable<User> users = await _userRepo.GetUserByName(name);
+            return Ok(users);
+        }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> Get(int id) {
@@ -42,11 +49,46 @@ namespace Fakebook.RestApi.Controllers
             }
             return user;
         }
-
+        [HttpGet("email/{email}")]
+        public async Task<ActionResult<User>> GetUserByEmail(string email)
+        {
+            User user = await _userRepo.GetUserByEmailAsync(email);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return user;
+        }
+        // user/profile
+        [Authorize]
+        [HttpGet("profile")]
+        public async Task<ActionResult<User>> GetUserProfile()
+        {
+            var email = User.FindFirst(ct => ct.Type.Contains("nameidentifier")).Value;
+            var user = await _userRepo.GetUserByEmailAsync(email);
+            if (user != null)
+            {
+                return Ok(user);
+            }
+            else
+            {
+                return StatusCode(StatusCodes.Status403Forbidden);
+            }
+        }
         // Gets all posts by a specific user id
         [HttpGet("{id}/Posts")]
         public async Task<ActionResult<List<Post>>> GetUserPosts(int id) {
             List<Post> posts = await _postRepo.GetPostsByUserIdAsync(id);
+            return posts;
+        }
+
+        [HttpGet("/Posts")]
+        [Authorize]
+        public async Task<ActionResult<List<Post>>> GetUserPosts()
+        {
+            var email = User.FindFirst(ct => ct.Type.Contains("nameidentifier")).Value;
+            var user = await _userRepo.GetUserByEmailAsync(email);
+            List<Post> posts = await _postRepo.GetPostsByUserIdAsync(user.Id);
             return posts;
         }
 

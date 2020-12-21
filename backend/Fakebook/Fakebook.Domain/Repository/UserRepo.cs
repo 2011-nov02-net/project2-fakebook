@@ -125,6 +125,21 @@ namespace Fakebook.Domain.Repository
             return user;
         }
         /// <summary>
+        /// get's users by a string that contains anything in this string
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public async Task<IEnumerable<User>> GetUserByName(string name)
+        {
+            // loser the string of both name and FirstName. also works for last name
+            var entity = await _context.UserEntities.Where(n => n.FirstName.ToLower().Contains(name.ToLower()) || n.LastName.ToLower().Contains(name.ToLower())).ToListAsync();
+
+            var users = entity.Select(e => DbEntityConverter.ToUser(e)); // turn into a list.
+            return users;
+
+        }
+
+        /// <summary>
         /// try to create a user if it goes through return a true otherwise return a flase
         /// </summary>
         /// <param name="user"></param>
@@ -184,6 +199,43 @@ namespace Fakebook.Domain.Repository
             // save changes.
             _context.SaveChanges();
             return true;
+        }
+
+        // id is the follower, userId is followee aka person that the follower is following
+        public async Task<bool> FollowUserAsync(int id, int userId)
+        {
+            try
+            {
+                var follow = new FollowEntity(id, userId); // convert
+                await _context.FollowEntities.AddAsync(follow);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+        public async Task<bool> UnfollowUserAsync(int id, int userId)
+        {
+            try
+            {
+                // find the like entity
+                var entity = await _context.FollowEntities.FirstOrDefaultAsync(i => i.FollowerId == id && i.FolloweeId == userId);
+                if (entity != null)
+                {
+                    // remove and if able to return true
+                    _context.FollowEntities.Remove(entity);
+                    await _context.SaveChangesAsync();
+                    return true;
+                }
+                // otherwise return false
+                return false;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }

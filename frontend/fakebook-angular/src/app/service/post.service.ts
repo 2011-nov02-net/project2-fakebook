@@ -11,7 +11,7 @@ import {newPost} from '../model/newpost'
 })
 export class PostService {
   constructor(private http: HttpClient, private oktaAuth: OktaAuthService) { }
-  url = `${environment.baseUrl}/api/Posts`;
+  url = `https://2011-project2-fakebook.azurewebsites.net/api/Posts`;
 
   create(post: newPost): Promise<newPost>{
     const accessToken = this.oktaAuth.getAccessToken();
@@ -19,7 +19,8 @@ export class PostService {
       Authorization: 'Bearer ' + accessToken,
       Accept: 'application/json',
     };
-    return this.http.post<newPost>(`${this.url}`, post, { headers }).toPromise();;
+    console.log(headers);
+    return this.http.post<newPost>(`${this.url}`, post, { headers }).toPromise();
   }
 
   getById(id: number): Post | undefined {
