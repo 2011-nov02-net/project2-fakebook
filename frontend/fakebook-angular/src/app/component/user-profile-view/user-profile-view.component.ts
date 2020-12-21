@@ -48,7 +48,6 @@ export class UserProfileViewComponent implements OnInit {
 
     this.userService.getUserProfile()
       .subscribe(user => this.selfUser = user);
-
   }
 
   followUser(): any {
