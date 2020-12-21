@@ -15,7 +15,6 @@ namespace Fakebook.Domain
             user.FirstName.EnforceNameCharacters(nameof(user.FirstName));
             user.LastName.EnforceNameCharacters(nameof(user.LastName));
             user.Email.EnforceEmailCharacters(nameof(user.Email));
-            user.BirthDate.EnforcePast();
 
             if(!user.PhoneNumber.IsNullOrEmpty()) {
                 user.PhoneNumber.EnforcePhoneNumberCharacters(nameof(user.PhoneNumber));
@@ -70,7 +69,6 @@ namespace Fakebook.Domain
             userEntity.FirstName.EnforceNameCharacters(nameof(userEntity.FirstName));
             userEntity.LastName.EnforceNameCharacters(nameof(userEntity.LastName));
             userEntity.Email.EnforceEmailCharacters(nameof(userEntity.Email));
-            userEntity.BirthDate.EnforcePast();
 
             if (!userEntity.PhoneNumber.IsNullOrEmpty()) {
                 userEntity.PhoneNumber.EnforcePhoneNumberCharacters(nameof(userEntity.PhoneNumber));
@@ -142,7 +140,6 @@ namespace Fakebook.Domain
         public static PostEntity ToPostEntity(Post post) {
             post.NullCheck(nameof(post));
             post.Content.EnforceNoSpecialCharacters(nameof(post.Content));
-            post.CreatedAt.EnforcePast();
 
             var result = new PostEntity
             {
@@ -180,7 +177,6 @@ namespace Fakebook.Domain
         public static Post ToPost(PostEntity postEntity) {
             postEntity.NullCheck(nameof(postEntity));
             postEntity.Content.EnforceNoSpecialCharacters(nameof(postEntity.Content));
-            postEntity.CreatedAt.EnforcePast();
 
             var result = new Post
             {
@@ -255,7 +251,6 @@ namespace Fakebook.Domain
         public static CommentEntity ToCommentEntity(Comment comment) {
             comment.NullCheck(nameof(comment));
             comment.Content.EnforceNoSpecialCharacters(nameof(comment.Content));
-            comment.CreatedAt.EnforcePast();
 
             if (comment != null) {
                 return new CommentEntity
@@ -275,7 +270,6 @@ namespace Fakebook.Domain
         public static Comment ToComment(CommentEntity commentEntity) {
             commentEntity.NullCheck(nameof(commentEntity));
             commentEntity.Content.EnforceNoSpecialCharacters(nameof(commentEntity.Content));
-            commentEntity.CreatedAt.EnforcePast();
 
             var result = new Comment
             {
