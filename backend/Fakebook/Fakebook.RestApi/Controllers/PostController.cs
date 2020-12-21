@@ -34,7 +34,6 @@ namespace Fakebook.RestApi.Controllers
 
         [Authorize]
         [HttpPost]
-
         public async Task<IActionResult> Post(PostApiModel apiModel)
         {
             var user = await _userRepo.GetUserByIdAsync(apiModel.User.Id);

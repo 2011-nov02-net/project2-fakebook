@@ -200,6 +200,7 @@ namespace Fakebook.Domain.Repository
             {
                 var follow = new FollowEntity(id, userId); // convert
                 await _context.FollowEntities.AddAsync(follow);
+                await _context.SaveChangesAsync();
                 return true;
             }
             catch
@@ -217,6 +218,7 @@ namespace Fakebook.Domain.Repository
                 {
                     // remove and if able to return true
                     _context.FollowEntities.Remove(entity);
+                    await _context.SaveChangesAsync();
                     return true;
                 }
                 // otherwise return false
