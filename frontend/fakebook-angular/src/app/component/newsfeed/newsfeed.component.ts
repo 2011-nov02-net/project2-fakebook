@@ -39,6 +39,9 @@ export class NewsfeedComponent implements OnInit {
     }
     
     this.newsfeedService.getPosts(id)
-        .subscribe(posts => this.posts = posts)
+        .subscribe(posts => {
+          console.log(posts);
+          return this.posts = posts;
+        });
   }
 }

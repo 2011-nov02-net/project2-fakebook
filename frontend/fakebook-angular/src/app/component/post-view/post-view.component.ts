@@ -10,7 +10,7 @@ import { Post } from '../../model/post';
   styleUrls: ['./post-view.component.css']
 })
 export class PostViewComponent implements OnInit {
-  @Input() post : Post | null = null;
+  @Input() post: Post | null = null;
   constructor(private route: ActivatedRoute) { }
 
   ngOnInit(): void {
@@ -20,7 +20,7 @@ export class PostViewComponent implements OnInit {
     let id = -1;
 
     let idStr = this.route.snapshot.paramMap.get('id');
-    if(idStr) {
+    if (idStr) {
       id = +idStr;
     }
 
@@ -29,13 +29,10 @@ export class PostViewComponent implements OnInit {
 
   userLiked(): boolean {
     let userId = this.getUserId();
-    if(this.post) {
-      if(this.post.likedByUserIds) {
-        console.log(this.post.likedByUserIds);
-        return this.post
-          .likedByUserIds
-          .includes(userId);
-      }
+    if (this.post && this.post.likedByUserIds) {
+      return this.post
+        .likedByUserIds
+        .includes(userId);
     }
     return false;
   }

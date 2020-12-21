@@ -45,8 +45,7 @@ export class LikeService {
 
     return this.http
       .post(`${this.url}Posts/${postId}/unlike/`, null, httpOptions)
-      .toPromise()
-      .then(res => console.log(JSON.stringify(res)));
+      .toPromise();
   }
 
   handleError(error: any) {
