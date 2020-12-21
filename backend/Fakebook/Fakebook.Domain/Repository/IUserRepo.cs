@@ -5,7 +5,7 @@ namespace Fakebook.Domain.Repository
 {
     public interface IUserRepo
     {
-        Task<bool> CreateUser(User user);
+        Task<int> CreateUser(User user);
         Task<bool> DeleteUserAsync(int id);
         Task<bool> FollowUserAsync(int id, int userId);
         IEnumerable<User> GetAllUsers();

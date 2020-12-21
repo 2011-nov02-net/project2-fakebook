@@ -101,7 +101,9 @@ namespace Fakebook.RestApi.Controllers
             try {
                 var user = ApiModelConverter.ToUser(_userRepo, apiModel);
 
-                if (await _userRepo.CreateUser(user)) {
+                int result = await _userRepo.CreateUser(user);
+
+                if (result != -1) {
                     // return Created();
                     return Ok();
                 } else {

@@ -29,7 +29,10 @@ namespace Fakebook.RestApi.Controllers
         public async Task<IActionResult> Post(CommentApiModel apiModel) {
             try {
                 Comment comment = ApiModelConverter.ToComment(_commentRepo, _userRepo, _postRepo, apiModel);
-                if (await _commentRepo.CreateAsync(comment)) {
+
+                int result = await _commentRepo.CreateAsync(comment);
+
+                if (result != -1) {
                     return Ok();
                 } else {
                     throw new ArgumentException("Could not create comment");

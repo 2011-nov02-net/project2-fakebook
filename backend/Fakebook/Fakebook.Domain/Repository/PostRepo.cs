@@ -97,18 +97,18 @@ namespace Fakebook.Domain.Repository
             return query;
         }
 
-        public async Task<bool> CreatePostAsync(Post post)
+        public async Task<int> CreatePostAsync(Post post)
         {
-            var newPost = DbEntityConverter.ToPostEntity(post);
             try
             {
+                var newPost = DbEntityConverter.ToPostEntity(post);
                 await _context.AddAsync(newPost);
                 await _context.SaveChangesAsync();
-                return true;
+                return newPost.Id;
             }
             catch
             {
-                return false;
+                return -1;
             }
         }
 

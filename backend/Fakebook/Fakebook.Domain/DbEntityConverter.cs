@@ -11,6 +11,20 @@ namespace Fakebook.Domain
     public static class DbEntityConverter
     {
         public static UserEntity ToUserEntity(User user) {
+            user.NullCheck(nameof(user));
+            user.FirstName.EnforceNameCharacters(nameof(user.FirstName));
+            user.LastName.EnforceNameCharacters(nameof(user.LastName));
+            user.Email.EnforceEmailCharacters(nameof(user.Email));
+            user.BirthDate.EnforcePast();
+
+            if(!user.PhoneNumber.IsNullOrEmpty()) {
+                user.PhoneNumber.EnforcePhoneNumberCharacters(nameof(user.PhoneNumber));
+            }
+
+            if(!user.Status.IsNullOrEmpty()) {
+                user.Status.EnforceNoSpecialCharacters(nameof(user.Status));
+            }
+
             var result = new UserEntity
             {
                 Id = user.Id,
@@ -27,8 +41,7 @@ namespace Fakebook.Domain
             // Check for all people the user is following, assign a new follow entity with the followee as the person this user is following
             if (user.Followees != null) {
                 var followees = user.Followees;
-                foreach(var person in followees)
-                {
+                foreach (var person in followees) {
                     var newFollowee = new FollowEntity()
                     {
                         FollowerId = result.Id,
@@ -38,11 +51,9 @@ namespace Fakebook.Domain
                 }
             };
             // Vice versa
-            if (user.Followers != null)
-            {
+            if (user.Followers != null) {
                 var followers = user.Followers;
-                foreach (var person in followers)
-                {
+                foreach (var person in followers) {
                     var newFollower = new FollowEntity()
                     {
                         FollowerId = person.Id,
@@ -55,6 +66,20 @@ namespace Fakebook.Domain
         }
 
         public static User ToUser(UserEntity userEntity) {
+            userEntity.NullCheck(nameof(UserEntity));
+            userEntity.FirstName.EnforceNameCharacters(nameof(userEntity.FirstName));
+            userEntity.LastName.EnforceNameCharacters(nameof(userEntity.LastName));
+            userEntity.Email.EnforceEmailCharacters(nameof(userEntity.Email));
+            userEntity.BirthDate.EnforcePast();
+
+            if (!userEntity.PhoneNumber.IsNullOrEmpty()) {
+                userEntity.PhoneNumber.EnforcePhoneNumberCharacters(nameof(userEntity.PhoneNumber));
+            }
+
+            if (!userEntity.Status.IsNullOrEmpty()) {
+                userEntity.Status.EnforceNoSpecialCharacters(nameof(userEntity.Status));
+            }
+
             var result = new User
             {
                 Id = userEntity.Id,
@@ -70,11 +95,9 @@ namespace Fakebook.Domain
                 Posts = new List<Post>()
             };
 
-            if(userEntity.Followees != null)
-            {
+            if (userEntity.Followees != null) {
                 var followees = userEntity.Followees;
-                foreach(var person in followees)
-                {
+                foreach (var person in followees) {
                     var newFollowee = new User()
                     {
                         Id = person.FolloweeId,
@@ -86,11 +109,9 @@ namespace Fakebook.Domain
                 }
             }
 
-            if (userEntity.Followers != null)
-            {
+            if (userEntity.Followers != null) {
                 var followers = userEntity.Followers;
-                foreach (var person in followers)
-                {
+                foreach (var person in followers) {
                     var newFollower = new User()
                     {
                         Id = person.FollowerId,
@@ -102,11 +123,9 @@ namespace Fakebook.Domain
                 }
             }
 
-            if (userEntity.Posts != null)
-            {
+            if (userEntity.Posts != null) {
                 var posts = userEntity.Posts;
-                foreach (var post in posts)
-                {
+                foreach (var post in posts) {
                     var newPost = new Post()
                     {
                         Id = post.Id,
@@ -121,8 +140,11 @@ namespace Fakebook.Domain
         }
 
         public static PostEntity ToPostEntity(Post post) {
+            post.NullCheck(nameof(post));
+            post.Content.EnforceNoSpecialCharacters(nameof(post.Content));
+            post.CreatedAt.EnforcePast();
 
-            var result =  new PostEntity
+            var result = new PostEntity
             {
                 Id = post.Id,
                 UserId = post.User.Id,
@@ -132,11 +154,9 @@ namespace Fakebook.Domain
                 Comments = new List<CommentEntity>(),
             };
 
-            if(post.Comments != null)
-            {
+            if (post.Comments != null) {
                 var comments = post.Comments;
-                foreach(var comment in comments)
-                {
+                foreach (var comment in comments) {
                     var newComment = new CommentEntity
                     {
                         Id = comment.Id,
@@ -150,8 +170,7 @@ namespace Fakebook.Domain
                 }
             };
 
-            if (post.LikedByUsers != null)
-            {
+            if (post.LikedByUsers != null) {
                 result.Likes = ToLikeEntities(post);
             };
 
@@ -159,6 +178,10 @@ namespace Fakebook.Domain
         }
 
         public static Post ToPost(PostEntity postEntity) {
+            postEntity.NullCheck(nameof(postEntity));
+            postEntity.Content.EnforceNoSpecialCharacters(nameof(postEntity.Content));
+            postEntity.CreatedAt.EnforcePast();
+
             var result = new Post
             {
                 Id = postEntity.Id,
@@ -175,8 +198,7 @@ namespace Fakebook.Domain
                 LikedByUsers = new List<User>(),
                 Comments = new List<Comment>()
             };
-            if (postEntity.Comments != null)
-            {
+            if (postEntity.Comments != null) {
                 var comments = postEntity.Comments;
                 foreach (var comment in comments) // See if there are any comments for the post
                 {
@@ -194,10 +216,8 @@ namespace Fakebook.Domain
                         CreatedAt = comment.CreatedAt,
                         ChildrenComments = new List<Comment>()
                     };
-                    if (comment.ChildrenComments != null)
-                    {
-                        foreach(var child in comment.ChildrenComments)
-                        {
+                    if (comment.ChildrenComments != null) {
+                        foreach (var child in comment.ChildrenComments) {
                             var newChild = new Comment()
                             {
                                 Id = child.Id,
@@ -216,11 +236,9 @@ namespace Fakebook.Domain
                     result.Comments.Add(newComment);
                 }
             }
-            if (postEntity.Likes != null)
-            {
+            if (postEntity.Likes != null) {
                 var likes = postEntity.Likes;
-                foreach (var like in likes)
-                {
+                foreach (var like in likes) {
                     var newUser = new User()
                     {
                         Id = like.User.Id,
@@ -235,8 +253,11 @@ namespace Fakebook.Domain
         }
 
         public static CommentEntity ToCommentEntity(Comment comment) {
-            if(comment != null)
-            {
+            comment.NullCheck(nameof(comment));
+            comment.Content.EnforceNoSpecialCharacters(nameof(comment.Content));
+            comment.CreatedAt.EnforcePast();
+
+            if (comment != null) {
                 return new CommentEntity
                 {
                     Id = comment.Id,
@@ -246,14 +267,16 @@ namespace Fakebook.Domain
                     CreatedAt = comment.CreatedAt,
                     Content = comment.Content,
                 };
-            }
-            else
-            {
+            } else {
                 return null;
             }
         }
 
         public static Comment ToComment(CommentEntity commentEntity) {
+            commentEntity.NullCheck(nameof(commentEntity));
+            commentEntity.Content.EnforceNoSpecialCharacters(nameof(commentEntity.Content));
+            commentEntity.CreatedAt.EnforcePast();
+
             var result = new Comment
             {
                 Id = commentEntity.Id,
@@ -263,8 +286,7 @@ namespace Fakebook.Domain
                 User = ToUser(commentEntity.User)
             };
 
-            if (commentEntity.ParentComment != null)
-            {
+            if (commentEntity.ParentComment != null) {
                 var newComment = ToComment(commentEntity.ParentComment);
                 result.ParentComment = newComment;
             };
@@ -273,12 +295,12 @@ namespace Fakebook.Domain
         }
 
         public static List<FollowEntity> ToFollowEntities(User user) {
+            user.NullCheck(nameof(user));
+
             var result = new List<FollowEntity>();
 
-            if(user.Followers != null)
-            {
-                foreach(var follower in user.Followers)
-                {
+            if (user.Followers != null) {
+                foreach (var follower in user.Followers) {
                     var newFollower = new FollowEntity
                     {
                         FollowerId = follower.Id,
@@ -292,12 +314,12 @@ namespace Fakebook.Domain
         }
 
         public static List<LikeEntity> ToLikeEntities(Post post) {
+            post.NullCheck(nameof(post));
+
             var result = new List<LikeEntity>();
 
-            if(post.LikedByUsers != null)
-            {
-                foreach(var like in post.LikedByUsers)
-                {
+            if (post.LikedByUsers != null) {
+                foreach (var like in post.LikedByUsers) {
                     var newLike = new LikeEntity
                     {
                         UserId = like.Id,

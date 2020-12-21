@@ -8,7 +8,7 @@ namespace Fakebook.Domain.Repository
     {
         int CountLikes(int id);
         Task<int> CountLikesAsync(int id);
-        Task<bool> CreatePostAsync(Post post);
+        Task<int> CreatePostAsync(Post post);
         Task<bool> DeletePostAsync(int id);
         Task<List<Post>> GetAllPostsAsync();
         Task<IOrderedEnumerable<Post>> GetFollowingPosts(int id);
