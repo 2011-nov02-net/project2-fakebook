@@ -13,6 +13,7 @@ import { FollowService } from '../../service/follow.service';
 })
 export class UserProfileViewComponent implements OnInit {
   user : User | undefined; // our profile
+  selfUser: User | undefined;
   posts : Post[] | undefined; // our users profile
 
   constructor(private userService : UserService,
@@ -22,6 +23,7 @@ export class UserProfileViewComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUser();
+
   }
   getUser(): void {
     let tempId = ""; //the only way i could declare a variable that may accept a null value in teh future
@@ -33,6 +35,9 @@ export class UserProfileViewComponent implements OnInit {
     // assign this to an id
     const id = tempId;
 
+    this.userService.getUserProfile()
+      .subscribe(user => this.selfUser = user);
+
     this.userService.getUser(id)
       .subscribe(user => this.user = user);
 
@@ -41,8 +46,16 @@ export class UserProfileViewComponent implements OnInit {
   }
 
   followUser(): any {
-    if(this.user != undefined) {
-      this.followService.follow(this.user);
+    console.log(this.user?.followerIds.length);
+    if(this.user != undefined && this.selfUser != undefined){
+      if(this.user.followerIds.find(id => id == this.selfUser?.id) != undefined) {
+        console.log("UNFOLLOW")
+        this.followService.unfollow(this.user);
+      }
+      else {
+        console.log("FOLLOW")
+        this.followService.follow(this.user);
+      }
     }
   }
 }
