@@ -9,7 +9,7 @@ namespace Fakebook.RestApi.Model
         public string Content { get; set; }
         public string Picture { get; set; }
         public DateTime CreatedAt { get; set; }
-        public int UserId { get; set; }
+        public UserApiModel User { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public List<int> LikedByUserIds { get; set; }
