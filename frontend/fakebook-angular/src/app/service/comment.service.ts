@@ -16,8 +16,6 @@ export class CommentService {
   ) { }
 
   create(comment: Comment): Promise<Comment> {
-    console.log(comment);
-
     const accessToken = this.oktaAuth.getAccessToken();
     const headers = {
       Authorization: `Bearer ${accessToken}`,

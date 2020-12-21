@@ -29,10 +29,12 @@ export class PostViewComponent implements OnInit {
 
   userLiked(): boolean {
     let userId = this.getUserId();
-    if (this.post && this.post.likedByUserIds) {
-      return this.post
-        .likedByUserIds
-        .includes(userId);
+    if (this.post) {
+      if(this.post.likedByUserIds) {
+        return this.post
+          .likedByUserIds
+          .includes(userId);
+      }
     }
     return false;
   }
