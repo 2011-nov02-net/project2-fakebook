@@ -17,7 +17,7 @@
     <p>
       {{post.content}}
     </p>
-    <app-like-view [liked]='userLiked()' [postId]='post.id'></app-like-view>
+    <app-like-view [liked]='userLiked()' [postId]='post.id' [count]='post.likedByUserIds.length'></app-like-view>
     <!-- Iteration through all comments for the post -->
     <div *ngIf='post && post.comments.length > 0' class="social-footer">
       <ul *ngFor="let comment of post.comments">
