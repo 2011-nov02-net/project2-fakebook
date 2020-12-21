@@ -30,25 +30,30 @@ export class UserProfileViewComponent implements OnInit {
     
     // get the id number from the route
     if(this.route.snapshot.paramMap.get('id')!=null)  {
-      tempId += this.route.snapshot.paramMap.get('id')
+      tempId += this.route.snapshot.paramMap.get('id');
+
+      const id = tempId;
+
+      this.userService.getUser(id)
+        .subscribe(user => this.user = user);
+      this.userService.getPosts(id)
+        .subscribe(posts => this.posts = posts)
     }
-    // assign this to an id
-    const id = tempId;
+    else {
+      this.userService.getUserProfile()
+        .subscribe(user => this.user = user);
+      this.userService.getPostsNoArg()
+        .subscribe(posts => this.posts = posts);
+    }
 
     this.userService.getUserProfile()
       .subscribe(user => this.selfUser = user);
 
-    this.userService.getUser(id)
-      .subscribe(user => this.user = user);
-
-    this.userService.getPosts(id)
-      .subscribe(posts => this.posts = posts)
   }
 
   followUser(): any {
-    console.log(this.user?.followerIds.length);
     if(this.user != undefined && this.selfUser != undefined){
-      if(this.user.followerIds.find(id => id == this.selfUser?.id) != undefined) {
+      if(this.user.followers.find(users => this.user?.id == this.selfUser?.id) != undefined) {
         console.log("UNFOLLOW")
         this.followService.unfollow(this.user);
       }

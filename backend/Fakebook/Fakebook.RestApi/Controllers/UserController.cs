@@ -39,7 +39,6 @@ namespace Fakebook.RestApi.Controllers
         {
             IEnumerable<User> users = await _userRepo.GetUserByName(name);
             return Ok(users);
-
         }
 
         [HttpGet("{id}")]
@@ -80,6 +79,16 @@ namespace Fakebook.RestApi.Controllers
         [HttpGet("{id}/Posts")]
         public async Task<ActionResult<List<Post>>> GetUserPosts(int id) {
             List<Post> posts = await _postRepo.GetPostsByUserIdAsync(id);
+            return posts;
+        }
+
+        [HttpGet("/Posts")]
+        [Authorize]
+        public async Task<ActionResult<List<Post>>> GetUserPosts()
+        {
+            var email = User.FindFirst(ct => ct.Type.Contains("nameidentifier")).Value;
+            var user = await _userRepo.GetUserByEmailAsync(email);
+            List<Post> posts = await _postRepo.GetPostsByUserIdAsync(user.Id);
             return posts;
         }
 
