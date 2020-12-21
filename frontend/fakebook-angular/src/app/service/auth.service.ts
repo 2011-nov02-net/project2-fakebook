@@ -42,5 +42,6 @@ export class AuthService {
 
   logout(){
     this.oktaAuth.signOut();
+    this.oktaAuth.tokenManager.clear();
   }
 }

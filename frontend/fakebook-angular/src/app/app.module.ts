@@ -22,6 +22,7 @@ import { OktaAuthModule,
          from '@okta/okta-angular';
 import { NewPostFormComponent } from './component/new-post-form/new-post-form.component';
 import { SearchViewComponent } from './component/search-view/search-view.component';
+import { MainViewComponent } from './component/main-view/main-view.component';
 
 const config = {
   issuer: 'https://dev-2137068.okta.com/oauth2/default',
@@ -48,7 +49,8 @@ const config = {
     AboutUsViewComponent,
     OktaViewComponent,
     NewPostFormComponent,
-    SearchViewComponent
+    SearchViewComponent,
+    MainViewComponent
     
     
   ],
