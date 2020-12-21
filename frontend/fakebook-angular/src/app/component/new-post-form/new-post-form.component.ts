@@ -7,6 +7,8 @@ import {newPost} from '../../model/newpost'
 import {PostService} from '../../service/post.service'
 import { NewsfeedComponent } from '../newsfeed/newsfeed.component';
 import { inject } from '@angular/core/testing';
+import { UploadService } from '../../service/upload.service';
+
 @Component({
   selector: 'app-new-post-form',
   providers: [PostService , UserService],
@@ -15,7 +17,10 @@ import { inject } from '@angular/core/testing';
 })
 export class NewPostFormComponent implements OnInit {
   submitted = false;
-  constructor( private httpPost: PostService, private route: ActivatedRoute, private userService: UserService) { }
+  filename = '';
+  imageSource = '';
+
+  constructor(private uploadService: UploadService, private httpPost: PostService, private route: ActivatedRoute, private userService: UserService) { }
 
   @Input() user: User | null=null;
   ngOnInit(): void {
@@ -34,5 +39,22 @@ export class NewPostFormComponent implements OnInit {
   }
   getUserId() {
     return this.user?.id;
+  }
+  save(files: any) {
+    const formData = new FormData();
+
+    if (files[0]) {
+      formData.append(files[0].name, files[0]);
+    }
+
+    this.uploadService
+      .upload(formData)
+      .subscribe(({ path }) => (this.imageSource = path));
+  }
+
+  setFilename(files: any) {
+    if (files[0]) {
+      this.filename = files[0].name;
+    }
   }
 }
