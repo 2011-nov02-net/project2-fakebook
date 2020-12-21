@@ -51,8 +51,7 @@ const config = {
     NewPostFormComponent,
     SearchViewComponent,
     MainViewComponent
-    
-    
+
   ],
   imports: [
     BrowserModule,

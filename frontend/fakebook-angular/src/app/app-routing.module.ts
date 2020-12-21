@@ -11,6 +11,7 @@ import { MainViewComponent} from './component/main-view/main-view.component'
 const routes: Routes = [
   { path: 'newsfeed', component: NewsfeedComponent},
   { path: 'user/:id', component: UserProfileViewComponent},
+  { path: 'user', component: UserProfileViewComponent},
   { path: 'about' , component: AboutUsViewComponent},
   { path: 'login/callback', component: OktaCallbackComponent},
   { path: 'logout', component: OktaCallbackComponent},

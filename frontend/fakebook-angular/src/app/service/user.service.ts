@@ -37,6 +37,14 @@ export class UserService {
   getPosts(id:string | null): Observable<Post[]>{
     return this.http.get<Post[]>(`${this.url}User/${id}/Posts`)
   }
+  getPostsNoArg(): Observable<Post[]>{
+    const accessToken = this.oktaAuth.getAccessToken();
+    const headers = {
+      Authorization: 'Bearer ' + accessToken,
+      Accept: 'application/json',
+    };
+    return this.http.get<Post[]>(`${this.url}User/Posts`, {headers})
+  }
   searchUser(name:string | null): Observable<User[]> {
     return this.http.get<User[]>(`${this.url}User/search/${name}`)
   }
