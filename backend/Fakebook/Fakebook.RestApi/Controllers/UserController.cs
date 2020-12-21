@@ -82,7 +82,7 @@ namespace Fakebook.RestApi.Controllers
             return posts;
         }
 
-        [HttpGet("/Posts")]
+        [HttpGet("Posts")]
         [Authorize]
         public async Task<ActionResult<List<Post>>> GetUserPosts()
         {
