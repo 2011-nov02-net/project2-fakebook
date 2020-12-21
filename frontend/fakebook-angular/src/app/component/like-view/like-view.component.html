@@ -1,7 +1,8 @@
-<div *ngIf='liked'>
-  <button 
+<div>
+  <button
     (click)='submit(liked)' 
     class="btn btn-white btn-xs">
-    <i class="fa fa-thumbs-up"></i>
+    <p *ngIf='liked' class="fa fa-thumbs-up">Liked</p>
+    <p *ngIf='!liked' class="fa fa-thumbs-up" disabled>Like</p>
   </button>
 </div>
