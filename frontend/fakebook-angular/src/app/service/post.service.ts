@@ -10,7 +10,7 @@ import { newPost } from '../model/newpost'
 })
 export class PostService {
   constructor(private http: HttpClient, private oktaAuth: OktaAuthService) { }
-  url = `${environment.baseUrl}/api/Posts`;
+  url = `https://2011-project2-fakebook.azurewebsites.net/api/Posts`;
 
   create(post: newPost): Promise<newPost> {
     const accessToken = this.oktaAuth.getAccessToken();

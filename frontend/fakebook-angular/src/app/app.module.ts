@@ -22,6 +22,7 @@ import { OktaAuthModule,
          from '@okta/okta-angular';
 import { NewPostFormComponent } from './component/new-post-form/new-post-form.component';
 import { SearchViewComponent } from './component/search-view/search-view.component';
+import { MainViewComponent } from './component/main-view/main-view.component';
 import { CommentFormComponent } from './component/comment-form/comment-form.component';
 
 const config = {
@@ -50,7 +51,8 @@ const config = {
     OktaViewComponent,
     CommentFormComponent,
     NewPostFormComponent,
-    SearchViewComponent
+    SearchViewComponent,
+    MainViewComponent
   ],
   imports: [
     BrowserModule,

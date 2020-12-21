@@ -11,23 +11,24 @@ export class FollowService {
   constructor(private http: HttpClient, private oktaAuth: OktaAuthService) { }
   url = `${environment.baseUrl}/api/User`;
 
-  follow(follower: User, followee: User): any {
+  follow(followee: User): any {
     const accessToken = this.oktaAuth.getAccessToken();
     const headers = {
       Authorization: 'Bearer ' + accessToken,
       Accept: 'application/json',
     };
-    return this.http.post(`${this.url}/${follower}/follow/${followee}`,  { headers })
+    console.log(followee.firstName)
+    return this.http.post(`${this.url}/follow/${followee.id}`,  { headers })
       .toPromise().then(res => console.log(JSON.stringify(res)));
   }
 
-  unfollow(follower: User, followee: User): any {
+  unfollow(followee: User): any {
     const accessToken = this.oktaAuth.getAccessToken();
     const headers = {
       Authorization: 'Bearer ' + accessToken,
       Accept: 'application/json',
     };
-    return this.http.post(`${this.url}/${follower}/unfollow/${followee}`, { headers })
+    return this.http.post(`${this.url}/unfollow/${followee.id}`, { headers })
       .toPromise().then(res => console.log(JSON.stringify(res)));
   }
 }

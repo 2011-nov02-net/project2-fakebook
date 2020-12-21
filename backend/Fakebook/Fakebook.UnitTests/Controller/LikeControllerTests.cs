@@ -37,7 +37,7 @@ namespace Fakebook.UnitTests.Controller
 
             // act
             var result = controller
-                .Like(postId, userId)
+                .Like(postId)
                 .Result;
 
             //assert

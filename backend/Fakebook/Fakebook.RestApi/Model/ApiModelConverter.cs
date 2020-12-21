@@ -11,6 +11,28 @@ namespace Fakebook.RestApi.Model
 {
     public static class ApiModelConverter
     {
+        public static PostApiModel ToPostApiModel(Post post) {
+
+            var commentIds = post.Comments
+                .Select(c => c.Id)
+                .ToList();
+
+            var likedByUserIds = post.LikedByUsers
+                .Select(u => u.Id)
+                .ToList();
+
+            return new PostApiModel
+            {
+                Id = post.Id,
+                Content = post.Content,
+                CreatedAt = post.CreatedAt,
+                Picture = post.Picture,
+                User = ApiModelConverter.ToUserApiModel(post.User),
+                CommentIds = commentIds,
+                LikedByUserIds = likedByUserIds
+            };
+        }
+
         public static Post ToPost(IUserRepo userRepo, ICommentRepo commentRepo, PostApiModel apiModel) {
             apiModel.Content.NullOrEmptyCheck(nameof(apiModel.Content));
 
@@ -31,7 +53,7 @@ namespace Fakebook.RestApi.Model
                 throw new ArgumentException("No special characters are permitted in the picture URL.");
             }
 
-            var user = userRepo.GetUserByIdAsync(apiModel.UserId).Result;
+            var user = userRepo.GetUserByIdAsync(apiModel.User.Id).Result;
             List<Comment> comments = null;
             List<User> likedByUsers = null;
 
@@ -59,6 +81,31 @@ namespace Fakebook.RestApi.Model
                 User = user,
                 LikedByUsers = likedByUsers,
                 Comments = comments
+            };
+        }
+
+        public static UserApiModel ToUserApiModel(User user) {
+
+            var followerIds = user.Followers
+                .Select(f => f.Id)
+                .ToList();
+
+            var followeeIds = user.Followees
+                .Select(f => f.Id)
+                .ToList();
+
+            return new UserApiModel
+            {
+                Id = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                BirthDate = user.BirthDate,
+                Status = user.Status,
+                ProfilePictureUrl = user.ProfilePictureUrl,
+                PhoneNumber = user.PhoneNumber,
+                FolloweeIds = followeeIds,
+                FollowerIds = followerIds
             };
         }
 
