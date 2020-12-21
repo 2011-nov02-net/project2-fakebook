@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/service/auth.service';
 import { LikeService } from 'src/app/service/like.service';
 import { Post } from '../../model/post';
+import { Comment } from 'src/app/model/comment';
 
 @Component({
   selector: 'app-post-view',
@@ -13,8 +14,7 @@ export class PostViewComponent implements OnInit {
   @Input() post: Post | null = null;
   constructor(private route: ActivatedRoute) { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
 
   getUserId(): number {
     let id = -1;
