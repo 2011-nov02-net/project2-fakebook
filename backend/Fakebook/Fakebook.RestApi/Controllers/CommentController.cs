@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Fakebook.RestApi.Controllers
 {
-    [Route("api/Posts/")]
+    [Route("api/Posts")]
     [ApiController]
     public class CommentController : ControllerBase
     {

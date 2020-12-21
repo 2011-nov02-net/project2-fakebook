@@ -140,7 +140,7 @@ namespace Fakebook.RestApi.Controllers
         /// <param name="id"></param>
         /// <param name="user"></param>
         /// <returns></returns>
-        [HttpPut("{id}/")]
+        [HttpPut("{id}")]
         [Authorize]
         public async Task<IActionResult> Put(UserApiModel apiModel, int id = -1)
         {
