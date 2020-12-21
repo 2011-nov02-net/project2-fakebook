@@ -32,8 +32,9 @@ namespace Fakebook.RestApi.Controllers
             return Ok(posts.Select(p => ApiModelConverter.ToPostApiModel(p)));
         }
 
-        [HttpPost]
         [Authorize]
+        [HttpPost]
+
         public async Task<IActionResult> Post(PostApiModel apiModel)
         {
             var user = await _userRepo.GetUserByIdAsync(apiModel.User.Id);
