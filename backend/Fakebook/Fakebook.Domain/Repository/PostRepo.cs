@@ -77,8 +77,16 @@ namespace Fakebook.Domain.Repository
                 .Include(e => e.Likes)
                     .ThenInclude(c => c.User)
                 .ToListAsync();
-            var posts = entity.Select(e => DbEntityConverter.ToPost(e)).ToList();
-            return posts;
+
+            try {
+
+                var posts = entity.Select(e => DbEntityConverter.ToPost(e)).ToList();
+                return posts;
+            } catch(Exception ex) {
+                Console.WriteLine(ex.Message);
+                throw;
+            }
+
         }
 
         /// <summary>
