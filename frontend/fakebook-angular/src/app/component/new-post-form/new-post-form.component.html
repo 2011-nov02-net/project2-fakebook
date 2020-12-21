@@ -3,5 +3,18 @@
     <textarea rows="5" class="form-control" id="content" placeholder="What's on your mind {{user.firstName}}?" name="content"[(ngModel)]="newPost.content" required #trackName="ngModel"> </textarea>    
     <input type="file" class="mt-2 form-control-file" name="pictureUrl" id="fileToUpload">
     <input type="submit" class="mt-4 mb-4 btn btn-primary btn-lg btn-block" value="Post" [disabled]="!newPostForm.form.valid">
+    <button type="button" (click)="fileInput.click()">Choose File</button>
+    <input
+            hidden
+            #fileInput
+            type="file"
+            id="file"
+            (change)="setFilename(fileInput.files)"
+    />
+    <label>{{ filename }}</label>
+    <br />
+    <button type="button" (click)="save(fileInput.files)">Save</button>
+    <br />
+    <img [src]="imageSource" />
 </form>
 </div>

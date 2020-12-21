@@ -6,6 +6,8 @@ using System;
 using Microsoft.AspNetCore.Authorization;
 using Fakebook.Domain;
 using System.Linq;
+using Fakebook.RestApi.Services;
+using Microsoft.AspNetCore.Http;
 
 namespace Fakebook.RestApi.Controllers
 {
@@ -17,11 +19,13 @@ namespace Fakebook.RestApi.Controllers
         private readonly IPostRepo _postRepo;
         private readonly IUserRepo _userRepo;
         private readonly ICommentRepo _commentRepo;
+        private IBlobService _blobService;
 
-        public PostController(IPostRepo postRepo, IUserRepo userRepo, ICommentRepo commentRepo) {
+        public PostController(IPostRepo postRepo, IUserRepo userRepo, ICommentRepo commentRepo, IBlobService blobService) {
             _postRepo = postRepo;
             _userRepo = userRepo;
             _commentRepo = commentRepo;
+            _blobService = blobService;
         }
 
         [HttpGet]
@@ -90,6 +94,26 @@ namespace Fakebook.RestApi.Controllers
             } else {
                 return BadRequest();
             }
+        }
+
+        [HttpPost("UploadPicture"), DisableRequestSizeLimit]
+        public async Task<ActionResult> UploadPicture()
+        {
+            IFormFile file = Request.Form.Files[0];
+            if (file == null)
+            {
+                return BadRequest();
+            }
+
+            var result = await _blobService.UploadFileBlobAsync(
+                    "Fakebook",
+                    file.OpenReadStream(),
+                    file.ContentType,
+                    file.FileName);
+
+            var toReturn = result.AbsoluteUri;
+
+            return Ok(new { path = toReturn });
         }
     }
 }

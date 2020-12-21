@@ -19,7 +19,7 @@ namespace Fakebook.RestApi.Controllers
         }
 
         // POST: api/Posts/{id}/like/{userId}
-        [HttpPost("{id}/like/")]
+        [HttpPost("{id}/like")]
         [Authorize]
         public async Task<IActionResult> Like(int id)
         {
@@ -42,7 +42,7 @@ namespace Fakebook.RestApi.Controllers
         }
 
         // POST: api/Posts/{id}/unlike/{userId}
-        [HttpPost("{id}/unlike/")]
+        [HttpPost("{id}/unlike")]
         [Authorize]
         public async Task<IActionResult> Unlike(int id) {
             var email = User.FindFirst(ct => ct.Type.Contains("nameidentifier")).Value;

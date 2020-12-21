@@ -15,6 +15,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Azure.Storage.Blobs;
+using Fakebook.RestApi.Services;
 
 namespace Fakebook.RestApi
 {
@@ -32,7 +34,9 @@ namespace Fakebook.RestApi
             string connectionString = Configuration["FakebookContext:ConnectionString"];
 
             services.AddDbContext<FakebookContext>(options => options.UseSqlServer(connectionString));
-            
+            services.AddScoped(x => new BlobServiceClient(Configuration.GetValue<string>("AzureBlobStorage")));
+
+            services.AddScoped<IBlobService, BlobService>();
             services.AddScoped<IUserRepo, UserRepo>();
             services.AddScoped<IPostRepo, PostRepo>();
             services.AddScoped<ICommentRepo, CommentRepo>();
