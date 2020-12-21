@@ -10,6 +10,9 @@
           <li class="nav-item active">
             <a class="nav-link" *ngIf="isAuthenticated" routerLink="/user/">Profile <span class="sr-only">(current)</span></a>
           </li>
+          <li>
+            <a class="nav-link" *ngIf="isAuthenticated" routerLink="/newsfeed/">Newsfeed <span class="sr-only">(current)</span></a>
+          </li>
         </ul>
         <form class="form-inline my-2 my-md-0" (submit)="onSubmit()">
           <input class="form-control" type="text" placeholder="Search" aria-label="Search" [formControl]="searchName">
