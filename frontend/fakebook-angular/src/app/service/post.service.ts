@@ -19,7 +19,8 @@ export class PostService {
       Authorization: 'Bearer ' + accessToken,
       Accept: 'application/json',
     };
-    return this.http.post<newPost>(`${this.url}`, post, { headers }).toPromise();;
+    console.log(headers);
+    return this.http.post<newPost>(`${this.url}`, post, { headers }).toPromise();
   }
 
   getById(id: number): Post | undefined {

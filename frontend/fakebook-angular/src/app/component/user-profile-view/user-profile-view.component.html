@@ -1,3 +1,4 @@
+
 <div class="" *ngIf="user">
     <img id="cover" src="https://via.placeholder.com/900x320/FF7F50/000000" class="img-fluid "  alt="cover">
     <img id="profile-picture" class="img-fluid rounded-circle mx-auto img-float d-block img-md" src="{{user.profilePictureUrl}}" alt="noimage">
@@ -33,29 +34,16 @@
             </div>
         </div>
     <div class="panel col-md-8 mt-4">
-        <div class="panel-body">
-          <ul *ngFor="let item of posts">
-              <div class="media-block">
-                <a class="media-left" href="#"><img class="rounded-circle img-sm" alt="Profile Picture" src="{{user.profilePictureUrl}}"></a>
-                <div class="media-body">
-                  <div class="mar-btm">
-                    <a href="user/{{ user.id}}" class="btn-link text-semibold media-heading box-inline">{{ user.firstName}}</a>
-                    <p class="text-muted text-sm"></p>
-                  </div>
-                  <p>{{item.content}}</p>
-                  <div class="pad-ver">
-                    <div class="btn-group">
-                      <a class="btn btn-sm btn-default btn-hover-success" href="#"><i class="fa fa-thumbs-up"></i></a>
-                      <a class="btn btn-sm btn-default btn-hover-danger" href="#"><i class="fa fa-thumbs-down"></i></a>
-                    </div>
-                    <a class="btn btn-sm btn-default btn-hover-primary" href="#">Comment</a>
-                  </div>
-                  <hr>
-                </div>
-              </div>
+      <div class="container">
+          <div class="col-md-12">
+             <!-- Iterate through all posts -->
+            <ul *ngFor="let item of posts">
+              <app-post-view [post]="item"></app-post-view>
             </ul>
+          </div>
         </div>
         </div>
+
     
 </div>
 </div>
