@@ -1,9 +1,19 @@
 
 
-<div class="col-2 col-md-3" *ngFor="let user of users">
-    <ul>
-        <li>
-            {{user.firstName}}
-        </li>
-    </ul>
+<div class="container mb-3" *ngFor="let user of users">
+    <div  class=" mt-5 d-flex justify-content-center">
+        <div id="profile-card" class="card p-3">
+            <div class="d-flex align-items-center">
+                <div class="image"> <img src="{{user.profilePictureUrl}}" class="rounded" width="155"> </div>
+                <div class="ml-3 w-100">
+                    <h4 class="mb-0 mt-0">{{user.firstName}} {{user.lastName}}</h4> <span>{{user.status}}</span>
+
+                    <div class="button mt-2 d-flex flex-row align-items-center"> 
+                        <button (click)="ProfileSubmit(user.id)" class="btn btn-sm btn-outline-primary w-100" >Profile</button>
+                        <button hidden class="btn btn-sm btn-primary w-100 ml-2">Follow</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

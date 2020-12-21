@@ -17,9 +17,9 @@ export class NewPostFormComponent implements OnInit {
   submitted = false;
   constructor( private httpPost: PostService, private route: ActivatedRoute, private userService: UserService) { }
 
-  user: User | undefined;
+  @Input() user: User | null=null;
   ngOnInit(): void {
-    this.getUser();
+    //this.getUser();
   }
   newPost = new newPost('',  undefined, '') // we'll initialize user id at onsubmit
 
