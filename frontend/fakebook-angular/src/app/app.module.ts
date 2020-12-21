@@ -23,6 +23,7 @@ import { OktaAuthModule,
 import { NewPostFormComponent } from './component/new-post-form/new-post-form.component';
 import { SearchViewComponent } from './component/search-view/search-view.component';
 import { MainViewComponent } from './component/main-view/main-view.component';
+import { CommentFormComponent } from './component/comment-form/comment-form.component';
 
 const config = {
   issuer: 'https://dev-2137068.okta.com/oauth2/default',
@@ -48,10 +49,10 @@ const config = {
     FooterViewComponent,
     AboutUsViewComponent,
     OktaViewComponent,
+    CommentFormComponent,
     NewPostFormComponent,
     SearchViewComponent,
     MainViewComponent
-
   ],
   imports: [
     BrowserModule,

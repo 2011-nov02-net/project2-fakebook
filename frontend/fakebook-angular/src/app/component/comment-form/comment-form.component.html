@@ -1,0 +1,15 @@
+<div class='social-comment'>
+  <div>
+    <div class='media-body col'>
+      <textarea 
+        class='form-control' 
+        [(ngModel)]='comment.content'
+        placeholder='Write comment...'>
+      </textarea>
+      <div class="btn-group">
+        <!-- <button (click)="likePost(post)" class="btn btn-white btn-xs"><i class="fa fa-thumbs-up"></i> Like</button> -->
+        <button class="btn btn-white btn-xs" (click)='postComment(comment)'><i class="fa fa-comments"></i> Comment</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -48,18 +48,17 @@ export class UserProfileViewComponent implements OnInit {
 
     this.userService.getUserProfile()
       .subscribe(user => this.selfUser = user);
-
   }
 
   followUser(): any {
     if(this.user != undefined && this.selfUser != undefined){
       if(this.user.followers.some(user => user.id == this.selfUser?.id)) {
         console.log("UNFOLLOW")
-        this.followService.unfollow(this.user);
+        this.followService.unfollow(this.selfUser, this.user);
       }
       else {
         console.log("FOLLOW")
-        this.followService.follow(this.user);
+        this.followService.follow(this.selfUser, this.user);
       }
     }
   }
