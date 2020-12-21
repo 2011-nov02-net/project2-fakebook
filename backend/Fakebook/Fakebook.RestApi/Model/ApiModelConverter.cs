@@ -35,9 +35,6 @@ namespace Fakebook.RestApi.Model
 
         public static Post ToPost(IUserRepo userRepo, ICommentRepo commentRepo, PostApiModel apiModel) {
             apiModel.Content.EnforceNoSpecialCharacters(nameof(apiModel.Content));
-            
-            // must not be in future
-            apiModel.CreatedAt.EnforcePast();
 
             // if status is not null, filter out any non-file allowed characters
             if (apiModel.Picture is not null) {
@@ -114,10 +111,7 @@ namespace Fakebook.RestApi.Model
             // must also be within 18 years from today
             var today = DateTime.Today;
             var date = new DateTime(today.Year - 18, today.Month, today.Day);
-            apiModel.BirthDate.EnforceIsBefore(date);
-
-            // if status is not null, filter out any special characters
-
+            
             if (apiModel.Status is not null) {
                 apiModel.Status.EnforceNoSpecialCharacters(nameof(apiModel.Status));
             }
@@ -163,9 +157,6 @@ namespace Fakebook.RestApi.Model
         public static Comment ToComment(ICommentRepo commentRepo, IUserRepo userRepo, IPostRepo postRepo, CommentApiModel apiModel) {
             // no special characters are allowed
             apiModel.Content.EnforceNoSpecialCharacters(nameof(apiModel.Content));
-
-            // must not be in future
-            apiModel.CreatedAt.EnforcePast();
 
             var user = userRepo.GetUserByIdAsync(apiModel.UserId)
                 .Result;
