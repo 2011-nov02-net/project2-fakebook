@@ -33,8 +33,4 @@ export class NewsfeedComponent implements OnInit {
     this.newsfeedService.getPosts(null)
         .subscribe(posts => this.posts = posts)
   }
-
-  likePost(post: Post): void{
-    this.likeService.like(post, post.user);
-  }
 }

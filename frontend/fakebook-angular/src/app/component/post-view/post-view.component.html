@@ -1,51 +1,52 @@
 <!-- Box containing one post and its comments -->
 <div *ngIf="post" class="social-feed-box">
     <div class="social-avatar">
-    <div class="row">
-        <a href="" class="pull-left">
-        <img class="rounded-circle img-sm" alt="image" src="{{post.user.profilePictureUrl}}">
-        </a>
-        <div class="media-body">
-        <a href="#">
-            {{post.user.firstName + " " + post.user.lastName}}
-        </a>
-        <small class="text-muted">{{post.createdAt | date:'medium'}}</small>
+        <div class="row">
+            <a href="" class="pull-left">
+                <img class="rounded-circle img-sm" alt="image" src="{{post.user.profilePictureUrl}}">
+            </a>
+            <div class="media-body">
+                <a href="#">
+                    {{post.user.firstName + " " + post.user.lastName}}
+                </a>
+                <small class="text-muted">{{post.createdAt | date:'medium'}}</small>
+            </div>
         </div>
     </div>
-    </div>
     <div class="social-body">
-    <p>
-        {{post.content}}
-    </p>
-    <div class="btn-group">
-        <!-- <button (click)="likePost(post)" class="btn btn-white btn-xs"><i class="fa fa-thumbs-up"></i> Like</button> -->
-        <button class="btn btn-white btn-xs"><i class="fa fa-comments"></i> Comment</button>
-    </div>
+        <p>
+            {{post.content}}
+        </p>
+        <div class="btn-group">
+            <app-like-view [liked]='userLiked()' [postId]='post.id'></app-like-view>
+            <!-- <button (click)="likePost(post)" class="btn btn-white btn-xs"><i class="fa fa-thumbs-up"></i> Like</button> -->
+            <button class="btn btn-white btn-xs"><i class="fa fa-comments"></i> Comment</button>
+        </div>
     </div>
 
     <!-- Iteration through all comments for the post -->
     <div class="social-footer">
-    <ul *ngFor="let comment of post.comments">  
-        <div class="social-comment">
-        <a href="" class="pull-left">
-            <img class="rounded-circle img-sm" alt="image" src="{{comment.user.profilePictureUrl}}">
-        </a>
-        <div class="media-body">
-            <a href="#">
-            {{comment.user.firstName + " " + comment.user.lastName}}
-            </a>
-            {{comment.content}}
-            <br>
-            <small class="text-muted">{{comment.createdAt}}</small>
-        </div>
-        </div>
-    </ul>   
+        <ul *ngFor="let comment of post.comments">
+            <div class="social-comment">
+                <a href="" class="pull-left">
+                    <img class="rounded-circle img-sm" alt="image" src="{{comment.user.profilePictureUrl}}">
+                </a>
+                <div class="media-body">
+                    <a href="#">
+                        {{comment.user.firstName + " " + comment.user.lastName}}
+                    </a>
+                    {{comment.content}}
+                    <br>
+                    <small class="text-muted">{{comment.createdAt}}</small>
+                </div>
+            </div>
+        </ul>
     </div>
-    
+
     <!-- Box for making new comments responding to the post -->
     <div class="social-comment">
-    <div class="media-body">
+        <div class="media-body">
             <textarea class="form-control" placeholder="Write comment..."></textarea>
-    </div>
+        </div>
     </div>
 </div>

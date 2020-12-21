@@ -155,6 +155,7 @@ namespace Fakebook.Domain.Repository
             {
                 var like = new LikeEntity(id, userId); // convert
                 await _context.LikeEntities.AddAsync(like);
+                await _context.SaveChangesAsync();
                 return true;
             }
             catch
@@ -180,6 +181,7 @@ namespace Fakebook.Domain.Repository
                 {
                     // remove and if able to return true
                     _context.LikeEntities.Remove(entity);
+                    await _context.SaveChangesAsync();
                     return true;
                 }
                 // otherwise return false
@@ -213,7 +215,10 @@ namespace Fakebook.Domain.Repository
             List<Post> newsFeed = new List<Post>();
 
             // find our user and make sure to include their followers
-            var entities = await _context.UserEntities.Where(u => u.Id == id).Include(e => e.Followees).ToListAsync();
+            var entities = await _context.UserEntities
+                .Where(u => u.Id == id)
+                .Include(e => e.Followees)
+                .ToListAsync();
             // create a list of ints for our followers
 
             List<int> followList = new List<int>();
