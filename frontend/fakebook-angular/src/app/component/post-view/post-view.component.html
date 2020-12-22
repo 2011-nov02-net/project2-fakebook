@@ -17,6 +17,7 @@
     <p>
       {{post.content}}
     </p>
+    <img *ngIf="post.pictureUrl" src="{{post.pictureUrl}}" />
     <app-like-view [liked]='userLiked()' [postId]='post.id' [count]='post.likedByUserIds.length'></app-like-view>
     <!-- Iteration through all comments for the post -->
     <div *ngIf='post.comments!=undefined' class="social-footer">
