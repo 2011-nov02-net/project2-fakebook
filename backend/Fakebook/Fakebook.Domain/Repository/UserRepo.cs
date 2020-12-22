@@ -129,8 +129,7 @@ namespace Fakebook.Domain.Repository
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public async Task<IEnumerable<User>> GetUserByName(string name)
-        {
+        public async Task<IEnumerable<User>> GetUserByName(string name) {
             // loser the string of both name and FirstName. also works for last name
             var entity = await _context.UserEntities.Where(n => n.FirstName.ToLower().Contains(name.ToLower()) || n.LastName.ToLower().Contains(name.ToLower())).ToListAsync();
 
@@ -202,40 +201,32 @@ namespace Fakebook.Domain.Repository
         }
 
         // id is the follower, userId is followee aka person that the follower is following
-        public async Task<bool> FollowUserAsync(int id, int userId)
-        {
-            try
-            {
-                var follow = new FollowEntity(id, userId); // convert
-                await _context.FollowEntities.AddAsync(follow);
+        public async Task<bool> FollowUserAsync(int id, int userId) {
+            if(id == userId) {
+                return false;
+            }
+
+            var follow = new FollowEntity(userId, id); // convert
+            await _context.FollowEntities.AddAsync(follow);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<bool> UnfollowUserAsync(int id, int userId) {
+            if(id == userId) {
+                return false;
+            }
+
+            // find the like entity
+            var entity = await _context.FollowEntities.FirstOrDefaultAsync(i => i.FollowerId == id && i.FolloweeId == userId);
+            if (entity != null) {
+                // remove and if able to return true
+                _context.FollowEntities.Remove(entity);
                 await _context.SaveChangesAsync();
                 return true;
             }
-            catch
-            {
-                return false;
-            }
-        }
-        public async Task<bool> UnfollowUserAsync(int id, int userId)
-        {
-            try
-            {
-                // find the like entity
-                var entity = await _context.FollowEntities.FirstOrDefaultAsync(i => i.FollowerId == id && i.FolloweeId == userId);
-                if (entity != null)
-                {
-                    // remove and if able to return true
-                    _context.FollowEntities.Remove(entity);
-                    await _context.SaveChangesAsync();
-                    return true;
-                }
-                // otherwise return false
-                return false;
-            }
-            catch
-            {
-                return false;
-            }
+            // otherwise return false
+            return false;
         }
     }
 }
