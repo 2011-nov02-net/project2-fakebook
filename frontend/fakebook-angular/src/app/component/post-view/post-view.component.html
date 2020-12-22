@@ -32,10 +32,11 @@
       <!-- Iteration through all comments for the post -->
       <div *ngIf='post.comments!=undefined'>
         <ul *ngFor="let comment of post.comments">
-          <app-comment-view [comment]='comment'></app-comment-view>
+          <app-comment-view (delete)='deleteComment($event)' [comment]='comment' [currentUserId]='userid'></app-comment-view>
         </ul>
       </div>
     </div>
   </div>
+
 
 </div>

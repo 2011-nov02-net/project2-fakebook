@@ -80,8 +80,9 @@ namespace Fakebook.Domain.Repository
 
             try {
 
-                var posts = entity.Select(e => DbEntityConverter.ToPost(e)).ToList();
+                var posts = entity.Select(e => DbEntityConverter.ToPost(e)).Reverse().ToList();
                 return posts;
+
             } catch(Exception ex) {
                 Console.WriteLine(ex.Message);
                 throw;
@@ -144,9 +145,13 @@ namespace Fakebook.Domain.Repository
                 var comments = await _context.CommentEntities
                     .Where(c => c.PostId == entity.Id)
                     .ToListAsync();
+                var likes = await _context.LikeEntities
+                    .Where(l => l.PostId == entity.Id)
+                    .ToListAsync();
 
-                _context.PostEntities.Remove(entity);
                 _context.CommentEntities.RemoveRange(comments);
+                _context.LikeEntities.RemoveRange(likes);
+                _context.PostEntities.Remove(entity);
 
                 await _context.SaveChangesAsync();
                 return true;

@@ -30,6 +30,7 @@ export class SearchViewComponent implements OnInit {
   {
     this.router.navigateByUrl( `user/${id}`)
   }
+  
   getUser(): void {
     let tempId = ""; //the only way i could declare a variable that may accept a null value in teh future
     
