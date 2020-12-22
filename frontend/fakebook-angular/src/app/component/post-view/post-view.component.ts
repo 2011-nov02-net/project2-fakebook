@@ -4,6 +4,7 @@ import { AuthService } from 'src/app/service/auth.service';
 import { LikeService } from 'src/app/service/like.service';
 import { Post } from '../../model/post';
 import { Comment } from 'src/app/model/comment';
+import { PostService } from 'src/app/service/post.service';
 
 @Component({
   selector: 'app-post-view',
@@ -13,7 +14,12 @@ import { Comment } from 'src/app/model/comment';
 export class PostViewComponent implements OnInit {
   @Input() post: Post | null = null;
   @Input() userid: number = 0;
-  constructor(private route: ActivatedRoute) {}
+
+  constructor(
+    private route: ActivatedRoute,
+    private postService: PostService
+  ) {
+  }
 
   ngOnInit(): void {
     this.userLiked();
@@ -28,6 +34,10 @@ export class PostViewComponent implements OnInit {
     }
 
     return id;
+  }
+
+  deletePost(post: Post) {
+    this.postService.delete(post.id);
   }
 
   userLiked() {
