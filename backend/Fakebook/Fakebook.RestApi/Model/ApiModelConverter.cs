@@ -21,14 +21,21 @@ namespace Fakebook.RestApi.Model
                 .Select(u => u.Id)
                 .ToList();
 
+            var comments = post.Comments
+                .Select(c => {
+                    c.Post = post;
+                    return ToCommentApiModel(c);
+                })
+                .ToList();
+
             return new PostApiModel
             {
                 Id = post.Id,
                 Content = post.Content,
                 CreatedAt = post.CreatedAt,
                 PictureUrl = post.Picture,
-                User = ApiModelConverter.ToUserApiModel(post.User),
-                CommentIds = commentIds,
+                User = ToUserApiModel(post.User),
+                Comments = comments,
                 LikedByUserIds = likedByUserIds
             };
         }
@@ -45,8 +52,13 @@ namespace Fakebook.RestApi.Model
             List<Comment> comments = null;
             List<User> likedByUsers = null;
 
-            if(apiModel.CommentIds is not null && apiModel.CommentIds.Any()) {
-                comments = commentRepo.GetCommentsByIdsAsync(apiModel.CommentIds)
+            if(apiModel.Comments is not null && apiModel.Comments.Any()) {
+                var commentIds = apiModel
+                    .Comments
+                        .Select(c => c.Id)
+                        .ToList();
+
+                comments = commentRepo.GetCommentsByIdsAsync(commentIds)
                     .Result
                     .ToList();
             }
@@ -146,6 +158,24 @@ namespace Fakebook.RestApi.Model
                 Status = apiModel.Status,
                 Followers = followers,
                 Followees = followees
+            };
+        }
+
+        public static CommentApiModel ToCommentApiModel(Comment comment) {
+
+            var childCommentIds = comment.ChildrenComments
+                    .Select(c => c.Id)
+                    .ToList();
+
+            return new CommentApiModel
+            {
+                Id = comment.Id,
+                Content = comment.Content,
+                CreatedAt = comment.CreatedAt,
+                PostId = comment.Post.Id,
+                UserId = comment.User.Id,
+                ParentCommentId = comment.ParentComment?.Id,
+                ChildCommentIds = childCommentIds
             };
         }
 
