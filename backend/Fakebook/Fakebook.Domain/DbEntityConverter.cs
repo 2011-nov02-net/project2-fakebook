@@ -182,7 +182,7 @@ namespace Fakebook.Domain
             {
                 Id = postEntity.Id,
                 Content = postEntity.Content,
-                //Picture = postEntity.Picture,
+                Picture = postEntity.Picture,
                 CreatedAt = postEntity.CreatedAt,
                 User = new User()
                 {

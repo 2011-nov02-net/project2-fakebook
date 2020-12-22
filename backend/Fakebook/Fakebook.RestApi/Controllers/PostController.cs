@@ -104,16 +104,22 @@ namespace Fakebook.RestApi.Controllers
             {
                 return BadRequest();
             }
+            try {
 
             var result = await _blobService.UploadFileBlobAsync(
-                    "Fakebook",
+                    "fakebook",
                     file.OpenReadStream(),
                     file.ContentType,
                     file.FileName);
 
-            var toReturn = result.AbsoluteUri;
 
-            return Ok(new { path = toReturn });
+                var toReturn = result.AbsoluteUri;
+
+                return Ok(new { path = toReturn });
+            } catch (Exception ex) {
+                Console.WriteLine(ex.Message);
+                throw;
+            }
         }
     }
 }
