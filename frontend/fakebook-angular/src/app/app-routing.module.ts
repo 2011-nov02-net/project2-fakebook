@@ -16,8 +16,7 @@ const routes: Routes = [
   { path: 'login/callback', component: OktaCallbackComponent },
   { path: 'logout', component: OktaCallbackComponent },
   { path: 'search/:name', component: SearchViewComponent },
-  { path: '', component: MainViewComponent },
-  { path: 'newsfeed/refresh', component: NewsfeedComponent },
+  { path: '', component: MainViewComponent }
 ];
 
 @NgModule({

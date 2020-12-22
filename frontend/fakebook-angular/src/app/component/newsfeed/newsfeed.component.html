@@ -21,7 +21,7 @@
       <app-new-post-form [user]="user" (notify)="onNotifyClicked($event)" ></app-new-post-form>
       <!-- Iterate through all posts -->
       <div *ngFor="let item of posts" [@simpleFadeAnimation]="'in'">
-        <app-post-view [post]="item" [userid]="user.id"></app-post-view>
+        <app-post-view [post]="item" [userid]="user.id" (notifyComment)="onNotifyComment($event)"></app-post-view>
       </div>
     </div>
     <div class="col-md-3">

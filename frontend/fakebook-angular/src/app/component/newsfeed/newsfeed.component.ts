@@ -70,4 +70,10 @@ export class NewsfeedComponent implements OnInit  {
     this.newsfeedService.getPosts(null)
       .subscribe(posts => this.posts = posts)
   }
+
+  onNotifyComment(valueEmitted: any){
+    console.log("valueEmitted");
+    this.newsfeedService.getPosts(null)
+      .subscribe(posts => this.posts = posts)
+  }
 }
