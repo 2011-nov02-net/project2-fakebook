@@ -5,6 +5,7 @@ import { UserService } from '../../service/user.service';
 import { LikeService } from '../../service/like.service';
 import { Post } from '../../model/post';
 import { User } from 'src/app/model/user';
+import { newPost } from 'src/app/model/newpost';
 import { trigger, transition, style, animate, query, stagger, state } from '@angular/animations';
 
 @Component({
@@ -57,12 +58,16 @@ export class NewsfeedComponent implements OnInit  {
     this.router.navigateByUrl(`user/${id}`);
   }
   getUser() {
-    this.userService
-      .getUserProfile() // gets the user
-      .subscribe((gotuser) => (this.user = gotuser));
+      this.userService.getUserProfile() // gets the user 
+          .subscribe(gotuser => this.user = gotuser)
+    
+    this.newsfeedService.getPosts(null)
+        .subscribe((posts) => this.posts = this.posts.length ? [] :posts);
+  }
 
-    this.newsfeedService
-      .getPosts(null)
-      .subscribe((posts) => this.posts = this.posts.length ? [] :posts);
+  onNotifyClicked(valueEmitted: any){
+    console.log("valueEmitted");
+    this.newsfeedService.getPosts(null)
+      .subscribe(posts => this.posts = posts)
   }
 }

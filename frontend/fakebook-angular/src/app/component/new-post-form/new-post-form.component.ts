@@ -1,8 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
+// import { EventEmitter } from 'events';
 import { User } from 'src/app/model/user';
 import { UserService } from 'src/app/service/user.service';
 import { newPost } from '../../model/newpost';
+import { Post } from '../../model/post';
 import { PostService } from '../../service/post.service';
 import { UploadService } from '../../service/upload.service';
 
@@ -18,6 +20,8 @@ export class NewPostFormComponent implements OnInit {
   imageSource = '';
   
   @Input() user: User | null = null;
+  
+  @Output() notify: EventEmitter<string> = new EventEmitter<string>();
 
   constructor(
     private uploadService: UploadService,
@@ -25,6 +29,7 @@ export class NewPostFormComponent implements OnInit {
     private router: Router,
     private userService: UserService
   ) {}
+
 
   ngOnInit(): void {
     //this.getUser();
@@ -43,15 +48,14 @@ export class NewPostFormComponent implements OnInit {
           this.submitted = true;
           this.httpPost.create(this.newPost);
           this.newPost.content = '';
-        });
+        }).then(res => { return this.notify.emit("test value from child")});;
       }
     } else {
       this.newPost.userId = this.user?.id;
       this.submitted = true;
-      this.httpPost.create(this.newPost);
+      this.httpPost.create(this.newPost).then(res => { return this.notify.emit("test value from child")});
     }
 
-    this.router.navigateByUrl('newsfeed/refresh');
   }
 
   getUser() {
