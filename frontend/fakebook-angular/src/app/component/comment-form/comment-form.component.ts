@@ -51,5 +51,6 @@ export class CommentFormComponent implements OnInit {
     });
 
     this.comment.content = '';
+    this.router.navigateByUrl('newsfeed/refresh');
   }
 }
