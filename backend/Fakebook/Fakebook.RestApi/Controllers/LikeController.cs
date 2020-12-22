@@ -47,8 +47,7 @@ namespace Fakebook.RestApi.Controllers
         public async Task<IActionResult> Unlike(int id) {
             var email = User.FindFirst(ct => ct.Type.Contains("nameidentifier")).Value;
             var user = await _userRepo.GetUserByEmailAsync(email);
-            if (email.ToLower() == user.Email.ToLower())
-            {
+            if (email.ToLower() == user.Email.ToLower()) {
                 if (await _postRepo.UnlikePostAsync(id, user.Id))
                 {
                     return Ok("Success");

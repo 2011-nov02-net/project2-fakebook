@@ -39,36 +39,33 @@ export class UserProfileViewComponent implements OnInit {
 
       const id = tempId;
 
-      this.userService.getUser(id).subscribe((user) => (this.user = user));
-      this.userService.getPosts(id).subscribe((posts) => (this.posts = posts));
-      this.userService
-        .getUser(id)
-        .subscribe((user) =>
-          this.userService
-            .getUserProfile()
-            .subscribe(
-              (selfUser) =>
-                (this.followStatus = this.followService.getFollowStatus(
-                  selfUser,
-                  user
-                ))
-            )
-        ); // nested getuserprofile so we can use the response to determine if self user is in the list of followers for the current user
-    } else {
-      this.userService.getUserProfile().subscribe((user) => (this.user = user));
-      this.userService
-        .getPostsNoArg()
-        .subscribe((posts) => (this.posts = posts));
+      this.userService.getUser(id)
+        .subscribe(user => this.user = user);
+      this.userService.getPosts(id)
+        .subscribe(posts => this.posts = posts)
+      this.userService.getUser(id)
+        .subscribe(user => this.userService.getUserProfile()
+          .subscribe(selfUser => this.followStatus = this.followService.getFollowStatus(selfUser, user))); 
+        // nested getuserprofile so we can use the response to determine if self user is in the list of followers for the current user
+    }
+    else {
+      this.userService.getUserProfile()
+        .subscribe(user => this.user = user);
+      this.userService.getPostsNoArg()
+        .subscribe(posts => this.posts = posts);
     }
   }
 
   followUser(): any {
-    if (this.user != undefined && this.selfUser != undefined) {
-      if (this.followStatus) {
-        this.followService.unfollow(this.selfUser, this.user);
+    if(this.user != undefined && this.selfUser != undefined){
+      if(this.followStatus) {
+        console.log("UNFOLLOW")
+        this.followService.unfollow(this.user, this.selfUser);
         this.followStatus = false;
-      } else {
-        this.followService.follow(this.selfUser, this.user);
+      }
+      else {
+        console.log("FOLLOW")
+        this.followService.follow(this.user, this.selfUser);
         this.followStatus = true;
       }
     }
