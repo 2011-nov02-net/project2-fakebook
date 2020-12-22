@@ -106,11 +106,11 @@ namespace Fakebook.RestApi.Controllers
             }
             try {
 
-                var result = await _blobService.UploadFileBlobAsync(
-                        "fakebook",
-                        file.OpenReadStream(),
-                        file.ContentType,
-                        file.FileName);
+            var result = await _blobService.UploadFileBlobAsync(
+                    "fakebook",
+                    file.OpenReadStream(),
+                    file.ContentType,
+                    file.FileName);
 
 
                 var toReturn = result.AbsoluteUri;
