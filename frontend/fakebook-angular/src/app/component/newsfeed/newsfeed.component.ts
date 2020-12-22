@@ -5,6 +5,7 @@ import { UserService } from '../../service/user.service';
 import { LikeService } from '../../service/like.service';
 import { Post } from '../../model/post';
 import { User } from 'src/app/model/user';
+import { newPost } from 'src/app/model/newpost';
 
 @Component({
   selector: 'app-newsfeed',
@@ -35,5 +36,11 @@ export class NewsfeedComponent implements OnInit {
     
     this.newsfeedService.getPosts(null)
         .subscribe(posts => this.posts = posts)
+  }
+
+  onNotifyClicked(valueEmitted: any){
+    console.log("valueEmitted");
+    this.newsfeedService.getPosts(null)
+      .subscribe(posts => this.posts = posts)
   }
 }
