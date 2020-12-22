@@ -23,9 +23,6 @@
   </div>
   <div *ngIf='post.comments!=undefined' class="social-footer">
   <div class="social-body">
-    <p>
-      {{post.content}}
-    </p>
     <img *ngIf="post.pictureUrl" src="{{post.pictureUrl}}" />
     <!-- Iteration through all comments for the post -->
     <div *ngIf='post.comments!=undefined' class="social-footer">
