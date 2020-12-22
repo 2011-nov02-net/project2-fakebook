@@ -21,7 +21,7 @@ describe('NewPostFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [HttpClientTestingModule, RouterTestingModule],
       
 
       declarations: [ NewPostFormComponent ],
