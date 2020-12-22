@@ -4,6 +4,7 @@ import { Post } from 'src/app/model/post';
 import { User } from 'src/app/model/user';
 import { UserService } from '../../service/user.service';
 import { FollowService } from '../../service/follow.service';
+import { PostService } from '../../service/post.service';
 
 @Component({
   selector: 'app-user-profile-view',
@@ -14,10 +15,11 @@ import { FollowService } from '../../service/follow.service';
 export class UserProfileViewComponent implements OnInit {
   user: User | undefined;
   selfUser: User | undefined;
-  posts: Post[] | undefined;
+  posts: Post[] =[];
   followStatus: boolean = false;
 
   constructor(
+    private postService: PostService,
     private userService: UserService,
     private followService: FollowService,
     private route: ActivatedRoute // getting the id # in route
@@ -70,4 +72,12 @@ export class UserProfileViewComponent implements OnInit {
       }
     }
   }
+  ///
+  onNotifyComment(postId : any) {
+        this.postService.getById(postId) // find the post
+          .subscribe(res => { //listen to the post
+            let index = this.posts?.findIndex(post => post.id ==res.id) // find the index of the post
+            this.posts[index]=res; // get's the posts response
+          })
+      }
 }
