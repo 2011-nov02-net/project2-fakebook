@@ -34,12 +34,12 @@
                 </div>
             </div>
         </div>
-    <div class="panel col-md-8 mt-4">
+    <div *ngIf="selfUser" class="panel col-md-8 mt-4">
       <div class="container">
           <div class="col-md-12">
              <!-- Iterate through all posts -->
             <ul *ngFor="let item of posts">
-              <app-post-view [post]="item"></app-post-view>
+              <app-post-view [userid]="selfUser.id" [post]="item"></app-post-view>
             </ul>
           </div>
         </div>

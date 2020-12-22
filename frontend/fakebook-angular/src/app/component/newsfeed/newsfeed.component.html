@@ -10,12 +10,14 @@
         </li>
       </ul>
     </div>
-    <div class="col-md-6">
-      <app-new-post-form [user]="user"></app-new-post-form>
+   
+    <div class="col-md-6"  *ngIf="user">
+      <app-new-post-form [user]="user" ></app-new-post-form>
       <!-- Iterate through all posts -->
-      <ul *ngFor="let item of posts">
-        <app-post-view [post]="item"></app-post-view>
-      </ul>
+      <div *ngFor="let item of posts">
+        <app-post-view [post]="item" [userid]="user.id"></app-post-view>
+      </div>
+      </div>
     </div>
     <div class="col-md-3">
       <h3>Friends: </h3>
@@ -35,7 +37,6 @@
               </div>
             </div>
           </div>
-        </div>
       </div>
     </div>
   </div>

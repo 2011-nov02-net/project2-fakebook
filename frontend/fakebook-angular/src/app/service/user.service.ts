@@ -4,13 +4,14 @@ import { User } from '../model/user';
 import { Observable } from 'rxjs';
 import { Post } from '../model/post';
 import { OktaAuthService } from '@okta/okta-angular';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
   constructor(private http: HttpClient, private oktaAuth: OktaAuthService) { }
-  url = 'https://2011-project2-fakebook.azurewebsites.net/api/'; // url of the api
+  url = `${environment.baseUrl}/api/`; // url of the api
 
   login(email: string, password: string): void {
 

@@ -10,7 +10,7 @@ import { FnParam } from '@angular/compiler/src/output/output_ast';
 })
 export class FollowService {
   constructor(private http: HttpClient, private oktaAuth: OktaAuthService) { }
-  url = `https://2011-project2-fakebook.azurewebsites.net/api`;
+  url = `${environment.baseUrl}/api`;
 
   follow(follower: User, followee: User): any {
     const accessToken = this.oktaAuth.getAccessToken();
