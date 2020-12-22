@@ -16,6 +16,7 @@ export class SearchViewComponent implements OnInit {
   ngOnInit(): void {
     this.getUser();
   }
+  // reroutes the profile button on any view to the user page
   ProfileSubmit(id: number)
   {
     this.router.navigateByUrl( `user/${id}`)
