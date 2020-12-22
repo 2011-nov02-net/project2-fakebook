@@ -3,9 +3,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NewsfeedService } from '../../service/newsfeed.service';
 import { UserService } from '../../service/user.service';
 import { LikeService } from '../../service/like.service';
+import { PostService } from '../../service/post.service';
 import { Post } from '../../model/post';
 import { User } from 'src/app/model/user';
-import { newPost } from 'src/app/model/newpost';
 import { trigger, transition, style, animate, query, stagger, state } from '@angular/animations';
 
 @Component({
@@ -47,6 +47,7 @@ export class NewsfeedComponent implements OnInit  {
     private likeService: LikeService,
     private router: Router,
     private userService: UserService,
+    private postService: PostService,
     private route: ActivatedRoute,
     private newsfeedService: NewsfeedService
   ) {}
@@ -66,14 +67,12 @@ export class NewsfeedComponent implements OnInit  {
   }
 
   onNotifyClicked(valueEmitted: any){
-    console.log("valueEmitted");
     this.newsfeedService.getPosts(null)
       .subscribe(posts => this.posts = posts)
   }
 
   onNotifyComment(valueEmitted: any){
-    console.log("valueEmitted");
-    this.newsfeedService.getPosts(null)
-      .subscribe(posts => this.posts = posts)
+    console.log(valueEmitted);
+    this.postService.getById(valueEmitted).subscribe(res => this.posts.find(post => post.id == res.id) == res);
   }
 }

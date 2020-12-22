@@ -14,7 +14,7 @@ export class CommentFormComponent implements OnInit {
   
   comment: CommentFormData = { content: '', postId: -1, parentCommentId: undefined };
 
-  @Output() notifyComment: EventEmitter<string> = new EventEmitter<string>();
+  @Output() notifyComment: EventEmitter<number> = new EventEmitter<number>();
 
   constructor(
     private commentService: CommentService,
@@ -51,7 +51,7 @@ export class CommentFormComponent implements OnInit {
       user: undefined,
       createdAt: undefined,
       childCommentIds: []
-    }).then(res => { return this.notifyComment.emit("Comment was made")});
+    }).then(res => { return this.notifyComment.emit(this.postId)});
 
     this.comment.content = '';
   }

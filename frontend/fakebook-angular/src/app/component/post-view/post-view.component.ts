@@ -49,6 +49,6 @@ export class PostViewComponent implements OnInit {
   }
 
   onNotifyComment(valueEmitted: any){
-    this.notifyComment.emit("Comment was made");
+    this.notifyComment.emit(valueEmitted);
   }
 }
