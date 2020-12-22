@@ -26,18 +26,6 @@ export class PostService {
     return this.http.get<Post>(`${this.url}/${id}`);
   }
 
-  getPosts(count: number): Post[] {
-    return [];
-  }
-
-  getPostsByUserId(userId: number): Post[] {
-    return [];
-  }
-
-  update(post: Post): boolean {
-    return false;
-  }
-
   delete(postId: number): Promise<number> {
     const accessToken = this.oktaAuth.getAccessToken();
     const headers = {
