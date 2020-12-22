@@ -7,8 +7,8 @@ namespace Fakebook.DataAccess.Model
         public FollowEntity() { }
         public FollowEntity(int id, int userId)
         {
-            FollowerId = id;
-            FolloweeId = userId;
+            FolloweeId = id;
+            FollowerId = userId;
         }
         public int FollowerId { get; set; }
         public UserEntity Follower { get; set; }

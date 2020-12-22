@@ -125,8 +125,7 @@ namespace Fakebook.RestApi.Controllers
         {
             var user = await _userRepo.GetUserByIdAsync(id);
             var email = User.FindFirst(ct => ct.Type.Contains("nameidentifier")).Value;
-            if (email == user.Email)
-            {
+            if (email.ToLower() == user.Email.ToLower()) {
                 await _userRepo.DeleteUserAsync(id);
                 return Ok();
             } else {
@@ -147,8 +146,7 @@ namespace Fakebook.RestApi.Controllers
             var user = await _userRepo.GetUserByIdAsync(apiModel.Id);
             var email = User.FindFirst(ct => ct.Type.Contains("nameidentifier")).Value;
             // if the id is null switch to bad request
-            if (email == user.Email)
-            {
+            if (email.ToLower() == user.Email.ToLower()) {
                 try {
                     if (id == -1) {
                         throw new ArgumentException("id cannot be -1");

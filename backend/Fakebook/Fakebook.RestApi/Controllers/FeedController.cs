@@ -32,7 +32,7 @@ namespace Fakebook.RestApi.Controllers
             try {
                 var user = await _userRepo.GetUserByIdAsync(id);
                 var email = User.FindFirst(ct => ct.Type.Contains("nameidentifier")).Value;
-                if (email == user.Email) {
+                if (email.ToLower() == user.Email.ToLower()) {
                     var posts = await _postRepo.GetFollowingPosts(id);
                     return Ok(posts.Select(p => ApiModelConverter.ToPostApiModel(p)));
                 } else {

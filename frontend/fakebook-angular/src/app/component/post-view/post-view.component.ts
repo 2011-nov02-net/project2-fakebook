@@ -4,18 +4,26 @@ import { AuthService } from 'src/app/service/auth.service';
 import { LikeService } from 'src/app/service/like.service';
 import { Post } from '../../model/post';
 import { Comment } from 'src/app/model/comment';
+import { PostService } from 'src/app/service/post.service';
 
 @Component({
   selector: 'app-post-view',
   templateUrl: './post-view.component.html',
-  styleUrls: ['./post-view.component.css']
+  styleUrls: ['./post-view.component.css'],
 })
 export class PostViewComponent implements OnInit {
   @Input() post: Post | null = null;
-  @Input() userid: number=0;
-  constructor(private route: ActivatedRoute) { }
+  @Input() userid: number = 0;
 
-  ngOnInit(): void { this.userLiked()}
+  constructor(
+    private route: ActivatedRoute,
+    private postService: PostService
+  ) {
+  }
+
+  ngOnInit(): void {
+    this.userLiked();
+  }
 
   getUserId(): number {
     let id = -1;
@@ -28,10 +36,13 @@ export class PostViewComponent implements OnInit {
     return id;
   }
 
+  deletePost(post: Post) {
+    this.postService.delete(post.id);
+  }
+
   userLiked() {
     if (this.post) {
-      console.log(this.userid)
-        this.post.liked = this.post.likedByUserIds.includes(this.userid) // assigns bool value for if liked
-      }
+      this.post.liked = this.post.likedByUserIds.includes(this.userid); // assigns bool value for if liked
+    }
   }
 }

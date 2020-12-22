@@ -28,6 +28,11 @@ namespace Fakebook.RestApi.Controllers
         [Authorize]
         public async Task<IActionResult> Post(CommentApiModel apiModel) {
             try {
+                var email = User.FindFirst(ct => ct.Type.Contains("nameidentifier")).Value;
+                var user = await _userRepo.GetUserByEmailAsync(email);
+
+                apiModel.User = ApiModelConverter.ToUserApiModel(user);
+
                 Comment comment = ApiModelConverter.ToComment(_commentRepo, _userRepo, _postRepo, apiModel);
 
                 int result = await _commentRepo.CreateAsync(comment);

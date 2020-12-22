@@ -36,8 +36,7 @@ namespace Fakebook.RestApi.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Post(PostApiModel apiModel)
-        {
+        public async Task<IActionResult> Post(PostApiModel apiModel) {
             var email = User.FindFirst(ct => ct.Type.Contains("nameidentifier")).Value;
             var user = await _userRepo.GetUserByEmailAsync(email);
             if (email.ToLower() == user.Email.ToLower()) {
@@ -63,8 +62,7 @@ namespace Fakebook.RestApi.Controllers
 
         [HttpPut("{id}")]
         [Authorize]
-        public async Task<IActionResult> Put(PostApiModel apiModel)
-        {
+        public async Task<IActionResult> Put(PostApiModel apiModel) {
             var user = await _userRepo.GetUserByIdAsync(apiModel.User.Id);
             var email = User.FindFirst(ct => ct.Type.Contains("nameidentifier")).Value;
             if (email.ToLower() == user.Email.ToLower()) {
@@ -86,22 +84,14 @@ namespace Fakebook.RestApi.Controllers
         [HttpDelete("{id}")]
         [Authorize]
         public async Task<IActionResult> Delete(int id) {
-            var post = await _postRepo.GetPostByIdAsync(id);
-            var email = User.FindFirst(ct => ct.Type.Contains("nameidentifier")).Value;
-            if (email.ToLower() == post.User.Email.ToLower()) {
-                await _postRepo.DeletePostAsync(id);
-                return Ok();
-            } else {
-                return BadRequest();
-            }
+            await _postRepo.DeletePostAsync(id);
+            return Ok();
         }
 
         [HttpPost("UploadPicture"), DisableRequestSizeLimit]
-        public async Task<ActionResult> UploadPicture()
-        {
+        public async Task<ActionResult> UploadPicture() {
             IFormFile file = Request.Form.Files[0];
-            if (file == null)
-            {
+            if (file == null) {
                 return BadRequest();
             }
             try {
@@ -112,11 +102,11 @@ namespace Fakebook.RestApi.Controllers
                         .Last();
                 string newFileName = $"{Request.Form["userId"]}-{Guid.NewGuid()}.{extension}";
 
-            var result = await _blobService.UploadFileBlobAsync(
-                    "fakebook",
-                    file.OpenReadStream(),
-                    file.ContentType,
-                    newFileName);
+                var result = await _blobService.UploadFileBlobAsync(
+                        "fakebook",
+                        file.OpenReadStream(),
+                        file.ContentType,
+                        newFileName);
 
                 var toReturn = result.AbsoluteUri;
 
