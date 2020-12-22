@@ -44,10 +44,9 @@ namespace Fakebook.RestApi.Model
             apiModel.Content.EnforceNoSpecialCharacters(nameof(apiModel.Content));
 
             // if status is not null, filter out any non-file allowed characters
-            if (apiModel.PictureUrl is not null) {
+            if (!apiModel.PictureUrl.IsNullOrEmpty()) {
                 apiModel.PictureUrl.EnforceNoSpecialCharacters(nameof(apiModel.PictureUrl));
             }
-
             var user = userRepo.GetUserByIdAsync(apiModel.User.Id).Result;
             List<Comment> comments = null;
             List<User> likedByUsers = null;

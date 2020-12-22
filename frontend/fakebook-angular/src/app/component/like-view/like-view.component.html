@@ -1,11 +1,6 @@
 <div class=''>
-  <p class='ml-4 mt-5 d-inline '>{{ count }}</p>
-
-  <button
-  
-    (click)='submit(liked)' 
-    class="btn  btn-outline-light d-inline ">
-    <div *ngIf='liked' class="text-primary" ><i class="far fa-thumbs-up"></i>liked</div>
-    <div *ngIf='!liked' class="text-muted" ><i class=" far fa-thumbs-up"></i>like</div>
+  <button (click)='submit(liked)' class="btn btn-outline-light d-inline">
+    <div *ngIf='liked' class="text-primary" >{{count}} <i class="far fa-thumbs-up"></i> liked</div>
+    <div *ngIf='!liked' class="text-muted" >{{count}} <i class=" far fa-thumbs-up"></i> like</div>
   </button>
 </div>
