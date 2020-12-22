@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class UploadService {
@@ -7,7 +8,7 @@ export class UploadService {
 
   upload(formData: FormData) {
     return this.http.post<{ path: string }>(
-      'https://2011-project2-fakebook.azurewebsites.net/api/Posts/UploadPicture',
+      `${environment.baseUrl}/api/Posts/UploadPicture`,
       formData
     ).toPromise();
   }
