@@ -80,8 +80,9 @@ namespace Fakebook.Domain.Repository
 
             try {
 
-                var posts = entity.Select(e => DbEntityConverter.ToPost(e)).ToList();
+                var posts = entity.Select(e => DbEntityConverter.ToPost(e)).Reverse().ToList();
                 return posts;
+
             } catch(Exception ex) {
                 Console.WriteLine(ex.Message);
                 throw;
