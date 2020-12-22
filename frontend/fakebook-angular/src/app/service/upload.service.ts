@@ -9,6 +9,6 @@ export class UploadService {
     return this.http.post<{ path: string }>(
       'https://2011-project2-fakebook.azurewebsites.net/api/Posts/UploadPicture',
       formData
-    );
+    ).toPromise();
   }
 }
