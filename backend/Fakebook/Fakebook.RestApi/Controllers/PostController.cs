@@ -105,13 +105,18 @@ namespace Fakebook.RestApi.Controllers
                 return BadRequest();
             }
             try {
+                // generate a random guid from the file name
+                string extension = file
+                    .FileName
+                        .Split('.')
+                        .Last();
+                string newFileName = $"{Request.Form["userId"]}-{Guid.NewGuid()}.{extension}";
 
             var result = await _blobService.UploadFileBlobAsync(
                     "fakebook",
                     file.OpenReadStream(),
                     file.ContentType,
-                    file.FileName);
-
+                    newFileName);
 
                 var toReturn = result.AbsoluteUri;
 
