@@ -21,14 +21,21 @@ namespace Fakebook.RestApi.Model
                 .Select(u => u.Id)
                 .ToList();
 
+            var comments = post.Comments
+                .Select(c => {
+                    c.Post = post;
+                    return ToCommentApiModel(c);
+                })
+                .ToList();
+
             return new PostApiModel
             {
                 Id = post.Id,
                 Content = post.Content,
                 CreatedAt = post.CreatedAt,
                 PictureUrl = post.Picture,
-                User = ApiModelConverter.ToUserApiModel(post.User),
-                CommentIds = commentIds,
+                User = ToUserApiModel(post.User),
+                Comments = comments,
                 LikedByUserIds = likedByUserIds
             };
         }
@@ -37,16 +44,20 @@ namespace Fakebook.RestApi.Model
             apiModel.Content.EnforceNoSpecialCharacters(nameof(apiModel.Content));
 
             // if status is not null, filter out any non-file allowed characters
-            if (apiModel.PictureUrl is not null) {
+            if (!apiModel.PictureUrl.IsNullOrEmpty()) {
                 apiModel.PictureUrl.EnforceNoSpecialCharacters(nameof(apiModel.PictureUrl));
             }
-
             var user = userRepo.GetUserByIdAsync(apiModel.User.Id).Result;
             List<Comment> comments = null;
             List<User> likedByUsers = null;
 
-            if(apiModel.CommentIds is not null && apiModel.CommentIds.Any()) {
-                comments = commentRepo.GetCommentsByIdsAsync(apiModel.CommentIds)
+            if(apiModel.Comments is not null && apiModel.Comments.Any()) {
+                var commentIds = apiModel
+                    .Comments
+                        .Select(c => c.Id)
+                        .ToList();
+
+                comments = commentRepo.GetCommentsByIdsAsync(commentIds)
                     .Result
                     .ToList();
             }
@@ -149,11 +160,29 @@ namespace Fakebook.RestApi.Model
             };
         }
 
+        public static CommentApiModel ToCommentApiModel(Comment comment) {
+
+            var childCommentIds = comment.ChildrenComments
+                    .Select(c => c.Id)
+                    .ToList();
+
+            return new CommentApiModel
+            {
+                Id = comment.Id,
+                Content = comment.Content,
+                CreatedAt = comment.CreatedAt,
+                PostId = comment.Post.Id,
+                User = ToUserApiModel(comment.User),
+                ParentCommentId = comment.ParentComment?.Id,
+                ChildCommentIds = childCommentIds
+            };
+        }
+
         public static Comment ToComment(ICommentRepo commentRepo, IUserRepo userRepo, IPostRepo postRepo, CommentApiModel apiModel) {
             // no special characters are allowed
             apiModel.Content.EnforceNoSpecialCharacters(nameof(apiModel.Content));
 
-            var user = userRepo.GetUserByIdAsync(apiModel.UserId)
+            var user = userRepo.GetUserByIdAsync(apiModel.User.Id)
                 .Result;
 
             user.NullCheck(nameof(user));
