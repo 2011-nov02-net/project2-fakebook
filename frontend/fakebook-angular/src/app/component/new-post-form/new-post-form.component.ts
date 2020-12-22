@@ -67,13 +67,13 @@ export class NewPostFormComponent implements OnInit {
     return this.user?.id;
   }
 
-  save(): Promise<{ path: string }> | null{
-    if (this.file) {
+  save(): Promise<{ path: string, userId: number }> | null {
+    if (this.file && this.user) {
       const formData = new FormData();
 
       formData.append(this.file.name, this.file);
-      return this.uploadService
-        .upload(formData);
+      formData.append('userId', `${this.user.id}`);
+      return this.uploadService.upload(formData);
     }
 
     return null;
