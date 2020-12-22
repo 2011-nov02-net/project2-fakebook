@@ -104,7 +104,7 @@ namespace Fakebook.RestApi.Controllers
             }
 
             var result = await _blobService.UploadFileBlobAsync(
-                    "Fakebook",
+                    "fakebook",
                     file.OpenReadStream(),
                     file.ContentType,
                     file.FileName);
