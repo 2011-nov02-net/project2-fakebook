@@ -140,7 +140,14 @@ namespace Fakebook.Domain.Repository
             try
             {
                 var entity = await _context.PostEntities.FindAsync(id);
+
+                var comments = await _context.CommentEntities
+                    .Where(c => c.PostId == entity.Id)
+                    .ToListAsync();
+
                 _context.PostEntities.Remove(entity);
+                _context.CommentEntities.RemoveRange(comments);
+
                 await _context.SaveChangesAsync();
                 return true;
             }
