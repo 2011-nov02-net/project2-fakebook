@@ -1,12 +1,9 @@
-import { Component, Injectable, Input, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { User } from 'src/app/model/user';
 import { UserService } from 'src/app/service/user.service';
 import { newPost } from '../../model/newpost';
 import { PostService } from '../../service/post.service';
-import { NewsfeedComponent } from '../newsfeed/newsfeed.component';
-import { inject } from '@angular/core/testing';
 import { UploadService } from '../../service/upload.service';
 
 @Component({
@@ -19,15 +16,16 @@ export class NewPostFormComponent implements OnInit {
   submitted = false;
   file: File | null = null;
   imageSource = '';
+  
+  @Input() user: User | null = null;
 
   constructor(
     private uploadService: UploadService,
     private httpPost: PostService,
-    private route: ActivatedRoute,
+    private router: Router,
     private userService: UserService
   ) {}
 
-  @Input() user: User | null = null;
   ngOnInit(): void {
     //this.getUser();
   }
@@ -43,9 +41,6 @@ export class NewPostFormComponent implements OnInit {
           this.newPost.pictureUrl = res.path;
           this.newPost.userId = this.user?.id;
           this.submitted = true;
-          
-          console.log(this.newPost);
-
           this.httpPost.create(this.newPost);
           this.newPost.content = '';
         });
@@ -55,6 +50,8 @@ export class NewPostFormComponent implements OnInit {
       this.submitted = true;
       this.httpPost.create(this.newPost);
     }
+
+    this.router.navigateByUrl('newsfeed/refresh');
   }
 
   getUser() {
