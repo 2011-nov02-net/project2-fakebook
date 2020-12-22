@@ -15,6 +15,7 @@
           </div>
       </div>
     </div> 
+    <img src="{{post.pictureUrl}}" class="img-fluid">
     <div class="p-2">
       <p class="text-justify">{{post.content}}</p>
       <hr>
@@ -22,19 +23,19 @@
         <app-like-view [liked]='post.liked' [postId]='post.id' [count]='post.likedByUserIds.length'></app-like-view>
       </div>
       <hr>
-    </div>  <app-comment-form [postId]='post.id'></app-comment-form>
+    </div>
+    <app-comment-form [postId]='post.id'></app-comment-form>
+
   </div>
-  <div *ngIf='post.comments!=undefined' class="social-footer">
-  <div class="social-body">
-    <p>
-      {{post.content}}
-    </p>
-    <img *ngIf="post.pictureUrl" src="{{post.pictureUrl}}" />
-    <!-- Iteration through all comments for the post -->
-    <div *ngIf='post.comments!=undefined' class="social-footer">
-      <ul *ngFor="let comment of post.comments">
-        <app-comment-view [comment]='comment'></app-comment-view>
-      </ul>
+  <div *ngIf='post.comments!=undefined'>
+    <div class="social-body">
+      <!-- Iteration through all comments for the post -->
+      <div *ngIf='post.comments!=undefined'>
+        <ul *ngFor="let comment of post.comments">
+          <app-comment-view [comment]='comment'></app-comment-view>
+        </ul>
+      </div>
     </div>
   </div>
+
 </div>
