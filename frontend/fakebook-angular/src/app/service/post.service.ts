@@ -47,7 +47,6 @@ export class PostService {
 
     return this.http.delete<number>(
       `${this.url}/${postId}`, { headers }
-    )
-      .toPromise();
+    ).toPromise();
   }
 }

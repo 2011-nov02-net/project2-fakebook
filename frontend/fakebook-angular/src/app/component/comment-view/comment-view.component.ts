@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AuthService } from 'src/app/service/auth.service';
 import { Comment } from 'src/app/model/comment';
+import { CommentService } from 'src/app/service/comment.service';
 
 @Component({
   selector: 'app-comment-view',
@@ -8,18 +8,15 @@ import { Comment } from 'src/app/model/comment';
   styleUrls: ['./comment-view.component.css']
 })
 export class CommentViewComponent implements OnInit {
-  userOwnsComment: boolean;
-
   user = {
     profilePictureUrl: '',
     fullname: ''
   };
 
   @Input() comment: Comment | null = null;
+  @Input() currentUserId!: number;
 
-  constructor(private authService: AuthService) {
-    this.userOwnsComment = false;
-  }
+  constructor(private commentService: CommentService) { }
 
   ngOnInit(): void { 
     if(this.comment && this.comment.user) {
@@ -29,6 +26,12 @@ export class CommentViewComponent implements OnInit {
       }
 
       this.user.fullname = this.comment.user.firstName + " " + this.comment.user.lastName;
+    }
+  }
+
+  deleteComment(comment: Comment) {
+    if(this.comment && this.comment.id !== undefined) {
+      this.commentService.delete(this.comment);
     }
   }
 }
