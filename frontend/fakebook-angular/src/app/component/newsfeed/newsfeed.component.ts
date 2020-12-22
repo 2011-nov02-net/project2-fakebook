@@ -73,6 +73,10 @@ export class NewsfeedComponent implements OnInit  {
 
   onNotifyComment(valueEmitted: any){
     console.log(valueEmitted);
-    this.postService.getById(valueEmitted).subscribe(res => this.posts.find(post => post.id == res.id) == res);
+    this.postService.getById(valueEmitted)
+      .subscribe(res => {
+        let index = this.posts.findIndex(post => post.id === res.id);
+        this.posts[index] = res;
+      })
   }
 }
