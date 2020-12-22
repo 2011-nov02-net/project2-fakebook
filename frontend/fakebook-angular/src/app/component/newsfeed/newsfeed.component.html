@@ -1,14 +1,14 @@
 <div class="container-fluid">
   <div class="row mt-4">
-    <div class="col-md-3 mt-2">
-      <ul>
+    <div class="col-md-2 mt-2">
+      <!-- <ul>
         <li>
           Newsfeed
         </li>
         <li>
           Profile
         </li>
-      </ul>
+      </ul> -->
     </div>
    
     <div class="col-md-6"  *ngIf="user">
@@ -18,8 +18,8 @@
         <app-post-view [post]="item" [userid]="user.id"></app-post-view>
       </div>
       </div>
-    </div>
-    <div class="col-md-3">
+
+    <div class="col-md-2">
       <h3>Friends: </h3>
 
       <div class="" *ngIf="user">
@@ -37,6 +37,7 @@
               </div>
             </div>
           </div>
+        </div>
       </div>
     </div>
   </div>
