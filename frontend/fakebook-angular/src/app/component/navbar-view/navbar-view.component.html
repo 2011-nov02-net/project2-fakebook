@@ -16,7 +16,7 @@
         </ul>
         <form class="form-inline my-2 my-md-0" (submit)="onSubmit()">
           <input class="form-control" type="text" placeholder="Search" aria-label="Search" [formControl]="searchName">
-          <input type="submit" class=" btn btn-primary btn-sm " value="Search">
+          <input id="search-button" type="submit" class="btn btn-primary btn-sm " value="Search">
         </form>
         <button class="ml-3 btn btn-outline-info" *ngIf="!isAuthenticated" (click)="login()">Login</button>
         <button class="ml-3 btn btn-outline-info" *ngIf="isAuthenticated" (click)="logout()">Logout</button>

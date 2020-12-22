@@ -1,6 +1,6 @@
 <div class="container-fluid">
-  <div class="row mt-4">
-    <div class="col-md-3 mt-2">
+  <div class="row mt-4 justify-content-center">
+    <!-- <div class="col-md-3">
       <ul>
         <li>
           Newsfeed
@@ -9,17 +9,17 @@
           Profile
         </li>
       </ul>
-    </div>
+    </div> -->
    
-    <div class="col-md-6"  *ngIf="user">
+    <div class="col-md-5"  *ngIf="user">
       <app-new-post-form [user]="user" ></app-new-post-form>
       <!-- Iterate through all posts -->
       <div *ngFor="let item of posts">
         <app-post-view [post]="item" [userid]="user.id"></app-post-view>
       </div>
       </div>
-    </div>
-    <div class="col-md-3">
+
+    <div class="col-md-2">
       <h3>Friends: </h3>
 
       <div class="" *ngIf="user">
@@ -37,6 +37,7 @@
               </div>
             </div>
           </div>
+        </div>
       </div>
     </div>
   </div>
