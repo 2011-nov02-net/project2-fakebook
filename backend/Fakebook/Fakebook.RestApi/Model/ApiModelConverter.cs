@@ -173,7 +173,7 @@ namespace Fakebook.RestApi.Model
                 Content = comment.Content,
                 CreatedAt = comment.CreatedAt,
                 PostId = comment.Post.Id,
-                UserId = comment.User.Id,
+                User = ToUserApiModel(comment.User),
                 ParentCommentId = comment.ParentComment?.Id,
                 ChildCommentIds = childCommentIds
             };
@@ -183,7 +183,7 @@ namespace Fakebook.RestApi.Model
             // no special characters are allowed
             apiModel.Content.EnforceNoSpecialCharacters(nameof(apiModel.Content));
 
-            var user = userRepo.GetUserByIdAsync(apiModel.UserId)
+            var user = userRepo.GetUserByIdAsync(apiModel.User.Id)
                 .Result;
 
             user.NullCheck(nameof(user));
