@@ -21,7 +21,7 @@
 
       <app-new-post-form [user]="user" ></app-new-post-form>
       <!-- Iterate through all posts -->
-      <div *ngFor="let item of posts">
+      <div *ngFor="let item of posts"  [@simpleFadeAnimation]="'in'">
         <app-post-view [post]="item" [userid]="user.id"></app-post-view>
       </div>
       </div>
