@@ -25,11 +25,12 @@ export class LikeViewComponent implements OnInit {
   submit(liked: boolean): void {
     if(liked) {
       this.likeService.unlike(this.postId);
-      this.liked = liked;
+      this.liked = !liked;
       this.count--;
-    } else {
+    } 
+    else {
       this.likeService.like(this.postId);
-      this.liked = liked;
+      this.liked = !liked;
       this.count++;
     }
   }

@@ -10,4 +10,6 @@ export interface Post {
   likedByUserIds: number[];
   commentIds: number[];
   comments: Comment[];
+  liked: boolean | false;
+
 }
