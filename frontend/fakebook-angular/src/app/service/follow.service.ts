@@ -19,8 +19,7 @@ export class FollowService {
       Accept: 'application/json',
       'Content-Type': 'application/json'
     };
-    console.log(followee.firstName)
-    return this.http.post(`${this.url}/User/${follower.id}/follow/${followee.id}`, null, { headers })
+    return this.http.post(`${this.url}/User/${followee.id}/follow/${follower.id}`, null, { headers })
       .toPromise();
   }
 
@@ -29,8 +28,9 @@ export class FollowService {
     const headers = {
       Authorization: 'Bearer ' + accessToken,
       Accept: 'application/json',
+      'Content-Type': 'application/json'
     };
-    return this.http.post(`${this.url}/User/${follower.id}/unfollow/${followee.id}`, null, { headers })
+    return this.http.post(`${this.url}/User/${followee.id}/unfollow/${follower.id}`, null, { headers })
       .toPromise().then(res => console.log(JSON.stringify(res)));
   }
 
