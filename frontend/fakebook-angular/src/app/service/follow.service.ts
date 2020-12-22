@@ -6,10 +6,10 @@ import { OktaAuthService } from '@okta/okta-angular';
 import { FnParam } from '@angular/compiler/src/output/output_ast';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class FollowService {
-  constructor(private http: HttpClient, private oktaAuth: OktaAuthService) { }
+  constructor(private http: HttpClient, private oktaAuth: OktaAuthService) {}
   url = `${environment.baseUrl}/api`;
 
   follow(follower: User, followee: User): any {
@@ -17,7 +17,7 @@ export class FollowService {
     const headers = {
       Authorization: 'Bearer ' + accessToken,
       Accept: 'application/json',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     };
     return this.http.post(`${this.url}/User/${followee.id}/follow/${follower.id}`, null, { headers })
       .toPromise();
@@ -35,6 +35,6 @@ export class FollowService {
   }
 
   getFollowStatus(follower: User, followee: User): boolean {
-    return followee.followers.some(user => user.id == follower.id);
+    return followee.followers.some((user) => user.id == follower.id);
   }
 }

@@ -13,6 +13,6 @@ namespace Fakebook.RestApi.Model
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public List<int> LikedByUserIds { get; set; }
-        public List<int> CommentIds { get; set; }
+        public List<CommentApiModel> Comments { get; set; }
     }
 }
