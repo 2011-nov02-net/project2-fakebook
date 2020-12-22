@@ -34,7 +34,7 @@ namespace Fakebook.RestApi
             string connectionString = Configuration["FakebookContext:ConnectionString"];
 
             services.AddDbContext<FakebookContext>(options => options.UseSqlServer(connectionString));
-            services.AddScoped(x => new BlobServiceClient(Configuration.GetValue<string>("AzureBlobStorage")));
+            services.AddScoped(x => new BlobServiceClient(Configuration.GetValue<string>("AzureBlobStorage:ConnectionString")));
 
             services.AddScoped<IBlobService, BlobService>();
             services.AddScoped<IUserRepo, UserRepo>();
