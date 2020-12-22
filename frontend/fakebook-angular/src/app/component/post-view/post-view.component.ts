@@ -37,6 +37,7 @@ export class PostViewComponent implements OnInit {
   }
 
   deletePost(post: Post) {
+    this.post=null;
     this.postService.delete(post.id);
   }
 
