@@ -13,12 +13,6 @@ export class UserService {
   constructor(private http: HttpClient, private oktaAuth: OktaAuthService) {}
   url = `${environment.baseUrl}/api/`; // url of the api
 
-  login(email: string, password: string): void {}
-
-  logout(): void {}
-
-  register(user: User): void {}
-
   getUser(id: string | undefined): Observable<User> {
     return this.http.get<User>(`${this.url}User/${id}`);
   }
