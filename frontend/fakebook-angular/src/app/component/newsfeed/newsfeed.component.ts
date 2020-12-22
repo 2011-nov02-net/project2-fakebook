@@ -32,7 +32,6 @@ export class NewsfeedComponent implements OnInit {
   getUser() {
       this.userService.getUserProfile() // gets the user 
           .subscribe(gotuser => this.user = gotuser)
-  
     
     this.newsfeedService.getPosts(null)
         .subscribe(posts => this.posts = posts)
@@ -41,6 +40,5 @@ export class NewsfeedComponent implements OnInit {
   onNotifyClicked(valueEmitted: any){
     console.log("valueEmitted");
     this.newsfeedService.getPosts(null)
-      .subscribe(posts => this.posts = posts)
   }
 }
