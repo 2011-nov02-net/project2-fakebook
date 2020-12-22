@@ -7,7 +7,7 @@ export class UploadService {
   constructor(private http: HttpClient) {}
 
   upload(formData: FormData) {
-    return this.http.post<{ path: string }>(
+    return this.http.post<{ path: string, userId: number }>(
       `${environment.baseUrl}/api/Posts/UploadPicture`,
       formData
     ).toPromise();
