@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
 import { AuthService } from '../../service/auth.service';
 import {UserService} from '../../service/user.service'
 import {Router} from '@angular/router'
@@ -13,7 +13,7 @@ import { FormControl } from '@angular/forms';
 export class NavbarViewComponent implements OnInit {
   isAuthenticated: boolean = false;
 
-  searchName = new FormControl('');
+  searchName: string = '';
   constructor(private oktaAuth: AuthService, private httpService: UserService, private router: Router) { }
 
   async ngOnInit() {
@@ -25,10 +25,11 @@ export class NavbarViewComponent implements OnInit {
   login() {
     this.oktaAuth.login();
   }
-  onSubmit() {
-    this.router.navigateByUrl(`search/${this.searchName.value}`, { skipLocationChange: false });
-  } 
   logout() {
     this.oktaAuth.logout();
+  }
+  onNotifySearch(name: any){
+    console.log(name)
+    this.router.navigate([`search/${name}`], { skipLocationChange: false })
   }
 }

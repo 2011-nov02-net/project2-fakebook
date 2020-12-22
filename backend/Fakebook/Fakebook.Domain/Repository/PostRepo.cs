@@ -145,7 +145,6 @@ namespace Fakebook.Domain.Repository
                 var comments = await _context.CommentEntities
                     .Where(c => c.PostId == entity.Id)
                     .ToListAsync();
-
                 var likes = await _context.LikeEntities
                     .Where(l => l.PostId == entity.Id)
                     .ToListAsync();

@@ -13,10 +13,8 @@
           <li>
             <a class="nav-link" *ngIf="isAuthenticated" routerLink="/newsfeed/">Newsfeed <span class="sr-only">(current)</span></a>
           </li>
+          <app-search-form (notifySearch)="onNotifySearch($event)"></app-search-form>
         </ul>
-        <form class="form-inline my-2 my-md-0" (submit)="onSubmit()">
-          <input class="form-control" type="text" placeholder="Search" aria-label="Search" [formControl]="searchName">
-        </form>
         <button class="ml-3 btn btn-outline-info" *ngIf="!isAuthenticated" (click)="login()">Login</button>
         <button class="ml-3 btn btn-outline-info" *ngIf="isAuthenticated" (click)="logout()">Logout</button>
       </div>

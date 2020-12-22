@@ -45,7 +45,7 @@ export class UserService {
     return this.http.get<Post[]>(`${this.url}User/Posts`, { headers });
   }
   
-  searchUser(name: string | null): Observable<User[]> {
-    return this.http.get<User[]>(`${this.url}User/search/${name}`);
+  searchUser(name: string | null): Promise<User[]> {
+    return this.http.get<User[]>(`${this.url}User/search/${name}`).toPromise();
   }
 }
