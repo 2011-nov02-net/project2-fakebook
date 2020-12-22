@@ -1,9 +1,7 @@
 import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
-import { Router } from '@angular/router';
 import { User } from 'src/app/model/user';
 import { UserService } from 'src/app/service/user.service';
 import { newPost } from '../../model/newpost';
-import { Post } from '../../model/post';
 import { PostService } from '../../service/post.service';
 import { UploadService } from '../../service/upload.service';
 
@@ -25,7 +23,6 @@ export class NewPostFormComponent implements OnInit {
   constructor(
     private uploadService: UploadService,
     private httpPost: PostService,
-    private router: Router,
     private userService: UserService
   ) {}
 
