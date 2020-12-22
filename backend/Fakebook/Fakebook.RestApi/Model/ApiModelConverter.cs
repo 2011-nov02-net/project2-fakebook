@@ -26,7 +26,7 @@ namespace Fakebook.RestApi.Model
                 Id = post.Id,
                 Content = post.Content,
                 CreatedAt = post.CreatedAt,
-                Picture = post.Picture,
+                PictureUrl = post.Picture,
                 User = ApiModelConverter.ToUserApiModel(post.User),
                 CommentIds = commentIds,
                 LikedByUserIds = likedByUserIds
@@ -37,8 +37,8 @@ namespace Fakebook.RestApi.Model
             apiModel.Content.EnforceNoSpecialCharacters(nameof(apiModel.Content));
 
             // if status is not null, filter out any non-file allowed characters
-            if (apiModel.Picture is not null) {
-                apiModel.Picture.EnforceNoSpecialCharacters(nameof(apiModel.Picture));
+            if (apiModel.PictureUrl is not null) {
+                apiModel.PictureUrl.EnforceNoSpecialCharacters(nameof(apiModel.PictureUrl));
             }
 
             var user = userRepo.GetUserByIdAsync(apiModel.User.Id).Result;
@@ -65,7 +65,7 @@ namespace Fakebook.RestApi.Model
                 Id = apiModel.Id,
                 Content = apiModel.Content,
                 CreatedAt = apiModel.CreatedAt,
-                Picture = apiModel.Picture,
+                Picture = apiModel.PictureUrl,
                 User = user,
                 LikedByUsers = likedByUsers,
                 Comments = comments
@@ -106,11 +106,6 @@ namespace Fakebook.RestApi.Model
             if(!apiModel.PhoneNumber.IsNullOrEmpty()) {
                 apiModel.PhoneNumber.EnforcePhoneNumberCharacters(nameof(apiModel.PhoneNumber));
             }
-
-            // must not be in future
-            // must also be within 18 years from today
-            var today = DateTime.Today;
-            var date = new DateTime(today.Year - 18, today.Month, today.Day);
             
             if (apiModel.Status is not null) {
                 apiModel.Status.EnforceNoSpecialCharacters(nameof(apiModel.Status));
