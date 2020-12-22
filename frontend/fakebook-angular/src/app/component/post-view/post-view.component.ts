@@ -49,6 +49,14 @@ export class PostViewComponent implements OnInit {
     }
   }
 
+  deleteComment(comment: Comment): void {
+    if(this.post) {
+      console.log(this.post);
+      let index = this.post.comments.indexOf(comment);
+      delete this.post.comments[index];
+    }
+  }
+
   onNotifyComment(valueEmitted: any){
     this.notifyComment.emit(valueEmitted);
   }
