@@ -37,7 +37,16 @@ export class PostService {
     return false;
   }
 
-  delete(postId: number): boolean {
-    return false;
+  delete(postId: number): Promise<number> {
+    const accessToken = this.oktaAuth.getAccessToken();
+    const headers = {
+      Authorization: 'Bearer ' + accessToken,
+      Accept: 'application/json',
+    };
+
+    return this.http.delete<number>(
+      `${this.url}/${postId}`, { headers }
+    )
+      .toPromise();
   }
 }
