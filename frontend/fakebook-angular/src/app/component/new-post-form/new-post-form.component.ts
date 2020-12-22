@@ -43,8 +43,6 @@ export class NewPostFormComponent implements OnInit {
           this.newPost.pictureUrl = res.path;
           this.newPost.userId = this.user?.id;
           this.submitted = true;
-          
-          console.log(this.newPost);
 
           this.httpPost.create(this.newPost);
           this.newPost.content = '';
