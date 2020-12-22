@@ -7,7 +7,7 @@ namespace Fakebook.RestApi.Model
     {
         public int Id { get; set; }
         public string Content { get; set; }
-        public string Picture { get; set; }
+        public string PictureUrl { get; set; }
         public DateTime CreatedAt { get; set; }
         public UserApiModel User { get; set; }
         public string FirstName { get; set; }
