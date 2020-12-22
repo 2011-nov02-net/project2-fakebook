@@ -56,7 +56,7 @@ namespace Fakebook.RestApi.Controllers
                 if (await _commentRepo.DeleteAsync(id)) {
                     return Ok();
                 } else {
-                    throw new ArgumentException("Could not create comment");
+                    throw new ArgumentException("Could not delete comment");
                 }
             } catch (ArgumentException ex) {
                 return BadRequest(ex.Message);
