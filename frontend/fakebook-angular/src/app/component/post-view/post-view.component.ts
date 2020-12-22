@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/service/auth.service';
 import { LikeService } from 'src/app/service/like.service';
@@ -14,6 +14,8 @@ import { PostService } from 'src/app/service/post.service';
 export class PostViewComponent implements OnInit {
   @Input() post: Post | null = null;
   @Input() userid: number = 0;
+
+  @Output() notifyComment: EventEmitter<string> = new EventEmitter<string>();
 
   constructor(
     private route: ActivatedRoute,
@@ -45,5 +47,9 @@ export class PostViewComponent implements OnInit {
     if (this.post) {
       this.post.liked = this.post.likedByUserIds.includes(this.userid); // assigns bool value for if liked
     }
+  }
+
+  onNotifyComment(valueEmitted: any){
+    this.notifyComment.emit(valueEmitted);
   }
 }

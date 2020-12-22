@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommentFormData } from 'src/app/model/comment-form-data';
 import { CommentService } from 'src/app/service/comment.service';
@@ -13,6 +13,8 @@ export class CommentFormComponent implements OnInit {
   @Input() parentCommentId: number | undefined;
   
   comment: CommentFormData = { content: '', postId: -1, parentCommentId: undefined };
+
+  @Output() notifyComment: EventEmitter<number> = new EventEmitter<number>();
 
   constructor(
     private commentService: CommentService,
@@ -49,9 +51,8 @@ export class CommentFormComponent implements OnInit {
       user: undefined,
       createdAt: undefined,
       childCommentIds: []
-    });
+    }).then(res => { return this.notifyComment.emit(this.postId)});
 
     this.comment.content = '';
-    this.router.navigateByUrl('newsfeed/refresh');
   }
 }

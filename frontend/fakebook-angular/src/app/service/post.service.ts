@@ -4,6 +4,7 @@ import { Post } from '../model/post';
 import { OktaAuthService } from '@okta/okta-angular';
 import { environment } from 'src/environments/environment';
 import { newPost } from '../model/newpost'
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -21,8 +22,8 @@ export class PostService {
     return this.http.post<newPost>(`${this.url}`, post, { headers }).toPromise();
   }
 
-  getById(id: number): Post | undefined {
-    return undefined;
+  getById(id: number): Observable<Post> {
+    return this.http.get<Post>(`${this.url}/${id}`);
   }
 
   getPosts(count: number): Post[] {

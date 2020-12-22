@@ -1,6 +1,5 @@
 import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
-// import { EventEmitter } from 'events';
 import { User } from 'src/app/model/user';
 import { UserService } from 'src/app/service/user.service';
 import { newPost } from '../../model/newpost';

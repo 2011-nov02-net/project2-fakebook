@@ -24,7 +24,7 @@
       </div>
       <hr>
     </div>
-    <app-comment-form [postId]='post.id'></app-comment-form>
+    <app-comment-form [postId]='post.id' (notifyComment)="onNotifyComment($event)"></app-comment-form>
 
   </div>
   <div *ngIf='post.comments!=undefined'>

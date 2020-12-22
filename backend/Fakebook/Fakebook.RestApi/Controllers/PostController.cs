@@ -33,6 +33,12 @@ namespace Fakebook.RestApi.Controllers
             var posts = await _postRepo.GetAllPostsAsync();
             return Ok(posts.Select(p => ApiModelConverter.ToPostApiModel(p)));
         }
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(int id)
+        {
+            var post = await _postRepo.GetPostByIdAsync(id);
+            return Ok(ApiModelConverter.ToPostApiModel(post));
+        }
 
         [Authorize]
         [HttpPost]
