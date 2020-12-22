@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommentFormData } from 'src/app/model/comment-form-data';
 import { CommentService } from 'src/app/service/comment.service';
 
@@ -16,6 +16,7 @@ export class CommentFormComponent implements OnInit {
 
   constructor(
     private commentService: CommentService,
+    private router: Router,
     private route: ActivatedRoute
   ) { }
 
