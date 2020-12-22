@@ -1,7 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { NgIf } from '@angular/common';
+import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
+import { ActivatedRoute, NavigationEnd, NavigationStart, Router, RoutesRecognized } from '@angular/router';
+import { Observable } from 'rxjs';
 import { User } from 'src/app/model/user';
 import { UserService } from 'src/app/service/user.service';
+import { filter } from 'rxjs/operators';
+
 
 @Component({
   selector: 'app-search-view',
@@ -10,12 +14,18 @@ import { UserService } from 'src/app/service/user.service';
 })
 export class SearchViewComponent implements OnInit {
   users : User[] | undefined; // our profile
+  currentRoute: string = '';
 
   constructor(private httpService : UserService, private route: ActivatedRoute, private router: Router) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.getUser();
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)).subscribe((res) => {
+        this.getUser();
+      });
   }
+  
   ProfileSubmit(id: number)
   {
     this.router.navigateByUrl( `user/${id}`)
@@ -27,9 +37,6 @@ export class SearchViewComponent implements OnInit {
     if(this.route.snapshot.paramMap.get('name')!=null)  {
       tempId += this.route.snapshot.paramMap.get('name')
     }
-    
-    this.httpService.searchUser(tempId)
-      .subscribe(user => this.users = user);
-    
+    this.httpService.searchUser(tempId).then(res => this.users = res);
   }
 }

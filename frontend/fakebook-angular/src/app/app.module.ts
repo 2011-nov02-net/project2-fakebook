@@ -24,6 +24,7 @@ import { NewPostFormComponent } from './component/new-post-form/new-post-form.co
 import { SearchViewComponent } from './component/search-view/search-view.component';
 import { MainViewComponent } from './component/main-view/main-view.component';
 import { CommentFormComponent } from './component/comment-form/comment-form.component';
+import { SearchFormComponent } from './component/search-form/search-form.component';
 
 const config = {
   issuer: 'https://dev-2137068.okta.com/oauth2/default',
@@ -52,7 +53,8 @@ const config = {
     CommentFormComponent,
     NewPostFormComponent,
     SearchViewComponent,
-    MainViewComponent
+    MainViewComponent,
+    SearchFormComponent
   ],
   imports: [
     BrowserModule,
