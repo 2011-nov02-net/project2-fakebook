@@ -40,7 +40,6 @@ namespace Fakebook.RestApi.Model
             if (!apiModel.PictureUrl.IsNullOrEmpty()) {
                 apiModel.PictureUrl.EnforceNoSpecialCharacters(nameof(apiModel.PictureUrl));
             }
-
             var user = userRepo.GetUserByIdAsync(apiModel.User.Id).Result;
             List<Comment> comments = null;
             List<User> likedByUsers = null;
