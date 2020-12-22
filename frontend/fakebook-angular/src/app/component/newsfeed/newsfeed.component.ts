@@ -10,30 +10,36 @@ import { User } from 'src/app/model/user';
   selector: 'app-newsfeed',
   providers: [UserService, NewsfeedService],
   templateUrl: './newsfeed.component.html',
-  styleUrls: ['./newsfeed.component.css']
+  styleUrls: ['./newsfeed.component.css'],
 })
 export class NewsfeedComponent implements OnInit {
   posts: Post[] | undefined;
-  user: User | null=null;
-  constructor(private likeService: LikeService, private router: Router, private userService: UserService, private route: ActivatedRoute, private newsfeedService: NewsfeedService) { }
+  user: User | null = null;
+  constructor(
+    private likeService: LikeService,
+    private router: Router,
+    private userService: UserService,
+    private route: ActivatedRoute,
+    private newsfeedService: NewsfeedService
+  ) {}
 
-  ngOnInit(){
+  ngOnInit() {
     this.getUser();
   }
 
- /* getPosts(int: string): void {
+  /* getPosts(int: string): void {
       this.posts = this.newsfeedService.getPosts(int)
   }*/
-  ProfileSubmit(id: number)
-  {
-    this.router.navigateByUrl( `user/${id}`)
+  ProfileSubmit(id: number) {
+    this.router.navigateByUrl(`user/${id}`);
   }
   getUser() {
-      this.userService.getUserProfile() // gets the user 
-          .subscribe(gotuser => this.user = gotuser)
-  
-    
-    this.newsfeedService.getPosts(null)
-        .subscribe(posts => this.posts = posts)
+    this.userService
+      .getUserProfile() // gets the user
+      .subscribe((gotuser) => (this.user = gotuser));
+
+    this.newsfeedService
+      .getPosts(null)
+      .subscribe((posts) => this.posts = posts);
   }
 }

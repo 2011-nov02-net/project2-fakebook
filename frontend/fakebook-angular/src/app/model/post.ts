@@ -11,5 +11,4 @@ export interface Post {
   commentIds: number[];
   comments: Comment[];
   liked: boolean | false;
-
 }
