@@ -12,9 +12,10 @@ import { Comment } from 'src/app/model/comment';
 })
 export class PostViewComponent implements OnInit {
   @Input() post: Post | null = null;
+  @Input() userid: number=0;
   constructor(private route: ActivatedRoute) { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void { this.userLiked()}
 
   getUserId(): number {
     let id = -1;
@@ -27,15 +28,10 @@ export class PostViewComponent implements OnInit {
     return id;
   }
 
-  userLiked(): boolean {
-    let userId = this.getUserId();
+  userLiked() {
     if (this.post) {
-      if(this.post.likedByUserIds) {
-        return this.post
-          .likedByUserIds
-          .includes(userId);
+      console.log(this.userid)
+        this.post.liked = this.post.likedByUserIds.includes(this.userid) // assigns bool value for if liked
       }
-    }
-    return false;
   }
 }
