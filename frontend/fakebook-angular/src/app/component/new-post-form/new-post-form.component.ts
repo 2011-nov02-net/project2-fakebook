@@ -50,8 +50,6 @@ export class NewPostFormComponent implements OnInit {
       this.submitted = true;
       this.httpPost.create(this.newPost);
     }
-
-    this.router.navigateByUrl('newsfeed/refresh');
   }
 
   getUser() {
