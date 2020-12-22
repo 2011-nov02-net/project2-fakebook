@@ -32,4 +32,19 @@ export class CommentService {
       )
       .toPromise();
   }
+
+  delete(comment: Comment): Promise<number> {
+    const accessToken = this.oktaAuth.getAccessToken();
+    const headers = {
+      Authorization: `Bearer ${accessToken}`,
+      Accept: 'application/json'
+    };
+
+    const targetUrl = `${this.url}${comment.id}/Comment`;
+
+    return this.http.delete<number>(
+      targetUrl,
+      { headers }
+    ).toPromise();
+  }
 }

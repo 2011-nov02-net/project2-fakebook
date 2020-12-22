@@ -25,14 +25,15 @@
       <hr>
     </div>
     <app-comment-form [postId]='post.id' (notifyComment)="onNotifyComment($event)"></app-comment-form>
-    <div *ngIf='post.comments!=undefined'>
-      <div class="social-body">
-        <!-- Iteration through all comments for the post -->
-        <div *ngIf='post.comments!=undefined'>
-          <div *ngFor="bg-light let comment of post.comments">
-            <app-comment-view [comment]='comment'></app-comment-view>
-          </div>
-        </div>
+
+  </div>
+  <div *ngIf='post.comments!=undefined'>
+    <div class="social-body">
+      <!-- Iteration through all comments for the post -->
+      <div *ngIf='post.comments!=undefined'>
+        <ul *ngFor="let comment of post.comments">
+          <app-comment-view (delete)='deleteComment($event)' [comment]='comment' [currentUserId]='userid'></app-comment-view>
+        </ul>
       </div>
     </div>
   </div>

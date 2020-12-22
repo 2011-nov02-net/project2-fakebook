@@ -146,8 +146,13 @@ namespace Fakebook.Domain.Repository
                     .Where(c => c.PostId == entity.Id)
                     .ToListAsync();
 
-                _context.PostEntities.Remove(entity);
+                var likes = await _context.LikeEntities
+                    .Where(l => l.PostId == entity.Id)
+                    .ToListAsync();
+
                 _context.CommentEntities.RemoveRange(comments);
+                _context.LikeEntities.RemoveRange(likes);
+                _context.PostEntities.Remove(entity);
 
                 await _context.SaveChangesAsync();
                 return true;
