@@ -29,9 +29,6 @@ export class ProfileEditComponent   {
     this.status.setValue(this.user.status);
 
   }
-  updateName() {
-    this.lastName.setValue('Nancy');
-  }
   submit() {
     this.user.firstName = this.firstName.value;
     this.user.lastName = this.lastName.value;

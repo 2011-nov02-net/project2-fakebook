@@ -4,39 +4,43 @@
   <!-- Box for making new comments responding to the post -->
   <div class="card mt-2 mb-2">
     <div class="d-flex justify-content-between p-2 px-3 ">
-      <div class="d-flex flex-row align-items-center "> <img src="{{post.user.profilePictureUrl}}" width="50" class="rounded-circle img-fluid">
+      <div class="d-flex mt-2 flex-row align-items-center flex-fill"> <img src="{{post.user.profilePictureUrl}}" width="50" class="rounded-circle img-fluid">
         <div class="d-flex flex-column ml-2"> 
           <a href="/user/{{post.user.id}}">
             <b>{{post.user.firstName}} {{post.user.lastName}}</b>
           </a> 
-          <small class="text-muted">{{post.createdAt | date:'medium'}}</small> </div>
-          <div *ngIf='post.user.id === userid'>
-            <button (click)='deletePost(post)' class='text-danger btn btn-white btn-xs'>X</button>
+          <small class="text-muted">{{post.createdAt | date:'medium'}}</small>
+        </div>
+          <div *ngIf='post.user.id === userid' class="d-flex ml-auto">
+            <button (click)='deletePost(post)' class='btn btn-outline-danger btn-xs'>delete post</button>
           </div>
       </div>
     </div> 
     <img src="{{post.pictureUrl}}" class="img-fluid">
     <div class="p-2">
-      <p class="text-justify">{{post.content}}</p>
+      <p class="ml-5  ">{{post.content}}</p>
       <hr>
       <div class="d-flex justify-content-between align-items-center">
         <app-like-view [liked]='post.liked' [postId]='post.id' [count]='post.likedByUserIds.length'></app-like-view>
       </div>
       <hr>
-    </div>
+      <div *ngIf='post.comments!=undefined'>
+        <div class="social-body">
+          <!-- Iteration through all comments for the post -->
+          <div *ngIf='post.comments!=undefined'>
+            <ul *ngFor="let comment of post.comments">
+                <app-comment-view (delete)='deleteComment($event)' [comment]='comment' [currentUserId]='userid'></app-comment-view>
+              <hr>
+            </ul>
+          </div>
+        </div>
+      </div>
     <app-comment-form [postId]='post.id' (notifyComment)="onNotifyComment($event)"></app-comment-form>
+      
+    </div>
 
   </div>
-  <div *ngIf='post.comments!=undefined'>
-    <div class="social-body">
-      <!-- Iteration through all comments for the post -->
-      <div *ngIf='post.comments!=undefined'>
-        <ul *ngFor="let comment of post.comments">
-          <app-comment-view (delete)='deleteComment($event)' [comment]='comment' [currentUserId]='userid'></app-comment-view>
-        </ul>
-      </div>
-    </div>
-  </div>
+
 
 
 </div>
