@@ -1,7 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Post } from 'src/app/model/post';
-import { AuthService } from 'src/app/service/auth.service';
 import { LikeService } from 'src/app/service/like.service';
 
 @Component({
@@ -15,9 +12,7 @@ export class LikeViewComponent implements OnInit {
   @Input() liked!: boolean;
 
   constructor(
-    private authService: AuthService,
     private likeService: LikeService,
-    private route: ActivatedRoute
   ) { }
 
   ngOnInit(): void { }
