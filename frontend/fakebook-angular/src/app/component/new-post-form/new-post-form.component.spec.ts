@@ -2,10 +2,10 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UserService } from 'src/app/service/user.service';
 import { UploadService } from '../../service/upload.service';
 import { newPost } from '../../model/newpost';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { AuthService } from 'src/app/service/auth.service';
 import { OktaAuthService } from '@okta/okta-angular';
-
+import { RouterTestingModule } from "@angular/router/testing";
 
 
 import { NewPostFormComponent } from './new-post-form.component';
@@ -21,7 +21,8 @@ describe('NewPostFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule], 
+      imports: [HttpClientTestingModule, RouterTestingModule],
+      
 
       declarations: [ NewPostFormComponent ],
       providers: [
