@@ -34,7 +34,7 @@ namespace Fakebook.UnitTests.Repository.UserTests
                 var repo = new UserRepo(actingContext);
 
                 // Create the user data
-                result = repo.CreateUser(user).Result;
+                result = repo.CreateUserAsync(user).Result;
             }
 
             // Assert
@@ -74,7 +74,7 @@ namespace Fakebook.UnitTests.Repository.UserTests
                 var repo = new UserRepo(actingContext);
 
                 // Create the user data
-                result = repo.CreateUser(user).Result;
+                result = repo.CreateUserAsync(user).Result;
             }
 
             // Assert

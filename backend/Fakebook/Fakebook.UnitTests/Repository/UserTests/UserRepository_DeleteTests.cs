@@ -34,7 +34,7 @@ namespace Fakebook.UnitTests.Repository.UserTests
                 var repo = new UserRepo(actingContext);
 
                 // Create the user data
-                users.ForEach(user => _ = repo.CreateUser(user).Result);
+                users.ForEach(user => _ = repo.CreateUserAsync(user).Result);
             }
 
             using (var assertionContext = new FakebookContext(options)) {
@@ -68,7 +68,7 @@ namespace Fakebook.UnitTests.Repository.UserTests
                 var repo = new UserRepo(actingContext);
 
                 // Create the user data
-                users.ForEach(user => _ = repo.CreateUser(user).Result);
+                users.ForEach(user => _ = repo.CreateUserAsync(user).Result);
             }
 
             using (var assertionContext = new FakebookContext(options)) {

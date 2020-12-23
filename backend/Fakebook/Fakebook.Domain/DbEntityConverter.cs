@@ -149,6 +149,7 @@ namespace Fakebook.Domain
                 Picture = post.Picture,
                 CreatedAt = post.CreatedAt,
                 Comments = new List<CommentEntity>(),
+                User = ToUserEntity(post.User)
             };
 
             if (post.Comments != null) {

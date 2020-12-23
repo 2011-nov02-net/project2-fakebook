@@ -115,8 +115,9 @@ namespace Fakebook.Domain.Repository
                 await _context.SaveChangesAsync();
                 return newPost.Id;
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 return -1;
             }
         }

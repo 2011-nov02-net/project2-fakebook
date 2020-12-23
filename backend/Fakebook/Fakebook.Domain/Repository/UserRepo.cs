@@ -143,7 +143,7 @@ namespace Fakebook.Domain.Repository
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        public async Task<int> CreateUser(User user) {
+        public async Task<int> CreateUserAsync(User user) {
             try {
                 var newUser = DbEntityConverter.ToUserEntity(user); // convert
                 await _context.AddAsync(newUser);

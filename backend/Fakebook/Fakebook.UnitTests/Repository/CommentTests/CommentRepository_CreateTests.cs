@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Threading.Tasks;
+using System.Linq;
 
 using Fakebook.DataAccess.Model;
 using Fakebook.Domain;
@@ -31,27 +31,78 @@ namespace Fakebook.UnitTests.Repository.CommentTests
             using (var actingContext = new FakebookContext(options)) {
                 actingContext.Database.EnsureCreated();
 
-                var repo = new CommentRepo(actingContext);
+                var userRepo = new UserRepo(actingContext);
+                var postRepo = new PostRepo(actingContext);
+                var commentRepo = new CommentRepo(actingContext);
 
-                result = repo.CreateAsync(comment).Result;
+                result = postRepo.CreatePostAsync(comment.Post).Result;
+
+                Assert.True(userRepo.GetAllUsersAsync().Result.Any());
+                Assert.True(postRepo.GetAllPostsAsync().Result.Any());
+
+                // Create the user data
+                result = commentRepo.CreateAsync(comment).Result;
             }
 
-            Assert.True(result != -1);
-
             // Assert
-            using var assertionContext = new FakebookContext(options);
-            /*
-            using var context2 = new SimpleOrderContext(options);
-            LocationEntity locationActual = context2.Locations
-                .Include(l => l.Orders)
-                .Single(l => l.Name == "abc");
-            Assert.Equal(location.Stock, locationActual.Stock);
-            Assert.Empty(locationActual.Orders);
-             */
+            Assert.True(result != -1, "Unable to create the comment.");
+
+            using (var assertionContext = new FakebookContext(options)) {
+                var repo = new CommentRepo(assertionContext);
+
+                var comments = repo.GetAllAsync().Result;
+
+                Assert.True(comments.Any());
+
+                var commentActual = repo.GetCommentByIdAsync(result).Result;
+
+                Assert.NotNull(commentActual);
+
+                Assert.Equal(comment.Content, commentActual.Content);
+            }
         }
 
-        public CommentRepository_CreateTests() {
+        [Theory]
+        [ClassData(typeof(CommentTestData.Create.Invalid))]
+        public void CreateComment_InvalidData(Comment comment) {
+            // Arrange
+            using var connection = new SqliteConnection("Data Source=:memory:");
+            connection.Open();
 
+            var options = new DbContextOptionsBuilder<FakebookContext>()
+                .UseSqlite(connection)
+                .Options;
+
+            // Act
+            using (var actingContext = new FakebookContext(options)) {
+                actingContext.Database.EnsureCreated();
+
+                var userRepo = new UserRepo(actingContext);
+                var postRepo = new PostRepo(actingContext);
+                var commentRepo = new CommentRepo(actingContext);
+                try {
+                    _ = userRepo.CreateUserAsync(comment.User).Result;
+                } catch {
+                    // to skip the user not being created
+                }
+
+                try {
+                    _ = postRepo.CreatePostAsync(comment.Post).Result;
+                } catch {
+                    // to skip the post not being created/null
+                }
+
+                // Create the user data
+                Assert.ThrowsAsync<ArgumentException>(() => commentRepo.CreateAsync(comment));
+            }
+
+            using (var assertionContext = new FakebookContext(options)) {
+                var repo = new CommentRepo(assertionContext);
+
+                var comments = repo.GetAllAsync().Result;
+
+                Assert.True(!comments.Any());
+            }
         }
     }
 }
