@@ -17,7 +17,7 @@
                 <p class="text-muted mb-1">{{user.phoneNumber}}</p>
                 <p class="text-muted mb-1">{{user.email}}</p>
                 <p class="text-muted mb-1">{{user.status}}</p>
-                <app-profile-edit [user]="user"></app-profile-edit>
+                <app-profile-edit *ngIf="selfProfileCheck" [user]="user"></app-profile-edit>
                 <div *ngIf="selfUser && user && selfUser.id != user.id">
                   <button *ngIf="!followStatus" type="button" class="btn btn-outline-primary btn-lg btn-block"
                     (click)="followUser()">Follow</button>
@@ -44,8 +44,7 @@
         <div class="col-md-12">
           <!-- Iterate through all posts -->
           <ul *ngFor="let item of posts">
-            <app-post-view [userid]="selfUser.id" [post]="item" (notifyComment)="onNotifyComment($event)">
-            </app-post-view>
+            <app-post-view [userid]="selfUser.id" [post]="item" (notifyComment)="onNotifyComment($event)"></app-post-view>
           </ul>
         </div>
       </div>

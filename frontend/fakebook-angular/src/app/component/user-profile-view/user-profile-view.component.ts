@@ -14,9 +14,10 @@ import { PostService } from '../../service/post.service';
 })
 export class UserProfileViewComponent implements OnInit {
   user: User | undefined;
-  selfUser: User | undefined;
+  selfUser!: User;
   posts: Post[] =[];
   followStatus: boolean = false;
+  selfProfileCheck: boolean = false;
 
   constructor(
     private postService: PostService,
@@ -55,6 +56,7 @@ export class UserProfileViewComponent implements OnInit {
         .subscribe(user => this.user = user);
       this.userService.getPostsNoArg()
         .subscribe(posts => this.posts = posts);
+      this.selfProfileCheck = true;
     }
   }
 
