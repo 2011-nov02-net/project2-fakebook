@@ -25,7 +25,7 @@ import { SearchViewComponent } from './component/search-view/search-view.compone
 import { MainViewComponent } from './component/main-view/main-view.component';
 import { CommentFormComponent } from './component/comment-form/comment-form.component';
 import { SearchFormComponent } from './component/search-form/search-form.component';
-import { ProfileEditComponent } from './src/profile-edit/profile-edit.component';
+import { ProfileEditComponent } from './component/profile-edit/profile-edit.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
 
 const config = {
