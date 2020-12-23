@@ -6,6 +6,7 @@ import { Post } from '../model/post';
 import { OktaAuthService } from '@okta/okta-angular';
 import { environment } from 'src/environments/environment';
 
+
 @Injectable({
   providedIn: 'root',
 })
@@ -25,7 +26,15 @@ export class UserService {
     };
     return this.http.get<User>(`${this.url}User/profile`, { headers });
   }
+  updateUserProfile(id: number, user: User): Promise<User> {
+    const accessToken = this.oktaAuth.getAccessToken();
+    const headers = {
+      Authorization: 'Bearer ' + accessToken,
+      Accept: 'application/json',
+    };
+    return this.http.put<User>(`${this.url}User/${id}`, user , { headers }).toPromise();
 
+  }
   getPosts(id: string | null): Observable<Post[]> {
     return this.http.get<Post[]>(`${this.url}User/${id}/Posts`);
   }
