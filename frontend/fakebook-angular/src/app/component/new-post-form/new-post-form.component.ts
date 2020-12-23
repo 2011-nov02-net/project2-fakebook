@@ -1,4 +1,4 @@
-import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
+import { Component, Input, Output, OnInit, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { User } from 'src/app/model/user';
 import { UserService } from 'src/app/service/user.service';
 import { newPost } from '../../model/newpost';
@@ -16,6 +16,8 @@ export class NewPostFormComponent implements OnInit {
   file: File | null = null;
   imageSource = '';
   
+  @ViewChild('fileInput') fileInputRef!: ElementRef;
+
   @Input() user: User | null = null;
   
   @Output() notify: EventEmitter<string> = new EventEmitter<string>();
@@ -25,7 +27,6 @@ export class NewPostFormComponent implements OnInit {
     private httpPost: PostService,
     private userService: UserService
   ) {}
-
 
   ngOnInit(): void {
     //this.getUser();
@@ -43,18 +44,22 @@ export class NewPostFormComponent implements OnInit {
           this.newPost.userId = this.user?.id;
           this.submitted = true;
           this.httpPost.create(this.newPost)
-          .then(res => { 
-            return this.notify.emit("test value from child")
-          });
+            .then(res => { 
+              return this.notify.emit("test value from child")
+            });
+
           this.newPost.content = '';
+          this.newPost.pictureUrl = '';
+          this.fileInputRef.nativeElement.value = null;
+          this.file = null;
         });
       }
     } else {
+      console.log(this.newPost);
       this.newPost.userId = this.user?.id;
       this.submitted = true;
       this.httpPost.create(this.newPost).then(res => { return this.notify.emit("test value from child")});
     }
-
   }
 
   getUser() {

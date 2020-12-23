@@ -2,7 +2,7 @@
     <div class="pt-4" style="background-color: #29487d;"></div>
     <form (ngSubmit)="onSubmit(); newPostForm.reset()" #newPostForm="ngForm">
     <textarea rows="5" class="form-control" id="content" placeholder="What's on your mind, {{user.firstName}}?" name="content" [(ngModel)]="newPost.content" required #trackName="ngModel"></textarea>    
-    <input type="file" class="mt-2 form-control-file" name="pictureUrl" id="fileToUpload" (change)="fileSelect($event)">
+    <input #fileInput type="file" class="mt-2 form-control-file" name="pictureUrl" id="fileToUpload" (change)="fileSelect($event)">
     <img [src]="imageSource" />
     <input type="submit" class=" mb-4 btn btn-primary btn-lg btn-block" value="Post" [disabled]="!newPostForm.form.valid">
 </form>
