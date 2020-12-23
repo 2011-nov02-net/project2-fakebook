@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using Fakebook.DataAccess.Model;
@@ -14,6 +15,28 @@ namespace Fakebook.UnitTests.Repository.CommentTests
 {
     public class CommentRepository_CreateTests
     {
+        public static void CreateComments(DbContextOptions<FakebookContext> options, List<Comment> comments) {
+            using (var actingContext = new FakebookContext(options)) {
+                actingContext.Database.EnsureCreated();
+
+                var postRepo = new PostRepo(actingContext);
+                var commentRepo = new CommentRepo(actingContext);
+
+                // Create the user data
+                comments.ForEach(comment => {
+                    int result = postRepo.CreatePostAsync(comment.Post).Result;
+                    Assert.NotEqual(-1, result);
+
+                    var post = postRepo.GetPostByIdAsync(result).Result;
+                    comment.User = post.User;
+                    comment.Post = post;
+
+                    result = commentRepo.CreateAsync(comment).Result;
+                    Assert.NotEqual(-1, result);
+                });
+            }
+        }
+        
         [Theory]
         [ClassData(typeof(CommentTestData.Create.Valid))]
         public void CreateComment_ValidData(Comment comment) {
@@ -26,7 +49,7 @@ namespace Fakebook.UnitTests.Repository.CommentTests
                 .Options;
 
             int result;
-
+            
             // Act
             using (var actingContext = new FakebookContext(options)) {
                 actingContext.Database.EnsureCreated();

@@ -469,7 +469,6 @@ namespace Fakebook.UnitTests.Repository.CommentTests
                 public IEnumerator<object[]> GetEnumerator() {
                     var user = new User
                     {
-                        Id = 1,
                         FirstName = GenerateRandom.String(),
                         LastName = GenerateRandom.String(),
                         ProfilePictureUrl = null,
@@ -485,25 +484,22 @@ namespace Fakebook.UnitTests.Repository.CommentTests
                         {
                             new Comment
                             {
-                                Id = 1,
                                 Content = GenerateRandom.String(),
                                 CreatedAt = GenerateRandom.DateTime(),
                                 User = user,
                                 Post = new Post
                                 {
-                                    Id = 1,
                                     User = user,
                                     CreatedAt = GenerateRandom.DateTime(),
                                     Content = GenerateRandom.String()
                                 }
                             }
                         },
-                        2
+                        new List<int> { -1 }
                     };
 
                     user = new User
                     {
-                        Id = 2,
                         FirstName = GenerateRandom.String(),
                         LastName = GenerateRandom.String(),
                         ProfilePictureUrl = null,
@@ -519,13 +515,11 @@ namespace Fakebook.UnitTests.Repository.CommentTests
                         {
                             new Comment
                             {
-                                Id = -1,
                                 Content = GenerateRandom.String(),
                                 CreatedAt = GenerateRandom.DateTime(),
                                 User = user,
                                 Post = new Post
                                 {
-                                    Id = 1,
                                     User = user,
                                     CreatedAt = GenerateRandom.DateTime(),
                                     Content = GenerateRandom.String()
@@ -533,13 +527,196 @@ namespace Fakebook.UnitTests.Repository.CommentTests
                             },
                             new Comment
                             {
-                                Id = 2,
                                 Content = GenerateRandom.String(),
                                 CreatedAt = GenerateRandom.DateTime(),
                                 User = user,
                                 Post = new Post
                                 {
-                                    Id = 2,
+                                    User = user,
+                                    CreatedAt = GenerateRandom.DateTime(),
+                                    Content = GenerateRandom.String()
+                                }
+                            }
+                        },
+                        new List<int>
+                        {
+                            -1,
+                            3
+                        }
+                    };
+                }
+
+                IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+            }
+        }
+
+        public static class ReadByUserId
+        {
+            public class Valid : IEnumerable<object[]>
+            {
+                public IEnumerator<object[]> GetEnumerator() {
+                    var user = new User
+                    {
+                        FirstName = GenerateRandom.String(),
+                        LastName = GenerateRandom.String(),
+                        Email =  GenerateRandom.Email(),
+                        PhoneNumber = GenerateRandom.PhoneNumber(),
+                        Status = null,
+                        BirthDate = GenerateRandom.DateTime()
+                    };
+                    
+                    yield return new object[]
+                    {
+                        new List<Comment>
+                        {
+                            new Comment
+                            {
+                                Content = GenerateRandom.String(),
+                                CreatedAt = GenerateRandom.DateTime(),
+                                User = user,
+                                Post = new Post
+                                {
+                                    User = user,
+                                    CreatedAt = GenerateRandom.DateTime(),
+                                    Content = GenerateRandom.String()
+                                }
+                            },
+                            new Comment
+                            {
+                                Content = GenerateRandom.String(),
+                                CreatedAt = GenerateRandom.DateTime(),
+                                User = user,
+                                Post = new Post
+                                {
+                                    User = user,
+                                    CreatedAt = GenerateRandom.DateTime(),
+                                    Content = GenerateRandom.String()
+                                }
+                            },
+                            new Comment
+                            {
+                                Content = GenerateRandom.String(),
+                                CreatedAt = GenerateRandom.DateTime(),
+                                User = user,
+                                Post = new Post
+                                {
+                                    User = user,
+                                    CreatedAt = GenerateRandom.DateTime(),
+                                    Content = GenerateRandom.String()
+                                }
+                            }
+                        },
+                        1,
+                        3
+                    };
+
+                    var user2 = new User
+                    {
+                        FirstName = GenerateRandom.String(),
+                        LastName = GenerateRandom.String(),
+                        Email =  GenerateRandom.Email(),
+                        PhoneNumber = GenerateRandom.PhoneNumber(),
+                        Status = null,
+                        BirthDate = GenerateRandom.DateTime()
+                    };
+                    
+                    yield return new object[]
+                    {
+                        new List<Comment>
+                        {
+                            new Comment
+                            {
+                                Content = GenerateRandom.String(),
+                                CreatedAt = GenerateRandom.DateTime(),
+                                User = user,
+                                Post = new Post
+                                {
+                                    User = user,
+                                    CreatedAt = GenerateRandom.DateTime(),
+                                    Content = GenerateRandom.String()
+                                }
+                            },
+                            new Comment
+                            {
+                                Content = GenerateRandom.String(),
+                                CreatedAt = GenerateRandom.DateTime(),
+                                User = user2,
+                                Post = new Post
+                                {
+                                    User = user2,
+                                    CreatedAt = GenerateRandom.DateTime(),
+                                    Content = GenerateRandom.String()
+                                }
+                            },
+                            new Comment
+                            {
+                                Content = GenerateRandom.String(),
+                                CreatedAt = GenerateRandom.DateTime(),
+                                User = user2,
+                                Post = new Post
+                                {
+                                    User = user2,
+                                    CreatedAt = GenerateRandom.DateTime(),
+                                    Content = GenerateRandom.String()
+                                }
+                            }
+                        },
+                        1,
+                        1
+                    };
+                }
+
+                IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+            }
+
+            public class Invalid  : IEnumerable<object[]>
+            {
+                public IEnumerator<object[]> GetEnumerator() {
+                    var user = new User
+                    {
+                        FirstName = GenerateRandom.String(),
+                        LastName = GenerateRandom.String(),
+                        Email =  GenerateRandom.Email(),
+                        PhoneNumber = GenerateRandom.PhoneNumber(),
+                        Status = null,
+                        BirthDate = GenerateRandom.DateTime(),
+                    };
+                    
+                    yield return new object[]
+                    {
+                        new List<Comment>
+                        {
+                            new Comment
+                            {
+                                Content = GenerateRandom.String(),
+                                CreatedAt = GenerateRandom.DateTime(),
+                                User = user,
+                                Post = new Post
+                                {
+                                    User = user,
+                                    CreatedAt = GenerateRandom.DateTime(),
+                                    Content = GenerateRandom.String()
+                                }
+                            },
+                            new Comment
+                            {
+                                Content = GenerateRandom.String(),
+                                CreatedAt = GenerateRandom.DateTime(),
+                                User = user,
+                                Post = new Post
+                                {
+                                    User = user,
+                                    CreatedAt = GenerateRandom.DateTime(),
+                                    Content = GenerateRandom.String()
+                                }
+                            },
+                            new Comment
+                            {
+                                Content = GenerateRandom.String(),
+                                CreatedAt = GenerateRandom.DateTime(),
+                                User = user,
+                                Post = new Post
+                                {
                                     User = user,
                                     CreatedAt = GenerateRandom.DateTime(),
                                     Content = GenerateRandom.String()
@@ -548,12 +725,24 @@ namespace Fakebook.UnitTests.Repository.CommentTests
                         },
                         -1
                     };
+                    
+                    yield return new object[]
+                    {
+                        new List<Comment> { },
+                        -1
+                    };
+                    
+                    yield return new object[]
+                    {
+                        new List<Comment> { },
+                        1
+                    };
                 }
 
                 IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
             }
         }
-
+        
         public static class Update
         {
             public class Valid : IEnumerable<object[]>
@@ -561,7 +750,6 @@ namespace Fakebook.UnitTests.Repository.CommentTests
                 public IEnumerator<object[]> GetEnumerator() {
                     var user = new User
                     {
-                        Id = 1,
                         FirstName = GenerateRandom.String(),
                         LastName = GenerateRandom.String(),
                         ProfilePictureUrl = null,
@@ -573,7 +761,6 @@ namespace Fakebook.UnitTests.Repository.CommentTests
 
                     var post = new Post
                     {
-                        Id = 1,
                         User = user,
                         CreatedAt = GenerateRandom.DateTime(),
                         Content = GenerateRandom.String()
@@ -583,7 +770,6 @@ namespace Fakebook.UnitTests.Repository.CommentTests
                     {
                         new Comment
                         {
-                            Id = 1,
                             Content = GenerateRandom.String(),
                             CreatedAt = GenerateRandom.DateTime(),
                             User = user,
@@ -596,7 +782,6 @@ namespace Fakebook.UnitTests.Repository.CommentTests
                     {
                         new Comment
                         {
-                            Id = 2,
                             Content = GenerateRandom.String(),
                             CreatedAt = GenerateRandom.DateTime(),
                             User = user,
@@ -609,7 +794,6 @@ namespace Fakebook.UnitTests.Repository.CommentTests
                     {
                         new Comment
                         {
-                            Id = 3,
                             Content = GenerateRandom.String(),
                             CreatedAt = GenerateRandom.DateTime(),
                             User = user,
@@ -622,7 +806,6 @@ namespace Fakebook.UnitTests.Repository.CommentTests
                     {
                         new Comment
                         {
-                            Id = 4,
                             Content = GenerateRandom.String(),
                             CreatedAt = GenerateRandom.DateTime(),
                             User = user,
@@ -651,7 +834,6 @@ namespace Fakebook.UnitTests.Repository.CommentTests
 
                     var post = new Post
                     {
-                        Id = 1,
                         User = user,
                         CreatedAt = GenerateRandom.DateTime(),
                         Content = GenerateRandom.String()
@@ -661,7 +843,6 @@ namespace Fakebook.UnitTests.Repository.CommentTests
                     {
                         new Comment
                         {
-                            Id = 1,
                             Content = GenerateRandom.String(),
                             CreatedAt = GenerateRandom.DateTime(),
                             User = user,
@@ -674,7 +855,6 @@ namespace Fakebook.UnitTests.Repository.CommentTests
                     {
                         new Comment
                         {
-                            Id = 2,
                             Content = GenerateRandom.String(),
                             CreatedAt = GenerateRandom.DateTime(),
                             User = user,
