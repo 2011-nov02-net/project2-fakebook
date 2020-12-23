@@ -1,4 +1,4 @@
-<button type="button" class="btn btn-primary" (click)="openModal(template)">Create template modal</button>
+<button type="button" class="btn btn-primary" (click)="openModal(template)">Edit Profile</button>
      
 <ng-template #template>
   <div class="modal-header">
@@ -10,14 +10,13 @@
   </div>
   <div class="modal-body">
     <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
-        <label for="name" >Name</label>
+        <label for="name">First Name</label>
         <input type="text" class="form-control" name="firstName" [formControl]="firstName" value="{{user.firstName}}">
+        <label for="name">Last Name</label>
         <input type="text" class="form-control" name="firstName" [formControl]="lastName" value="{{user.lastName}}">
+        <label for="name">Status</label>
         <textarea [formControl]="status" class="form-control" value="{{user.status}}" rows=3></textarea>
         <button type="submit" (click)="submit()" class="btn btn-primary">Submit</button>
     </form>
-    <p>
-        <button (click)="updateName()">Update Name</button>
-      </p>
   </div>
 </ng-template>  
