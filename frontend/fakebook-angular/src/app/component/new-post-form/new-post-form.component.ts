@@ -42,9 +42,12 @@ export class NewPostFormComponent implements OnInit {
           this.newPost.pictureUrl = res.path;
           this.newPost.userId = this.user?.id;
           this.submitted = true;
-          this.httpPost.create(this.newPost);
+          this.httpPost.create(this.newPost)
+          .then(res => { 
+            return this.notify.emit("test value from child")
+          });
           this.newPost.content = '';
-        }).then(res => { return this.notify.emit("test value from child")});;
+        });
       }
     } else {
       this.newPost.userId = this.user?.id;
