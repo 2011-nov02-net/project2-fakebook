@@ -123,10 +123,11 @@ namespace Fakebook.RestApi.Model
             }
 
             // if status is not null, filter out any non-file allowed characters
+            /*
             if (apiModel.ProfilePictureUrl is not null) {
                 apiModel.ProfilePictureUrl.EnforceNoSpecialCharacters(nameof(apiModel.ProfilePictureUrl));
             }
-
+            */
             List<User> followers = null;
             List<User> followees = null;
 
