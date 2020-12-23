@@ -1,0 +1,9 @@
+footer {
+    color: white !important;
+    box-shadow: 0 50vh 0 50vh #343a40;
+}
+
+#github-link {
+    color: white !important;
+    margin-left: 1%;
+}
