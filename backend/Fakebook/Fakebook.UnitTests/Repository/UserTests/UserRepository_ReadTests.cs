@@ -184,7 +184,7 @@ namespace Fakebook.UnitTests.Repository.UserTests
                 usersActual = repo.GetUsersByIdsAsync(userIds).Result;
 
                 Assert.True(usersActual.Any());
-                Assert.True(usersActual.Count() == userIds.Count);
+                Assert.True(usersActual.Count() == userIds.Distinct().Count());
             }
         }
 
