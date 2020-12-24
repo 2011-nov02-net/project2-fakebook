@@ -55,11 +55,11 @@ stages:
         command: 'test'
         arguments: '--configuration $(BuildConfiguration) --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover'
         publishTestResults: true
-        workingDirectory: 'backend/Fakebook/Fakebook.RestApi'
+        workingDirectory: 'backend/Fakebook'
 
     - script: dotnet publish --configuration $(buildConfiguration) --output publish
       displayName: dotnet publish
-      workingDirectory: 'backend/Fakebook'
+      workingDirectory: 'backend/Fakebook/Fakebook.RestApi'
 
     - task: SonarCloudAnalyze@1
       displayName: sonar run analysis
