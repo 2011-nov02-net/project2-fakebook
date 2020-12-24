@@ -22,32 +22,32 @@ namespace Fakebook.UnitTests.Controller
             };
         }
 
-        [Theory]
-        [InlineData(1, 1)]
-        public void LikePost_Valid(int postId, int userId) {
-            // arrange
-            var mockedPostRepo = new Mock<IPostRepo>();
-            var mockedUserRepo = new Mock<IUserRepo>();
+        //[Theory]
+        //[InlineData(1, 1)]
+        //public void LikePost_Valid(int postId, int userId) {
+        //    // arrange
+        //    var mockedPostRepo = new Mock<IPostRepo>();
+        //    var mockedUserRepo = new Mock<IUserRepo>();
 
-            mockedPostRepo
-                .Setup(mpr => mpr.LikePostAsync(It.IsAny<int>(), It.IsAny<int>()))
-                .ReturnsAsync(true);
+        //    mockedPostRepo
+        //        .Setup(mpr => mpr.LikePostAsync(It.IsAny<int>(), It.IsAny<int>()))
+        //        .ReturnsAsync(true);
 
-            var controller = new LikeController(mockedPostRepo.Object, mockedUserRepo.Object);
+        //    var controller = new LikeController(mockedPostRepo.Object, mockedUserRepo.Object);
 
-            // act
-            var result = controller
-                .Like(postId)
-                .Result;
+        //    // act
+        //    var result = controller
+        //        .Like(postId)
+        //        .Result;
 
-            //assert
-            var viewResult = Assert.IsAssignableFrom<IActionResult>(result);
+        //    //assert
+        //    var viewResult = Assert.IsAssignableFrom<IActionResult>(result);
 
-            var likesCount = mockedPostRepo
-                .Object
-                .CountLikesAsync(postId)
-                .Result;
-        }
+        //    var likesCount = mockedPostRepo
+        //        .Object
+        //        .CountLikesAsync(postId)
+        //        .Result;
+        //}
 
         //public void LikePost_Invalid() {
 
