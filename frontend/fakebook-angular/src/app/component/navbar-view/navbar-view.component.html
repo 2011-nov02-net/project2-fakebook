@@ -13,6 +13,9 @@
           <li>
             <a class="nav-link" *ngIf="isAuthenticated" routerLink="/newsfeed/">Newsfeed <span class="sr-only">(current)</span></a>
           </li>
+          <li>
+            <a class="nav-link" *ngIf="!isAuthenticated" routerLink="/about/">About Us <span class="sr-only">(current)</span></a>
+          </li>
         </ul>
         <app-search-form (notifySearch)="onNotifySearch($event)"></app-search-form>
 
