@@ -6,6 +6,15 @@ Sign in to create posts with images attached to them and comment/like other post
 Search for other users, navigate to their profiles and follow them so you can keep up to date with people of interest through your newsfeed!  
   
 ## Technologies Used  
+### Front-End  
+- HTML  
+- CSS  
+- JavaScript  
+- TypeScript  
+- Angular  
+- Bootstrap  
+  
+### Back-End  
 - ASP.NET Core - Version 5.0.x  
 - .NET Standard Library - Version 2.1.0  
 - Angular Framework - Version 11.0.x  
@@ -13,6 +22,9 @@ Search for other users, navigate to their profiles and follow them so you can ke
 - Azure Storage Blobs - Version 12.7.0  
 - Azure App Services  
 - Azure Sql Database  
+
+# Other  
+- Agile methodology  
 - Azure DevOps  
 - Sonar Cloud  
   
