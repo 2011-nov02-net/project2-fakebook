@@ -33,8 +33,8 @@ Search for other users, navigate to their profiles and follow them so you can ke
 - User can like and comment on other user's posts  
 - User can follow other users and see all recent posts in their newsfeed  
 - Search function for users by their first or last name  
-- Client-side and server side validation  
-- Deployed on Azure Pipelines  
+- Client-side and server-side validation  
+- Deployed on Azure Pipelines with CI/CD  
   
 ## Future Implementation  
 - Private messaging system  
