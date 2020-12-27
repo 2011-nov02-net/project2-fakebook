@@ -23,7 +23,7 @@ Search for other users, navigate to their profiles and follow them so you can ke
 - Azure Sql Database  
 
 ### Other  
-- Agile methodology  
+- Agile/Scrum methodology  
 - Azure DevOps  
 - Sonar Cloud  
   
@@ -63,7 +63,9 @@ User can also search for other users by their first or last name.
 ![Search Bar](/pictures/Search.PNG)  
   
 ## Contributors  
-Jay Shin, Damien Bevins, Jordan Garcia  
+- Jay Shin  
+- Damien Bevins  
+- Jordan Garcia  
   
 ## License  
 This project uses the following license: [MIT License](https://github.com/git/git-scm.com/blob/master/MIT-LICENSE.txt).
