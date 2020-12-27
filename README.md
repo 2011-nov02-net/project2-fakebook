@@ -11,19 +11,18 @@ Search for other users, navigate to their profiles and follow them so you can ke
 - CSS  
 - JavaScript  
 - TypeScript  
-- Angular  
+- Angular Framework - Version 11.0.x  
 - Bootstrap  
   
 ### Back-End  
 - ASP.NET Core - Version 5.0.x  
 - .NET Standard Library - Version 2.1.0  
-- Angular Framework - Version 11.0.x  
 - Entity Framework Core - Version 5.0.1  
 - Azure Storage Blobs - Version 12.7.0  
 - Azure App Services  
 - Azure Sql Database  
 
-# Other  
+### Other  
 - Agile methodology  
 - Azure DevOps  
 - Sonar Cloud  
