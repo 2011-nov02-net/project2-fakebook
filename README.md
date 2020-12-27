@@ -7,12 +7,12 @@ Search for other users, navigate to their profiles and follow them so you can ke
   
 ## Technologies Used  
 ### Front-End  
-- HTML  
+- Angular Framework - Version 11.0.x  
+- Bootstrap - Version 4.1.x  
+- HTML5  
 - CSS  
 - JavaScript  
 - TypeScript  
-- Angular Framework - Version 11.0.x  
-- Bootstrap  
   
 ### Back-End  
 - ASP.NET Core - Version 5.0.x  
