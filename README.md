@@ -20,6 +20,7 @@ Search for other users, navigate to their profiles and follow them so you can ke
 - Azure Storage Blobs - Version 12.7.0  
 - Azure App Services  
 - Azure Sql Database  
+- xUnit/Moq  
 
 ### Other  
 - Agile/Scrum methodology  
