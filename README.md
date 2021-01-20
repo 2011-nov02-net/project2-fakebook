@@ -47,8 +47,6 @@ Search for other users, navigate to their profiles and follow them so you can ke
 Run this command in your terminal:  
 git clone https://github.com/2011-nov02-net/project2-fakebook  
   
-Alternatively, visit the deployed site [here](https://fakebook-proj.azurewebsites.net). (Initial loading may be slow. Requires authorized id and password)  
-  
 ## Usage  
 Initial webpage will lead you to the welcome screen. From there, sign in using Okta's identity management software.  
 ![Home Page](/pictures/HomePage.PNG)  
